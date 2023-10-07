@@ -31,5 +31,8 @@ module.exports = {
 	rules: {
 		'no-tabs': 0,
 		indent: ['error', 'tab'],
+		'no-shadow': 0,
+		'@typescript-eslint/no-shadow': 'warn',
+		'import/no-extraneous-dependencies': ['error', {}],
 	},
 };
