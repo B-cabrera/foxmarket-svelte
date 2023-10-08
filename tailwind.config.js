@@ -4,7 +4,13 @@ import { skeleton } from '@skeletonlabs/tw-plugin';
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				grey: '#D9D9D9',
+				maristred: '#C9072A',
+				maristgrey: '#ACADAD',
+			},
+		},
 	},
 	plugins: [skeleton],
 };
