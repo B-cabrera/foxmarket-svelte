@@ -11,3 +11,14 @@ body {
   @apply border text-slate-50 h-[32px] rounded-sm focus:outline-none focus:border-maristred selection:bg-grey selection:text-slate-950
 }
 
+.btn {
+  @apply border h-8
+}
+
+.alternate {
+  @apply bg-slate-100 text-slate-950
+}
+
+.icon {
+  @apply text-4xl pt-1 
+}
