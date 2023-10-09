@@ -9,6 +9,8 @@
 
 <!--increasing gap if logged in b/c of # of buttons-->
 <div class={`flex ${loggedIn ? 'gap-6' : 'gap-4'} pl-4 text-maristgrey items-center`}>
+	<!--TODO: build out login and sign in pages-->
+
 	{#if loggedIn}
 		<!--items button-->
 		<a href="/items" class="btn hover:text-slate-200">My Items</a>

@@ -29,6 +29,7 @@
 		class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-3 overflow-x-auto px-4 py-10"
 	>
 		{#each locations as location}
+			<!--TODO: implement the routing when cards are pressed -->
 			<a href={`/${location}`} class="snap-start shrink-0 card text-center">{location}</a>
 		{/each}
 	</div>
