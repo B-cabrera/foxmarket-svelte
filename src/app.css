@@ -5,6 +5,8 @@
 body {
   background-color: #212427;
   font-family: 'Playfair Display';
+
+  @apply selection:bg-slate-800 selection:bg-opacity-50
 }
 
 .input {
