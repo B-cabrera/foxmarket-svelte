@@ -34,3 +34,18 @@
 		{/each}
 	</div>
 </div>
+
+<div class="flex h-[900px] pt-14 font-=">
+	<div class="w-1/2 bg-maristred text-slate-50 text-center">
+		<div class="grid h-1/2 place-items-center w-96 mx-auto">
+			<h1 class="text-6xl font-bold">Sold & Bought by Students</h1>
+		</div>
+
+		<div class="flex flex-col h-1/2 items-center justify-center w-96 mx-auto gap-10 text-2xl">
+			<p class="font-medium">Sell your unwanted items or clothes to your fellow students!</p>
+			<a href="/login" class="btn !border-2 hover:text-maristgrey hover:border-maristgrey">
+				Sell Now
+			</a>
+		</div>
+	</div>
+</div>
