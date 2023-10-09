@@ -10,7 +10,7 @@
 	</a>
 	<div class="flex w-[55%] items-center">
 		<i class="material-symbols-outlined text-maristgrey absolute px-2"> search </i>
-		<input type="search" class="input pl-10 tracking-wider" placeholder="Search" />
+		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
 	</div>
 
 	<ButtonContainer />

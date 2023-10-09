@@ -12,7 +12,7 @@ body {
 }
 
 .btn {
-  @apply border h-8
+  @apply border h-8 font-bold
 }
 
 .alternate {
