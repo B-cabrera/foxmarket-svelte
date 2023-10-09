@@ -35,7 +35,7 @@
 	</div>
 </div>
 
-<div class="flex h-[900px] pt-14 font-=">
+<div class="flex h-[800px] pt-14 font-=">
 	<div class="w-1/2 bg-maristred text-slate-50 text-center">
 		<div class="grid h-1/2 place-items-center w-96 mx-auto">
 			<h1 class="text-6xl font-bold">Sold & Bought by Students</h1>
@@ -43,7 +43,10 @@
 
 		<div class="flex flex-col h-1/2 items-center justify-center w-96 mx-auto gap-10 text-2xl">
 			<p class="font-medium">Sell your unwanted items or clothes to your fellow students!</p>
-			<a href="/login" class="btn !border-2 hover:text-maristgrey hover:border-maristgrey">
+			<a
+				href="/login"
+				class="btn !border-2 hover:text-maristgrey hover:border-maristgrey text-xl py-5 px-2"
+			>
 				Sell Now
 			</a>
 		</div>
@@ -54,7 +57,9 @@
 			<p class="font-medium">
 				All items are posted by students, and all items are bought by students.
 			</p>
-			<a href="/login" class="btn !border-2 hover:opacity-40 border-slate-950"> Shop Now </a>
+			<a href="/login" class="btn !border-2 hover:opacity-40 border-slate-950 text-xl py-5 px-2">
+				Shop Now
+			</a>
 		</div>
 
 		<div class="grid h-1/2 place-items-center w-96 mx-auto">
