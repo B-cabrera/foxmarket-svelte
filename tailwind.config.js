@@ -9,6 +9,7 @@ export default {
 				grey: '#D9D9D9',
 				maristred: '#C9072A',
 				maristgrey: '#ACADAD',
+				maristdarkgrey: '#212427',
 			},
 		},
 	},
