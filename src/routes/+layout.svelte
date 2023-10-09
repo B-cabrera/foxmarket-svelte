@@ -4,7 +4,7 @@
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
 </script>
 
-<nav class="flex h-14 items-center">
+<nav class="sticky flex h-14 items-center top-0 bg-maristdarkgrey z-10">
 	<a href="/">
 		<img src={logo} alt="The FoxMarket Logo" class="w-[250px] px-4 py-2" />
 	</a>
