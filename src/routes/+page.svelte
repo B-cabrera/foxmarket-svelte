@@ -29,7 +29,7 @@
 		class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-3 overflow-x-auto px-4 py-10"
 	>
 		{#each locations as location}
-			<a href={`/${location}`} class="snap-start shrink-0 card">{location}</a>
+			<a href={`/${location}`} class="snap-start shrink-0 card text-center">{location}</a>
 		{/each}
 	</div>
 </div>
