@@ -9,4 +9,12 @@
 	>
 		The Marist Student Marketplace
 	</h1>
+
+	<a
+		href="/login"
+		class="absolute btn top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 p-5
+    font-semibold text-2xl !border-2 text-slate-50 hover:text-maristgrey"
+	>
+		Shop Now
+	</a>
 </div>
