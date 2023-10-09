@@ -8,6 +8,6 @@ body {
 }
 
 .input {
-  @apply border text-maristgrey h-[32px] rounded-sm focus:outline-none focus:border-maristred selection:bg-grey selection:text-slate-950
+  @apply border text-slate-50 h-[32px] rounded-sm focus:outline-none focus:border-maristred selection:bg-grey selection:text-slate-950
 }
 
