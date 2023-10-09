@@ -1,5 +1,8 @@
 <script lang="ts">
 	import students_photo from '$lib/images/marist-students.jpg';
+	import Dorms from '$lib/utils/Dorms';
+
+	const locations = Object.values(Dorms);
 </script>
 
 <div class="relative h-1/3">
@@ -17,4 +20,16 @@
 	>
 		Shop Now
 	</a>
+</div>
+
+<div class="pt-10 text-2xl font-semibold text-slate-50 pl-4">
+	<h1>Shop By Location</h1>
+
+	<div
+		class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-3 overflow-x-auto px-4 py-10"
+	>
+		{#each locations as location}
+			<a href={`/${location}`} class="snap-start shrink-0 card">{location}</a>
+		{/each}
+	</div>
 </div>
