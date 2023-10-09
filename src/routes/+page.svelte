@@ -48,4 +48,17 @@
 			</a>
 		</div>
 	</div>
+
+	<div class="w-1/2 bg-maristgrey text-slate-950 text-center">
+		<div class="flex flex-col h-1/2 items-center justify-center w-96 mx-auto gap-10 text-2xl">
+			<p class="font-medium">
+				All items are posted by students, and all items are bought by students.
+			</p>
+			<a href="/login" class="btn !border-2 hover:opacity-40 border-slate-950"> Shop Now </a>
+		</div>
+
+		<div class="grid h-1/2 place-items-center w-96 mx-auto">
+			<h1 class="text-6xl font-bold">The Marist Marketplace</h1>
+		</div>
+	</div>
 </div>
