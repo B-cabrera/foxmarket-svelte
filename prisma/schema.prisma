@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum representing the dorms on campus
+enum Dorm {
+  CHAMPAGNAT
+  LEO
+  MARIAN
+  MIDRISE
+  SHEAHAN
+  FOY
+  FULTON
+  NEW
+  LOWER_CEDAR
+  UPPER_CEDAR
+  OSHEA
+  LAVELLE
+  MCCORMICK
+  NEW_FULTON
+  WARD
+}
+
+// Represent a user in the marketplace
+model User {
+  id        String     @id @default(uuid()) @db.Uuid // references supabase auth.users
+  username  String     @unique
+  listings  Listing[] // all the listings posted by the user
+  favorites Favorite[] // all the listing that the user has favorited
+}
+
+// Representing a post by a seller in the marketplace
+model Listing {
+  id       Int    @id @default(autoincrement())
+  seller   User   @relation(fields: [sellerId], references: [id])
+  sellerId String @db.Uuid // the ID of the seller, references the user model
+
+  imageUrl    String
+  description String     @db.VarChar(500)
+  price       Decimal    @db.Decimal(10, 2)
+  location    Dorm
+  favoritedBy Favorite[] // only included to satisfy Prisma relation requirement
+}
+
+// Representing the many:many relationship with users and favorited listings
+model Favorite {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.Uuid // the ID of the user who favorited the listing
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId Int // the ID of the post that the user favorited
+}
