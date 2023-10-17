@@ -29,6 +29,13 @@
 				placeholder="Password"
 				required
 			/>
+			<input
+				name="password2"
+				type="password"
+				class="input focus:border-slate-950 pl-2"
+				placeholder="Confirm Password"
+				required
+			/>
 			<button
 				class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl font-semibold py-1 hover:opacity-80"
 			>
