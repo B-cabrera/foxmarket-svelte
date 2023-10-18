@@ -28,7 +28,6 @@ const signUpSchema = z
 			.min(USERNAME_MIN, errorMessages.usernameMinError)
 			.max(USERNAME_MAX, errorMessages.usernameMaxError)
 			.trim()
-			.refine((username) => /^\S*$/.test(username), errorMessages.usernameWhiteSpaceError) // no whitespaces
 			.refine(
 				(username) => /^[A-Za-z0-9_]+$/.test(username), // only letter, numbers, and underscores
 				errorMessages.usernameInvalidCharsError,
