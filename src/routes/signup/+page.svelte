@@ -1,5 +1,21 @@
 <script lang="ts">
 	import logo from '$lib/images/foxmarketlogo.png';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ActionData } from './$types';
+
+	export let form: ActionData;
+
+	let toastStore = getToastStore();
+
+	// display toasts with form submission error messages
+	if (form?.errors) {
+		form.errors.forEach((error) => {
+			toastStore.trigger({
+				message: error,
+				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+			});
+		});
+	}
 
 	let password1 = '';
 	let password2 = '';
