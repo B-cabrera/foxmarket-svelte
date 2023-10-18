@@ -40,17 +40,26 @@ const signUpSchema = z
 
 type signUpInfo = z.infer<typeof signUpSchema>;
 
-export default function validateSignUpInfo(signUpInfo: signUpInfo) {
+type ValidationSuccess = {
+	success: true;
+};
+type ValidationFailure = {
+	success: false;
+	errors: string[];
+};
+type ValidationResponse = ValidationSuccess | ValidationFailure;
+
+export default function validateSignUpInfo(signUpInfo: signUpInfo): ValidationResponse {
 	const result = signUpSchema.safeParse(signUpInfo);
 
-	// BELOW IS TEMP BEHAVIOR
 	if (result.success) {
-		return true;
+		return { success: true };
 	}
+
 	// list of errors
 	const errors: string[] = [];
 
 	result.error.issues.forEach((issue) => errors.push(issue.message));
 
-	return errors;
+	return { success: false, errors };
 }
