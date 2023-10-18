@@ -2,6 +2,9 @@
 	import '../app.css';
 	import logo from '$lib/images/foxmarketlogo.png';
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
+	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
+
+	initializeStores();
 </script>
 
 <nav class="sticky flex h-14 items-center top-0 bg-maristdarkgrey z-10">
@@ -15,5 +18,7 @@
 
 	<ButtonContainer />
 </nav>
+
+<Toast max={4} buttonDismiss="pl-2 hover:text-slate-950" />
 
 <slot />
