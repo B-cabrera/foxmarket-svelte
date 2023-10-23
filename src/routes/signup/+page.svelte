@@ -21,6 +21,8 @@
 	let password2 = '';
 
 	$: match = password1 === password2;
+
+	// NOTE: client side validation maybe ?
 </script>
 
 <div class="grid place-items-center h-[calc(100vh-56px)]">
