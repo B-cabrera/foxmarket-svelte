@@ -1,10 +1,23 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import logo from '$lib/images/foxmarketlogo.png';
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
 	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import type { LayoutData } from './$types';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	initializeStores();
+
+	export let data: LayoutData;
+
+	const loggedIn = data.loggedIn;
+
+	if (browser) {
+		const pathShouldRedirect = !['/', '/signup', '/login'].includes(window.location.pathname);
+
+		if (!loggedIn && pathShouldRedirect) goto('/');
+	}
 </script>
 
 <nav class="sticky flex h-14 items-center top-0 bg-maristdarkgrey z-10">
@@ -16,7 +29,7 @@
 		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
 	</div>
 
-	<ButtonContainer />
+	<ButtonContainer {loggedIn} />
 </nav>
 
 <Toast max={4} buttonDismiss="pl-2 hover:text-slate-950" />
