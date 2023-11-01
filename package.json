@@ -38,6 +38,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@prisma/client": "^5.4.2"
+		"@prisma/client": "^5.4.2",
+		"@supabase/supabase-js": "^2.38.2",
+		"zod": "^3.22.4"
 	}
 }
