@@ -10,11 +10,11 @@ export const actions = {
 		const { request } = event;
 
 		const data = await request.formData();
-		const username = data.get('username') as string;
+		const email = data.get('email') as string;
 		const password = data.get('password') as string;
 
 		const result = validateLogInInfo({
-			username,
+			email,
 			password,
 		});
 
