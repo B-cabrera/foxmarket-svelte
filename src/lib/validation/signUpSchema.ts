@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-const USERNAME_MIN = 3;
-const USERNAME_MAX = 15;
-const PASSWORD_MIN = 8;
+export const USERNAME_MIN = 3;
+export const USERNAME_MAX = 15;
+export const PASSWORD_MIN = 8;
 
 const errorMessages = {
 	// Username Errors
@@ -49,7 +49,7 @@ type ValidationFailure = {
 };
 type ValidationResponse = ValidationSuccess | ValidationFailure;
 
-export default function validateSignUpInfo(signUpInfo: signUpInfo): ValidationResponse {
+export function validateSignUpInfo(signUpInfo: signUpInfo): ValidationResponse {
 	const result = signUpSchema.safeParse(signUpInfo);
 
 	if (result.success) {
