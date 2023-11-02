@@ -1,5 +1,19 @@
-<script>
+<script lang="ts">
 	import logo from '$lib/images/foxmarketlogo.png';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ActionData } from './$types';
+
+	export let form: ActionData;
+
+	let toastStore = getToastStore();
+
+	// display toasts on form submission failure
+	if (form?.error) {
+		toastStore.trigger({
+			message: 'Invalid username or password.',
+			classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+		});
+	}
 </script>
 
 <div class="flex flex-col justify-center items-center pt-20">
