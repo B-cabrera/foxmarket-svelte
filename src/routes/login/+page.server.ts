@@ -23,8 +23,24 @@ export const actions = {
 			return fail(400, { error: true });
 		}
 
-		// send login request here!!!
+		// send the login up request
+		const response = await event.fetch('/api/users/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				email,
+				password,
+			}),
+		});
 
-		throw redirect(302, '/feed');
+		// send to _ on login success (not final)
+		if (response.ok) {
+			// TODO: redirect to feed or profile page
+			throw redirect(302, '/feed');
+		}
+
+		return fail(400);
 	},
 };
