@@ -1,6 +1,23 @@
 <script lang="ts">
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	let toastStore = getToastStore();
+
 	async function logUserOut() {
-		console.log('Logging user out....');
+		const response = await fetch(`http://localhost:5173/api/users/logout`, {
+			method: 'POST',
+		});
+
+		if (response.ok) {
+			window.location.pathname = '/'; // redirect to home page
+			return;
+		}
+
+		// on logout failure
+		toastStore.trigger({
+			message: 'Error occurred while trying to log you out. Please try again',
+			classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+		});
 	}
 </script>
 
