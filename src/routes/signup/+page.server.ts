@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved */
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import validateSignUpInfo from '$lib/validation/signUpSchema';
+import { validateSignUpInfo } from '$lib/validation/signUpSchema';
 
 // eslint-disable-next-line import/prefer-default-export
 export const actions = {
