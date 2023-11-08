@@ -16,7 +16,7 @@
 			on:click={favoriteListing}
 			tabindex="0"
 			role="button"
-			class="absolute text-maristred font-bold material-symbols-outlined right-0 hover:cursor-pointer"
+			class="absolute text-maristred text-4xl font-bold material-symbols-outlined right-0 hover:cursor-pointer"
 		>
 			favorite
 		</span>
