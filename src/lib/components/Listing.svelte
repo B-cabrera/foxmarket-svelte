@@ -9,7 +9,7 @@
 	}
 </script>
 
-<div class="relative h-80 w-60 text-slate-50">
+<div class="relative h-min text-slate-50">
 	<a href={`/${listing.id}`} class="inline-block h-full w-full">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<span
