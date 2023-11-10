@@ -27,8 +27,12 @@
 			<b>{`$ ${listing.price}`}</b>
 		</div>
 
-		<div class="pt-2">
+		<div class="flex pt-2 justify-between">
 			<p>{listing.location}</p>
+
+			{#if listing.size}
+				<strong>{listing.size}</strong>
+			{/if}
 		</div>
 	</a>
 </div>
