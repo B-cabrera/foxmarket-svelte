@@ -48,6 +48,8 @@ model Listing {
   description String     @db.VarChar(500)
   price       Decimal    @db.Decimal(10, 2)
   location    Dorm
+  brand       String?     @db.VarChar(30)
+  size        String?     @db.VarChar(4)
   favoritedBy Favorite[] // only included to satisfy Prisma relation requirement
 }
 
