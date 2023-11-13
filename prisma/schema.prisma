@@ -31,7 +31,7 @@ enum Dorm {
 
 // Represent a user in the marketplace
 model User {
-  id        String     @id @default(uuid()) @db.Uuid // references supabase auth.users
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // references supabase auth.users
   username  String     @unique
   listings  Listing[] // all the listings posted by the user
   favorites Favorite[] // all the listing that the user has favorited
@@ -39,18 +39,19 @@ model User {
 
 // Representing a post by a seller in the marketplace
 model Listing {
-  id       String     @id @default(uuid()) @db.Uuid
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   seller   User   @relation(fields: [sellerId], references: [id])
   sellerId String @db.Uuid // the ID of the seller, references the user model
 
-  listingTitle String @db.VarChar(30)
-  imageUrl    String
-  description String     @db.VarChar(500)
-  price       Decimal    @db.Decimal(10, 2)
-  location    Dorm
-  brand       String?     @db.VarChar(30)
-  size        String?     @db.VarChar(4)
-  favoritedBy Favorite[] // only included to satisfy Prisma relation requirement
+  listingTitle String     @db.VarChar(30)
+  imageUrl     String
+  description  String     @db.VarChar(500)
+  price        Decimal    @db.Decimal(10, 2)
+  location     Dorm
+  brand        String?    @db.VarChar(30)
+  size         String?    @db.VarChar(4)
+  sold         Boolean    @default(false)
+  favoritedBy  Favorite[] // only included to satisfy Prisma relation requirement
 }
 
 // Representing the many:many relationship with users and favorited listings
