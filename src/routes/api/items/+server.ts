@@ -6,7 +6,9 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 
 export const GET: RequestHandler = async () => {
-	const allListings = await prisma.listing.findMany();
+	const allListings = await prisma.listing.findMany({
+		where: { sold: false },
+	});
 
 	return json({ listings: allListings });
 };
