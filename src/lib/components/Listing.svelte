@@ -39,7 +39,7 @@
 		</a>
 	</div>
 {:else if display == 'row'}
-	<div class="w-3/4 hover:bg-slate-700">
+	<div class="w-4/6 hover:bg-slate-700 border border-solid">
 		<a class="flex" href={`/${listing.id}`}>
 			<img src={listing.imageUrl} alt="Listing" width="10%" />
 
