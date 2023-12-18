@@ -27,7 +27,7 @@
 		<input
 			type="search"
 			class="input pl-10 tracking-wider font-bold"
-			placeholder="Search"
+			placeholder="Search my items..."
 			bind:value={searchQuery}
 		/>
 	</div>
