@@ -25,7 +25,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			return response;
 		}
 
-		const { error } = await supabaseClient.auth.getSession();
+		const { error, data } = await supabaseClient.auth.getSession();
 
 		if (error) {
 			console.error(error);
@@ -37,7 +37,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 
 		// User is authorized
-		event.locals.data = { loggedIn: true };
+		event.locals.data = { loggedIn: true, userID: data.session?.user.id };
 
 		const response = await resolve(event);
 		return response;
