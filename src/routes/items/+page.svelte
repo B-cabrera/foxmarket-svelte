@@ -12,12 +12,16 @@
 
 	function filterListings() {
 		filteredListings = originalListings.filter((item) => {
-			return item.listingTitle.toLowerCase().includes(searchQuery.trim().toLowerCase());
+			return (
+				item.listingTitle.toLowerCase().includes(searchQuery.trim().toLowerCase()) &&
+				item.sold == showSold
+			);
 		});
 	}
 
 	$: {
-		const dependency = searchQuery;
+		const searchDependency = searchQuery;
+		const soldDependency = showSold;
 
 		filterListings();
 	}
