@@ -44,7 +44,7 @@
 					{item.description}
 				</p>
 
-				<h1 class="pt-10 text-xl font-bold">Seller</h1>
+				<h1 class="pt-10 text-xl font-bold">Sold By</h1>
 
 				<div
 					class="flex items-center p-4 bg-maristgrey h-32 text-slate-950 font-bold justify-around text-xl"
