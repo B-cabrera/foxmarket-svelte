@@ -9,10 +9,16 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	const itemID = params.id;
 
 	// get the listing info
-	const data = await fetch(`/api/item/${itemID}`);
-	const { item } = await data.json();
+	const itemData = await fetch(`/api/item/${itemID}`);
+	const { item } = await itemData.json();
+
+	// get the sellers information
+	const sellerInfo = await fetch(`/api/users/${item.sellerId}`);
+	const { username, itemsSold } = await sellerInfo.json();
 
 	return {
 		theItem: item as Listing,
+		sellerUsername: username as string,
+		sellerItemsSold: itemsSold as number,
 	};
 };
