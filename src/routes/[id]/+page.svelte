@@ -4,6 +4,7 @@
 	export let data: PageData;
 
 	const item = data.theItem;
+	const seller = { username: data.sellerUsername, itemsSold: data.sellerItemsSold };
 </script>
 
 <div class="flex w-full h-[calc(100vh-56px)]">
@@ -46,11 +47,11 @@
 				<h1 class="pt-10 text-xl font-bold">Seller</h1>
 
 				<div
-					class="flex items-center p-4 bg-maristgrey h-32 text-slate-950 font-bold justify-around"
+					class="flex items-center p-4 bg-maristgrey h-32 text-slate-950 font-bold justify-around text-xl"
 				>
-					<h1>SELLER</h1>
-
-					<h1>RATING</h1>
+					<h1>{seller.username}</h1>
+					<p>|</p>
+					<h1>{`${seller.itemsSold} ${seller.itemsSold == 1 ? 'item' : 'items'} sold`}</h1>
 				</div>
 			</div>
 		</div>
