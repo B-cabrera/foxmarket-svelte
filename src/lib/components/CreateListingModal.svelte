@@ -43,15 +43,15 @@
 			required
 		/>
 		<div class="flex w-full justify-between">
-			<select name="size" class="bg-maristgrey w-1/3 text-center">
-				<option selected disabled>Size</option>
+			<select name="size" class="bg-maristgrey w-1/3 text-center" required>
+				<option selected disabled value="">Size</option>
 				{#each sizes as size}
 					<option value="size">{size}</option>
 				{/each}
 			</select>
 
-			<select name="location" class="w-1/2 text-center bg-maristgrey">
-				<option selected disabled>Location</option>
+			<select name="location" class="w-1/2 text-center bg-maristgrey" required>
+				<option selected disabled value="">Location</option>
 				{#each Object.values(Dorms) as dorm}
 					<option value="dorm">{dorm}</option>
 				{/each}
