@@ -81,5 +81,11 @@
 				{/if}
 			</svelte:fragment>
 		</FileDropzone>
+
+		<button
+			class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl font-semibold py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+		>
+			List Item
+		</button>
 	</form>
 </div>
