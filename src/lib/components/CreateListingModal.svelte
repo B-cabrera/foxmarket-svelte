@@ -1,14 +1,33 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Dorms from '$lib/utils/Dorms';
 	import Sizes from '$lib/utils/Sizes';
 	import { FileDropzone, getModalStore } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const modalStore = getModalStore();
 	let file: FileList;
+	let isLoading = false;
+
+	const submitForm: SubmitFunction = () => {
+		isLoading = true;
+
+		return async ({ update }) => {
+			isLoading = false;
+			await update();
+
+			modalStore.close();
+		};
+	};
 </script>
 
 <div class="flex flex-col bg-maristred w-1/2 h-max border items-center justify-center py-10">
-	<form method="POST" class="flex flex-col w-2/3 gap-8 items-center" enctype="multipart/form-data">
+	<form
+		method="POST"
+		class="flex flex-col w-2/3 gap-8 items-center"
+		enctype="multipart/form-data"
+		use:enhance={submitForm}
+	>
 		<input
 			name="title"
 			type="text"
@@ -84,8 +103,9 @@
 
 		<button
 			class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl font-semibold py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+			disabled={isLoading}
 		>
-			List Item
+			{isLoading ? 'Submitting...' : 'List Item'}
 		</button>
 	</form>
 </div>
