@@ -59,7 +59,7 @@
 		</div>
 
 		<FileDropzone
-			name="files"
+			name="file"
 			class="text-slate-50"
 			accept="image/jpg, image/png, image/jpeg, image/heic"
 			bind:files={file}
