@@ -4,6 +4,7 @@
 
 	const modalStore = getModalStore();
 	let file: FileList;
+	const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL'];
 </script>
 
 <div class="flex flex-col bg-maristred w-1/2 h-max border items-center justify-center py-10">
@@ -41,21 +42,21 @@
 			maxlength="30"
 			required
 		/>
+		<div class="flex w-full justify-between">
+			<select name="size" class="bg-maristgrey w-1/3 text-center">
+				<option selected disabled>Size</option>
+				{#each sizes as size}
+					<option value="size">{size}</option>
+				{/each}
+			</select>
 
-		<input
-			name="size"
-			type="text"
-			class="input focus:border-slate-950 pl-2"
-			placeholder="Size"
-			maxlength="30"
-			required
-		/>
-
-		<select name="location" class="w-1/2 text-center bg-maristgrey text-slate-950">
-			{#each Object.values(Dorms) as dorm}
-				<option value="dorm">{dorm}</option>
-			{/each}
-		</select>
+			<select name="location" class="w-1/2 text-center bg-maristgrey">
+				<option selected disabled>Location</option>
+				{#each Object.values(Dorms) as dorm}
+					<option value="dorm">{dorm}</option>
+				{/each}
+			</select>
+		</div>
 
 		<FileDropzone
 			name="files"
