@@ -1,14 +1,18 @@
 <script lang="ts">
 	import Listing from '$lib/components/Listing.svelte';
 	import type { Listing as TListing } from '@prisma/client';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import {
 		SlideToggle,
 		getModalStore,
 		type ModalSettings,
 		type ModalComponent,
+		getToastStore,
 	} from '@skeletonlabs/skeleton';
 	import CreateListingModal from '$lib/components/CreateListingModal.svelte';
+
+	export let data: PageData;
+	export let form: ActionData;
 
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = { ref: CreateListingModal };
@@ -17,11 +21,12 @@
 		component: modalComponent,
 	};
 
-	export let data: PageData;
 	const originalListings = data.listings as TListing[];
 	let filteredListings: TListing[] = originalListings;
 	let searchQuery = '';
 	let showSold = false;
+
+	let toastStore = getToastStore();
 
 	function filterListings() {
 		filteredListings = originalListings.filter((item) => {
@@ -29,6 +34,16 @@
 				item.listingTitle.toLowerCase().includes(searchQuery.trim().toLowerCase()) &&
 				item.sold == showSold
 			);
+		});
+	}
+
+	// display toasts with form submission error messages
+	if (form?.errors) {
+		form.errors.forEach((error) => {
+			toastStore.trigger({
+				message: error,
+				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+			});
 		});
 	}
 
