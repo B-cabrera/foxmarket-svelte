@@ -3,7 +3,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import type { Listing } from '@prisma/client';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { validateNewListing } from '$lib/validation/newListingSchema';
 import type Dorms from '$lib/utils/Dorms';
@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
 
 export const actions = {
 	default: async (event) => {
-		const { request } = event;
+		const { request, fetch } = event;
 		const data = await request.formData();
 
 		const title = data.get('title') as string;
@@ -47,6 +47,29 @@ export const actions = {
 			return fail(400, { errors: result.errors });
 		}
 
-		return { success: true };
+		const listingInfo = new FormData();
+		listingInfo.append('file', image);
+		listingInfo.append(
+			'json',
+			JSON.stringify({
+				title,
+				description,
+				price,
+				brand,
+				size,
+				location,
+			}),
+		);
+
+		const response = await fetch('/api/item', {
+			method: 'POST',
+			body: listingInfo,
+		});
+
+		if (response.ok) {
+			throw redirect(302, '/items');
+		}
+
+		return fail(400, { errors: [(await response.json()).message] });
 	},
 } satisfies Actions;
