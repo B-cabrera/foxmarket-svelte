@@ -2,7 +2,7 @@
 	import '../app.css';
 	import logo from '$lib/images/foxmarketlogo.png';
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
-	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import type { LayoutData } from './$types';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
@@ -33,5 +33,6 @@
 </nav>
 
 <Toast max={4} buttonDismiss="pl-2 hover:text-slate-950" />
+<Modal />
 
 <slot />
