@@ -2,9 +2,9 @@
 	export let showAuthedButtons = false;
 
 	// gives /login route if showAuthedButtons is false
-	function getLink(originalLink: string) {
+	$: getLink = (originalLink: string) => {
 		return showAuthedButtons ? originalLink : '/login';
-	}
+	};
 </script>
 
 <!--increasing gap if logged in b/c of # of buttons-->
