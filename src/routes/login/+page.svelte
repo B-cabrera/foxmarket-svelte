@@ -2,17 +2,8 @@
 	import logo from '$lib/images/foxmarketlogo.png';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ActionData } from './$types';
-	import type { LayoutData } from '../$types';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
 
 	export let form: ActionData;
-	export let data: LayoutData;
-
-	const loggedIn = data.loggedIn;
-
-	// redirect to home page if user is already logged in
-	if (loggedIn && browser) goto('/');
 
 	let toastStore = getToastStore();
 
