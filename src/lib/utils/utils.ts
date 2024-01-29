@@ -3,4 +3,9 @@ function checkValidRerouteLocation(currentPath: string) {
 	return !['/', '/signup', '/login', '/api/users/login', '/api/users'].includes(currentPath);
 }
 
-export default checkValidRerouteLocation;
+// check if path is valid to visit when authed
+function checkValidAuthedPage(currentPath: string) {
+	return ['/', '/signup', '/login'].includes(currentPath);
+}
+
+export { checkValidRerouteLocation, checkValidAuthedPage };
