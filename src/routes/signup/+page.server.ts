@@ -42,10 +42,9 @@ export const actions = {
 			}),
 		});
 
-		// send to _ on registration success (not final)
+		// send to feed on registration success (not final)
 		if (response.ok) {
-			// TODO: redirect to feed or profile page
-			throw redirect(302, '/');
+			throw redirect(302, '/feed');
 		}
 
 		// on registration failure
