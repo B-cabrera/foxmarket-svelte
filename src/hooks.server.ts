@@ -52,7 +52,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	// User is authorized`
-	event.locals.data = { loggedIn: true, userID: data.session?.user.id };
+	event.locals.data = { userID: data.session?.user.id };
 
 	const response = await resolve(event);
 	return response;

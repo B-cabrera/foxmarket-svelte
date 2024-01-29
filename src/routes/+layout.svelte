@@ -7,12 +7,12 @@
 
 	initializeStores();
 
-	let showUnAuthedButtons: boolean;
+	let showAuthedButtons: boolean;
 
 	$: {
 		const dep = $page.url.pathname;
 
-		showUnAuthedButtons = !['/', '/login', '/signup'].includes($page.url.pathname);
+		showAuthedButtons = !['/', '/login', '/signup'].includes($page.url.pathname);
 	}
 </script>
 
@@ -25,7 +25,7 @@
 		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
 	</div>
 
-	<ButtonContainer loggedIn={showUnAuthedButtons} />
+	<ButtonContainer {showAuthedButtons} />
 </nav>
 
 <Toast max={4} buttonDismiss="pl-2 hover:text-slate-950" />

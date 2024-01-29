@@ -5,10 +5,6 @@
 	import type { LayoutData } from './$types';
 
 	const locations = Object.values(Dorms);
-
-	export let data: LayoutData;
-
-	const loggedIn = data.loggedIn;
 </script>
 
 <div class="relative h-1/3">
@@ -25,7 +21,7 @@
 	</h1>
 
 	<a
-		href={loggedIn ? '/feed' : '/login'}
+		href={'/login'}
 		class="absolute btn top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 p-5
     font-semibold text-2xl !border-2 text-slate-50 hover:text-maristgrey hover:border-maristgrey"
 	>
@@ -55,7 +51,7 @@
 		<div class="flex flex-col h-1/2 items-center justify-center w-96 mx-auto gap-10 text-2xl">
 			<p class="font-medium">Sell your unwanted items or clothes to your fellow students!</p>
 			<a
-				href={loggedIn ? '/feed' : '/login'}
+				href={'/login'}
 				class="btn !border-2 hover:text-maristgrey hover:border-maristgrey text-xl py-5 px-2"
 			>
 				Sell Now
@@ -68,10 +64,7 @@
 			<p class="font-medium">
 				All items are posted by students, and all items are bought by students.
 			</p>
-			<a
-				href={loggedIn ? '/feed' : '/login'}
-				class="btn !border-2 hover:opacity-40 border-slate-950 text-xl py-5 px-2"
-			>
+			<a href={'/login'} class="btn !border-2 hover:opacity-40 border-slate-950 text-xl py-5 px-2">
 				Shop Now
 			</a>
 		</div>

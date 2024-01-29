@@ -7,12 +7,6 @@
 	import { goto } from '$app/navigation';
 
 	export let form: ActionData;
-	export let data: LayoutData;
-
-	const loggedIn = data.loggedIn;
-
-	// redirect to home page if user is already logged in
-	if (loggedIn && browser) goto('/');
 
 	let toastStore = getToastStore();
 

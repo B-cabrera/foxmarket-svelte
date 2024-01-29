@@ -1,17 +1,17 @@
 <script lang="ts">
-	export let loggedIn = false;
+	export let showAuthedButtons = false;
 
-	// gives /login route if loggedIn is false
+	// gives /login route if showAuthedButtons is false
 	function getLink(originalLink: string) {
-		return loggedIn ? originalLink : '/login';
+		return showAuthedButtons ? originalLink : '/login';
 	}
 </script>
 
 <!--increasing gap if logged in b/c of # of buttons-->
-<div class={`flex ${loggedIn ? 'gap-6' : 'gap-4'} pl-4 text-maristgrey items-center`}>
+<div class={`flex ${showAuthedButtons ? 'gap-6' : 'gap-4'} pl-4 text-maristgrey items-center`}>
 	<!--TODO: build out login and sign in pages-->
 
-	{#if loggedIn}
+	{#if showAuthedButtons}
 		<!--items button-->
 		<a href="/items" class="btn hover:text-slate-200">My Items</a>
 
