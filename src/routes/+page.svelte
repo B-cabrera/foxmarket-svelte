@@ -2,7 +2,6 @@
 	import students_photo from '$lib/images/marist-students.jpg';
 	import Dorms from '$lib/utils/Dorms';
 	import logo from '$lib/images/foxmarketlogo.png';
-	import type { LayoutData } from './$types';
 
 	const locations = Object.values(Dorms);
 </script>

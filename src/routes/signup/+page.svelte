@@ -2,9 +2,6 @@
 	import logo from '$lib/images/foxmarketlogo.png';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ActionData } from './$types';
-	import type { LayoutData } from '../$types';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 
 	export let form: ActionData;
 
