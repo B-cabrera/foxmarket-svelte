@@ -5,7 +5,6 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			data: { loggedIn: boolean; userID: string | undefined } | null;
-			error: { status: number; message: string } | null;
 		}
 		// interface PageData {}
 		// interface Platform {}
