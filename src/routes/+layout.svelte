@@ -3,20 +3,16 @@
 	import logo from '$lib/images/foxmarketlogo.png';
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
 	import { Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
-	import type { LayoutData } from './$types';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	initializeStores();
 
-	export let data: LayoutData;
+	let showUnAuthedButtons: boolean;
 
-	const loggedIn = data.loggedIn;
+	$: {
+		const dep = $page.url.pathname;
 
-	if (browser) {
-		const pathShouldRedirect = !['/', '/signup', '/login'].includes(window.location.pathname);
-
-		if (!loggedIn && pathShouldRedirect) goto('/');
+		showUnAuthedButtons = !['/', '/login', '/signup'].includes($page.url.pathname);
 	}
 </script>
 
@@ -29,7 +25,7 @@
 		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
 	</div>
 
-	<ButtonContainer {loggedIn} />
+	<ButtonContainer loggedIn={showUnAuthedButtons} />
 </nav>
 
 <Toast max={4} buttonDismiss="pl-2 hover:text-slate-950" />
