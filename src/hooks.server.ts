@@ -6,7 +6,7 @@
 
 import { redirect, type Handle } from '@sveltejs/kit';
 import supabaseClient from '$lib/utils/supabaseClient';
-import checkValidRerouteLocation from '$lib/utils/utils';
+import { checkValidAuthedPage, checkValidRerouteLocation } from '$lib/utils/utils';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const accessToken = event.cookies.get('access');
@@ -51,7 +51,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return response;
 	}
 
-	// User is authorized`
+	// User is authorized
+
+	// if authed, user can't visit homepage or login or signup page
+	const shouldBlockUnAuthedPages = checkValidAuthedPage(event.url.pathname);
+
+	if (shouldBlockUnAuthedPages) throw redirect(302, '/feed');
+
 	event.locals.data = { userID: data.session?.user.id };
 
 	const response = await resolve(event);
