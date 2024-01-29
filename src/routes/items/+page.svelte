@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Listing from '$lib/components/Listing.svelte';
-	import type { Listing as TListing } from '@prisma/client';
 	import type { ActionData, PageData } from './$types';
 	import {
 		SlideToggle,
@@ -21,15 +20,16 @@
 		component: modalComponent,
 	};
 
-	const originalListings = data.listings as TListing[];
-	let filteredListings: TListing[] = originalListings;
+	$: ({ listings } = data);
+
+	$: filteredListings = listings;
 	let searchQuery = '';
 	let showSold = false;
 
 	let toastStore = getToastStore();
 
 	function filterListings() {
-		filteredListings = originalListings.filter((item) => {
+		filteredListings = listings.filter((item) => {
 			return (
 				item.listingTitle.toLowerCase().includes(searchQuery.trim().toLowerCase()) &&
 				item.sold == showSold
