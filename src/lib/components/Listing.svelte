@@ -23,7 +23,7 @@
 				favorite
 			</span>
 
-			<img src={listing.imageUrl} alt="" />
+			<img src={listing.imageUrl} alt="" class="aspect-square max-w-[100%]" />
 			<div class="flex pt-2 justify-between">
 				<p>{listing.listingTitle}</p>
 				<b>{`$ ${listing.price}`}</b>
@@ -41,7 +41,7 @@
 {:else if display == 'row'}
 	<div class="w-4/6 hover:bg-slate-700 border border-solid">
 		<a class="flex" href={`/${listing.id}`}>
-			<img src={listing.imageUrl} alt="Listing" width="10%" />
+			<img src={listing.imageUrl} alt="Listing" class="aspect-square max-w-[10%]" />
 
 			<div class="flex text-slate-50 pl-2 items-center justify-between w-full font-bold text-2xl">
 				<p class="font-bold text-2xl">{listing.listingTitle}</p>

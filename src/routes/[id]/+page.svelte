@@ -9,7 +9,7 @@
 
 <div class="flex w-full h-[calc(100vh-56px)]">
 	<div class="w-3/5 grid place-items-center">
-		<img class="w-4/6" src={item.imageUrl} alt="" />
+		<img class="w-4/6 aspect-square" src={item.imageUrl} alt="" />
 	</div>
 
 	<div class="flex items-center justify-center w-2/5">
