@@ -3,6 +3,7 @@
 
 	export let listing: Listing;
 	export let display: 'row' | 'card' = 'card';
+	export let userID: string;
 
 	function favoriteListing(event: Event) {
 		event.preventDefault();
@@ -14,14 +15,16 @@
 	<div class="relative h-min text-slate-50">
 		<a href={`/${listing.id}`} class="inline-block h-full w-full">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<span
-				on:click={favoriteListing}
-				tabindex="0"
-				role="button"
-				class="absolute text-maristred text-4xl font-bold material-symbols-outlined right-0 hover:cursor-pointer"
-			>
-				favorite
-			</span>
+			{#if listing.sellerId != userID}
+				<span
+					on:click={favoriteListing}
+					tabindex="0"
+					role="button"
+					class="absolute text-maristred text-4xl font-bold material-symbols-outlined right-0 hover:cursor-pointer"
+				>
+					favorite
+				</span>
+			{/if}
 
 			<img src={listing.imageUrl} alt="" class="aspect-square max-w-[100%]" />
 			<div class="flex pt-2 justify-between">
