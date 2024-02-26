@@ -27,24 +27,38 @@
 			</h1>
 
 			<div class="flex flex-col gap-2 w-full">
-				<!-- TODO: Have this button start a chat with the seller and buyer -->
-				<button
-					class="btn !border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
-				>
-					I'm Interested
-				</button>
-
-				<!-- TODO: Have this button add the listing to the user's favorites -->
-				<button class="btn py-2 !border-2 text-xl font-bold text-slate-50 hover:opacity-70">
-					<span
-						tabindex="0"
-						role="button"
-						class="text-maristred text-2xl font-bold material-symbols-outlined hover:cursor-pointer pr-2"
+				{#if item.sellerId != data.userID}
+					<!-- TODO: Have this button start a chat with the seller and buyer -->
+					<button
+						class="btn !border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
 					>
-						favorite
-					</span>
-					Favorite
-				</button>
+						I'm Interested
+					</button>
+
+					<!-- TODO: Have this button add the listing to the user's favorites -->
+					<button class="btn py-2 !border-2 text-xl font-bold text-slate-50 hover:opacity-70">
+						<span
+							tabindex="0"
+							role="button"
+							class="text-maristred text-2xl font-bold material-symbols-outlined hover:cursor-pointer pr-2"
+						>
+							favorite
+						</span>
+						Favorite
+					</button>
+				{:else}
+					<button
+						class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+					>
+						<span
+							tabindex="0"
+							role="button"
+							class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
+						>
+							edit_note
+						</span>
+						Edit
+					</button>{/if}
 			</div>
 
 			<div class="text-slate-50 tracking-wide">
