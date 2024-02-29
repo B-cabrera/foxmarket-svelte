@@ -16,14 +16,16 @@
 		<a href={`/${listing.id}`} class="inline-block h-full w-full">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			{#if listing.sellerId != userID}
-				<span
+				<button
 					on:click={favoriteListing}
-					tabindex="0"
-					role="button"
-					class="absolute text-maristred text-4xl font-bold material-symbols-outlined right-0 hover:cursor-pointer"
+					class="absolute right-0 border rounded-md bg-slate-300 hover:opacity-60 border-maristdarkgrey"
 				>
-					favorite
-				</span>
+					<span
+						class="material-symbols-outlined reg_symbol text-maristred font-bold text-3xl p-0.5"
+					>
+						favorite
+					</span>
+				</button>
 			{/if}
 
 			<img src={listing.imageUrl} alt="" class="aspect-square max-w-[100%]" />
