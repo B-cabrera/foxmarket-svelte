@@ -17,7 +17,7 @@
 
 		<!--chat button-->
 		<a href="/chats">
-			<i class="material-symbols-outlined icon hover:text-slate-200">chat_bubble</i>
+			<i class="material-symbols-outlined icon reg_symbol hover:text-slate-200">chat_bubble</i>
 		</a>
 	{:else}
 		<!--sign up and login button-->
@@ -27,16 +27,16 @@
 
 	<!--profile button-->
 	<a href={getLink('/profile')}>
-		<i class="material-symbols-outlined icon hover:text-slate-200">person</i>
+		<i class="material-symbols-outlined icon reg_symbol hover:text-slate-200">person</i>
 	</a>
 
 	<!--favorites button-->
 	<a href={getLink('/favorites')}>
-		<i class="material-symbols-outlined icon hover:text-slate-200">favorite</i>
+		<i class="material-symbols-outlined icon reg_symbol hover:text-slate-200">favorite</i>
 	</a>
 
 	<!--settings button-->
 	<a href={getLink('/settings')}>
-		<i class="material-symbols-outlined icon hover:text-slate-200">settings</i>
+		<i class="material-symbols-outlined icon reg_symbol hover:text-slate-200">settings</i>
 	</a>
 </div>

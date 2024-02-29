@@ -59,7 +59,7 @@
 	<h1 class="text-5xl text-slate-50 py-6 font-bold tracking-wider">My Items</h1>
 
 	<div class="flex w-[55%] items-center gap-10">
-		<i class="material-symbols-outlined text-maristgrey absolute px-2"> search </i>
+		<i class="material-symbols-outlined reg_symbol text-maristgrey absolute px-2"> search </i>
 		<input
 			type="search"
 			class="input pl-10 tracking-wider font-bold"

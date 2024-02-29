@@ -40,7 +40,7 @@
 						<span
 							tabindex="0"
 							role="button"
-							class="text-maristred text-2xl font-bold material-symbols-outlined hover:cursor-pointer pr-2"
+							class="text-maristred text-2xl font-bold material-symbols-outlined reg_symbol hover:cursor-pointer pr-2"
 						>
 							favorite
 						</span>
