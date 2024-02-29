@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { Listing } from '@prisma/client';
 
-	export let listing: Listing;
+	interface ListingWithFavoriteBool extends Listing {
+		isFavoritedByCurrentUser?: string;
+	}
+
+	export let listing: ListingWithFavoriteBool;
 	export let display: 'row' | 'card' = 'card';
 	export let userID: string;
 
@@ -21,7 +25,9 @@
 					class="absolute right-0 border rounded-md bg-slate-300 hover:opacity-60 border-maristdarkgrey"
 				>
 					<span
-						class="material-symbols-outlined reg_symbol text-maristred font-bold text-3xl p-0.5"
+						class={`material-symbols-outlined ${
+							listing.isFavoritedByCurrentUser ? 'fill_symbol' : 'reg_symbol'
+						} text-maristred font-bold text-3xl p-0.5`}
 					>
 						favorite
 					</span>
