@@ -4,6 +4,7 @@
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
+	const userID = data.userID!;
 
 	$: ({ listings } = data);
 
@@ -53,6 +54,6 @@
 	</div>
 
 	{#each filteredListings as item (item.id)}
-		<Listing listing={item} display="row" />
+		<Listing listing={item} display="row" {userID} />
 	{/each}
 </div>
