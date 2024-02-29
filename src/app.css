@@ -36,3 +36,19 @@ body {
 .snackbar-wrapper {
   @apply z-50 absolute left-1/2 -translate-x-1/2
 }
+
+span.reg_symbol, i.reg_symbol {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+span.fill_symbol, i.fill_symbol {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 24
+}
