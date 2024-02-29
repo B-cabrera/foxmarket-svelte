@@ -13,6 +13,7 @@
 	export let data: PageData;
 	export let form: ActionData;
 
+	const userID = data.userID!;
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = { ref: CreateListingModal };
 	const modal: ModalSettings = {
@@ -87,6 +88,6 @@
 	</div>
 
 	{#each filteredListings as item (item.id)}
-		<Listing listing={item} display="row" />
+		<Listing listing={item} display="row" {userID} />
 	{/each}
 </div>
