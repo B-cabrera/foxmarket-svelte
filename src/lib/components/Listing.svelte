@@ -17,11 +17,10 @@
 
 {#if display == 'card'}
 	<div class="relative h-min text-slate-50">
-		<a href={`/${listing.id}`} class="inline-block h-full w-full">
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			{#if listing.sellerId != userID}
+		{#if listing.sellerId != userID}
+			<form method="POST" action="/feed?/favorite">
+				<input type="hidden" name="listing_id" value={listing.id} />
 				<button
-					on:click={favoriteListing}
 					class="absolute right-0 border rounded-md bg-slate-300 hover:opacity-60 border-maristdarkgrey"
 				>
 					<span
@@ -32,8 +31,10 @@
 						favorite
 					</span>
 				</button>
-			{/if}
+			</form>
+		{/if}
 
+		<a href={`/${listing.id}`} class="inline-block h-full w-full">
 			<img src={listing.imageUrl} alt="" class="aspect-square max-w-[100%]" />
 			<div class="flex pt-2 justify-between">
 				<p>{listing.listingTitle}</p>
