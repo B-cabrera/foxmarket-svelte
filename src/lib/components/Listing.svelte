@@ -18,7 +18,10 @@
 {#if display == 'card'}
 	<div class="relative h-min text-slate-50">
 		{#if listing.sellerId != userID}
-			<form method="POST" action="/feed?/favorite">
+			<form
+				method="POST"
+				action={`/feed?${listing.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}`}
+			>
 				<input type="hidden" name="listing_id" value={listing.id} />
 				<button
 					class="absolute right-0 border rounded-md bg-slate-300 hover:opacity-60 border-maristdarkgrey"
