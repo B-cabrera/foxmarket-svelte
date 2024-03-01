@@ -8,11 +8,6 @@
 	export let listing: ListingWithFavoriteBool;
 	export let display: 'row' | 'card' = 'card';
 	export let userID: string;
-
-	function favoriteListing(event: Event) {
-		event.preventDefault();
-		console.log('Favorite');
-	}
 </script>
 
 {#if display == 'card'}
