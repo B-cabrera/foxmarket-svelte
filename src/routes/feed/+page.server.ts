@@ -4,6 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import type { Listing } from '@prisma/client';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -16,12 +17,23 @@ export const load: PageServerLoad = async ({ fetch }) => {
 };
 
 export const actions = {
-	favorite: async ({ request, locals }) => {
+	favorite: async ({ request, locals, fetch }) => {
 		const data = await request.formData();
 		const listingToFavorite = data.get('listing_id') as string;
 		const favoritingUser = locals.data?.userID!;
 
-		// TODO: call favorite API here
-		console.log(listingToFavorite, favoritingUser); // temp, will remove
+		const response = await fetch('/api/favorite', {
+			method: 'POST',
+			body: JSON.stringify({
+				listingID: listingToFavorite,
+				favoritingUser,
+			}),
+		});
+
+		if (response.ok) {
+			throw redirect(302, '/feed');
+		}
+
+		return fail(response.status, { errors: [(await response.json()).message] });
 	},
 } satisfies Actions;
