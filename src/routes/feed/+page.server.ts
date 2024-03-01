@@ -36,4 +36,24 @@ export const actions = {
 
 		return fail(response.status, { errors: [(await response.json()).message] });
 	},
+
+	unfavorite: async ({ request, locals, fetch }) => {
+		const data = await request.formData();
+		const listingToFavorite = data.get('listing_id') as string;
+		const favoritingUser = locals.data?.userID!;
+
+		const response = await fetch('/api/favorite', {
+			method: 'DELETE',
+			body: JSON.stringify({
+				listingID: listingToFavorite,
+				favoritingUser,
+			}),
+		});
+
+		if (response.ok) {
+			throw redirect(302, '/feed');
+		}
+
+		return fail(response.status, { errors: [(await response.json()).message] });
+	},
 } satisfies Actions;
