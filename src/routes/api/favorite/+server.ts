@@ -33,3 +33,33 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	return json({});
 };
+
+export const DELETE: RequestHandler = async ({ request }) => {
+	const { listingID, favoritingUser } = await request.json();
+
+	try {
+		await prisma.favorite.delete({
+			where: {
+				userId_listingId: {
+					userId: favoritingUser,
+					listingId: listingID,
+				},
+			},
+		});
+	} catch (err) {
+		const typedError = err as PrismaClientKnownRequestError;
+
+		// user hasn't already favorited the post
+		if (typedError.code === 'P2025') {
+			throw error(409, {
+				message: 'Listing has not been previously favorited by user.',
+			});
+		}
+
+		throw error(500, {
+			message: typedError.message,
+		});
+	}
+
+	return json({});
+};
