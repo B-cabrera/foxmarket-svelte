@@ -35,16 +35,21 @@
 						I'm Interested
 					</button>
 
-					<!-- TODO: Have this button add the listing to the user's favorites -->
-					<button class="btn py-2 !border-2 text-xl font-bold text-slate-50 hover:opacity-70">
+					<button
+						class={`btn py-2 !border-2 text-xl font-bold ${
+							item.isFavoritedByCurrentUser ? 'bg-maristgrey text-slate-950' : 'text-slate-50'
+						} hover:opacity-70`}
+					>
 						<span
 							tabindex="0"
 							role="button"
-							class="text-maristred text-2xl font-bold material-symbols-outlined reg_symbol hover:cursor-pointer pr-2"
+							class={`text-maristred text-2xl font-bold material-symbols-outlined ${
+								item.isFavoritedByCurrentUser ? 'fill_symbol' : 'reg_symbol'
+							} hover:cursor-pointer pr-2`}
 						>
 							favorite
 						</span>
-						Favorite
+						{item.isFavoritedByCurrentUser ? 'Unfavorite' : 'Favorite'}
 					</button>
 				{:else}
 					<button
