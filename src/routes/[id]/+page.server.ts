@@ -6,6 +6,9 @@ import type { Listing } from '@prisma/client';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
+	interface ListingWithFavoriteBool extends Listing {
+		isFavoritedByCurrentUser?: string;
+	}
 	const itemID = params.id;
 
 	// get the listing info
@@ -17,7 +20,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	const { username, itemsSold } = await sellerInfo.json();
 
 	return {
-		theItem: item as Listing,
+		theItem: item as ListingWithFavoriteBool,
 		sellerUsername: username as string,
 		sellerItemsSold: itemsSold as number,
 	};
