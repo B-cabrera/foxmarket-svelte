@@ -1,10 +1,31 @@
 <script lang="ts">
+	import { applyAction, enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import type { PageData } from './$types';
+	import { goto, invalidate } from '$app/navigation';
 
 	export let data: PageData;
 
-	const item = data.theItem;
+	$: ({ theItem: item } = data);
+
 	const seller = { username: data.sellerUsername, itemsSold: data.sellerItemsSold };
+	let isLoading: boolean;
+
+	const submitForm: SubmitFunction = () => {
+		isLoading = true;
+
+		return async ({ result }) => {
+			isLoading = false;
+
+			if (result.type === 'redirect') {
+				await goto(`/${item.id}`, {
+					invalidateAll: true,
+				});
+			} else {
+				await applyAction(result);
+			}
+		};
+	};
 </script>
 
 <div class="flex w-full h-[calc(100vh-56px)]">
@@ -35,22 +56,25 @@
 						I'm Interested
 					</button>
 
-					<button
-						class={`btn py-2 !border-2 text-xl font-bold ${
-							item.isFavoritedByCurrentUser ? 'bg-maristgrey text-slate-950' : 'text-slate-50'
-						} hover:opacity-70`}
-					>
-						<span
-							tabindex="0"
-							role="button"
-							class={`text-maristred text-2xl font-bold material-symbols-outlined ${
-								item.isFavoritedByCurrentUser ? 'fill_symbol' : 'reg_symbol'
-							} hover:cursor-pointer pr-2`}
+					<form method="POST" action="/feed?/favorite" use:enhance={submitForm}>
+						<input type="hidden" name="listing_id" value={item.id} />
+						<button
+							class={`btn py-2 !border-2 text-xl font-bold ${
+								item.isFavoritedByCurrentUser ? 'bg-maristgrey text-slate-950' : 'text-slate-50'
+							} hover:opacity-70 w-full`}
 						>
-							favorite
-						</span>
-						{item.isFavoritedByCurrentUser ? 'Unfavorite' : 'Favorite'}
-					</button>
+							<span
+								tabindex="0"
+								role="button"
+								class={`text-maristred text-2xl font-bold material-symbols-outlined ${
+									item.isFavoritedByCurrentUser ? 'fill_symbol' : 'reg_symbol'
+								} hover:cursor-pointer pr-2`}
+							>
+								favorite
+							</span>
+							{item.isFavoritedByCurrentUser ? 'Unfavorite' : 'Favorite'}
+						</button>
+					</form>
 				{:else}
 					<button
 						class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
