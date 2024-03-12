@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { Listing } from '@prisma/client';
 
 	interface ListingWithFavoriteBool extends Listing {
@@ -16,6 +17,7 @@
 			<form
 				method="POST"
 				action={`/feed?${listing.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}`}
+				use:enhance
 			>
 				<input type="hidden" name="listing_id" value={listing.id} />
 				<button
