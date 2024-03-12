@@ -56,7 +56,11 @@
 						I'm Interested
 					</button>
 
-					<form method="POST" action="/feed?/favorite" use:enhance={submitForm}>
+					<form
+						method="POST"
+						action={`/feed?${item.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}`}
+						use:enhance={submitForm}
+					>
 						<input type="hidden" name="listing_id" value={item.id} />
 						<button
 							class={`btn py-2 !border-2 text-xl font-bold ${
