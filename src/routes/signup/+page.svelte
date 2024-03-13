@@ -30,7 +30,7 @@
 		<img src={logo} alt="FoxMarket Logo" class="w-3/4 pt-6" />
 		<p class="text-slate-50 text-2xl font-semibold">Join FoxMarket!</p>
 
-		<form method="POST" class="flex flex-col w-2/3 gap-8 items-center">
+		<form method="POST" class="flex flex-col w-2/3 gap-8 items-center" autocomplete="off">
 			<input
 				name="username"
 				type="text"

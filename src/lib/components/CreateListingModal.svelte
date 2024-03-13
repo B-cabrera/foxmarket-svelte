@@ -27,6 +27,7 @@
 		class="flex flex-col w-2/3 gap-8 items-center"
 		enctype="multipart/form-data"
 		use:enhance={submitForm}
+		autocomplete="off"
 	>
 		<input
 			name="title"
