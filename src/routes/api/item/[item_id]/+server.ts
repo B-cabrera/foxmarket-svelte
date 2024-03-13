@@ -5,14 +5,24 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params, locals }) => {
 	const itemID = params.item_id;
 
 	const item = await prisma.listing.findFirst({
 		where: {
 			id: itemID,
 		},
+		include: {
+			favoritedBy: true,
+		},
 	});
 
-	return json({ item });
+	const isFavoritedByCurrentUser = item?.favoritedBy.some(
+		(favorite) => favorite.userId.toString() === locals.data?.userID,
+	);
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { favoritedBy, ...restOfListing } = item!;
+
+	return json({ item: { ...restOfListing, isFavoritedByCurrentUser } });
 };

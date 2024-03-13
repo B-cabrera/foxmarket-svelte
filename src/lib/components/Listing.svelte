@@ -1,28 +1,40 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { Listing } from '@prisma/client';
 
-	export let listing: Listing;
-	export let display: 'row' | 'card' = 'card';
-
-	function favoriteListing(event: Event) {
-		event.preventDefault();
-		console.log('Favorite');
+	interface ListingWithFavoriteBool extends Listing {
+		isFavoritedByCurrentUser?: string;
 	}
+
+	export let listing: ListingWithFavoriteBool;
+	export let display: 'row' | 'card' = 'card';
+	export let userID: string;
 </script>
 
 {#if display == 'card'}
 	<div class="relative h-min text-slate-50">
-		<a href={`/${listing.id}`} class="inline-block h-full w-full">
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<span
-				on:click={favoriteListing}
-				tabindex="0"
-				role="button"
-				class="absolute text-maristred text-4xl font-bold material-symbols-outlined right-0 hover:cursor-pointer"
+		{#if listing.sellerId != userID}
+			<form
+				method="POST"
+				action={`/feed?${listing.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}`}
+				use:enhance
 			>
-				favorite
-			</span>
+				<input type="hidden" name="listing_id" value={listing.id} />
+				<button
+					class="absolute right-0 border rounded-md bg-slate-300 hover:opacity-60 border-maristdarkgrey"
+				>
+					<span
+						class={`material-symbols-outlined ${
+							listing.isFavoritedByCurrentUser ? 'fill_symbol' : 'reg_symbol'
+						} text-maristred font-bold text-3xl p-0.5`}
+					>
+						favorite
+					</span>
+				</button>
+			</form>
+		{/if}
 
+		<a href={`/${listing.id}`} class="inline-block h-full w-full">
 			<img src={listing.imageUrl} alt="" class="aspect-square max-w-[100%]" />
 			<div class="flex pt-2 justify-between">
 				<p>{listing.listingTitle}</p>

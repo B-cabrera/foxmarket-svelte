@@ -56,9 +56,10 @@ model Listing {
 
 // Representing the many:many relationship with users and favorited listings
 model Favorite {
-  id        Int     @id @default(autoincrement())
   user      User    @relation(fields: [userId], references: [id])
   userId    String  @db.Uuid // the ID of the user who favorited the listing
   listing   Listing @relation(fields: [listingId], references: [id])
   listingId String  @db.Uuid // the ID of the post that the user favorited
+
+  @@id([userId, listingId])
 }

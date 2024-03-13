@@ -21,7 +21,7 @@
 		<img src={logo} alt="The FoxMarket Logo" class="w-[250px] px-4 py-2" />
 	</a>
 	<div class="flex w-[55%] items-center">
-		<i class="material-symbols-outlined text-maristgrey absolute px-2"> search </i>
+		<i class="material-symbols-outlined reg_symbol text-maristgrey absolute px-2"> search </i>
 		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
 	</div>
 
