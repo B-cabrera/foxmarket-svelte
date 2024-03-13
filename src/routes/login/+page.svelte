@@ -20,7 +20,7 @@
 	<img src={logo} class="w-1/2" alt="FoxMarket Logo" />
 </div>
 
-<form method="POST" class="flex flex-col items-center mt-20 gap-8">
+<form method="POST" class="flex flex-col items-center mt-20 gap-8" autocomplete="off">
 	<input name="email" type="text" class="input w-1/2 !h-10 pl-4" placeholder="Email" />
 	<input name="password" type="password" class="input w-1/2 !h-10 pl-4" placeholder="Password" />
 
