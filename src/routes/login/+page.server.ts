@@ -20,7 +20,7 @@ export const actions = {
 
 		// validation failed
 		if (!result) {
-			return fail(400, { error: true });
+			return fail(400, { error: true, email });
 		}
 
 		// send the login up request
@@ -41,6 +41,6 @@ export const actions = {
 			throw redirect(302, '/feed');
 		}
 
-		return fail(400);
+		return fail(400, { error: true, email });
 	},
 };
