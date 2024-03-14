@@ -36,6 +36,7 @@
 				type="text"
 				class="input focus:border-slate-950 pl-2"
 				placeholder="Username"
+				value={form?.username ?? ''}
 				required
 			/>
 			<input
@@ -43,6 +44,7 @@
 				type="email"
 				class="input focus:border-slate-950 pl-2"
 				placeholder="Email"
+				value={form?.email ?? ''}
 				required
 			/>
 			<input
