@@ -8,7 +8,7 @@ import Sizes from '$lib/utils/Sizes';
 const listingSchema = z.object({
 	title: z.string().min(1).max(30),
 	description: z.string().min(1).max(100),
-	price: z.number(),
+	price: z.number().positive(),
 	location: z.nativeEnum(Dorms),
 	brand: z.string().min(1).max(30),
 	image: z.instanceof(File),
