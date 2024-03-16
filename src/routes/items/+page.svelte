@@ -13,6 +13,19 @@
 	export let data: PageData;
 	export let form: ActionData;
 
+	$: {
+		const errors = form?.errors;
+
+		if (errors) {
+			errors.forEach((error) => {
+				toastStore.trigger({
+					message: `Creation failed: ${error}`,
+					classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+				});
+			});
+		}
+	}
+
 	const userID = data.userID!;
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = { ref: CreateListingModal };
@@ -35,16 +48,6 @@
 				item.listingTitle.toLowerCase().includes(searchQuery.trim().toLowerCase()) &&
 				item.sold == showSold
 			);
-		});
-	}
-
-	// display toasts with form submission error messages
-	if (form?.errors) {
-		form.errors.forEach((error) => {
-			toastStore.trigger({
-				message: error,
-				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
-			});
 		});
 	}
 
