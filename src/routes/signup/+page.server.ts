@@ -26,7 +26,7 @@ export const actions = {
 
 		// on validation failure
 		if (!result.success) {
-			return fail(400, { errors: result.errors });
+			return fail(400, { errors: result.errors, username, email });
 		}
 
 		// send the sign up request
@@ -48,6 +48,6 @@ export const actions = {
 		}
 
 		// on registration failure
-		return fail(400, { errors: [(await response.json()).message] });
+		return fail(400, { errors: [(await response.json()).message], username, email });
 	},
 } satisfies Actions;

@@ -21,7 +21,13 @@
 </div>
 
 <form method="POST" class="flex flex-col items-center mt-20 gap-8" autocomplete="off">
-	<input name="email" type="text" class="input w-1/2 !h-10 pl-4" placeholder="Email" />
+	<input
+		name="email"
+		type="text"
+		class="input w-1/2 !h-10 pl-4"
+		placeholder="Email"
+		value={form?.email ?? ''}
+	/>
 	<input name="password" type="password" class="input w-1/2 !h-10 pl-4" placeholder="Password" />
 
 	<button class="w-[20%] py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
