@@ -4,7 +4,7 @@
 	let toastStore = getToastStore();
 
 	async function logUserOut() {
-		const response = await fetch(`http://localhost:5173/api/users/logout`, {
+		const response = await fetch(`/api/users/logout`, {
 			method: 'POST',
 		});
 
