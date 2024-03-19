@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import ListingInfoDisplay from '$lib/components/ListingInfoDisplay.svelte';
+	import EditForm from '$lib/components/EditForm.svelte';
 
 	export let data: PageData;
 
@@ -11,6 +12,7 @@
 
 	const seller = { username: data.sellerUsername, itemsSold: data.sellerItemsSold };
 	const viewingUserID = data.userID!;
+	let isEditing = false;
 	let isLoading: boolean;
 
 	const submitForm: SubmitFunction = () => {
@@ -34,5 +36,15 @@
 	<div class="w-3/5 grid place-items-center">
 		<img class="w-4/6 aspect-square" src={item.imageUrl} alt="" />
 	</div>
-	<ListingInfoDisplay {item} {seller} {viewingUserID} submitFunction={submitForm} />
+	{#if isEditing}
+		<EditForm bind:isEditing {item} />
+	{:else}
+		<ListingInfoDisplay
+			{item}
+			{seller}
+			{viewingUserID}
+			submitFunction={submitForm}
+			bind:isEditing
+		/>
+	{/if}
 </div>
