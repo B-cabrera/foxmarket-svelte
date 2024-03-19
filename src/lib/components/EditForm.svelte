@@ -12,6 +12,7 @@
 	let isLoading = false;
 
 	export let item: ListingWithFavoriteBool;
+	export let isEditing: boolean;
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -105,11 +106,20 @@
 			</svelte:fragment>
 		</FileDropzone>
 
-		<button
-			class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl font-semibold py-1 hover:opacity-80 disabled:opacity-50 mb-3"
-			disabled={isLoading}
-		>
-			{isLoading ? 'Submitting...' : 'List Item'}
-		</button>
+		<div class="flex justify-evenly w-full">
+			<button
+				class="w-1/3 bg-maristred border-slate-50 border-2 mt-8 text-xl text-slate-50 py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+				disabled={isLoading}
+			>
+				{isLoading ? 'Submitting...' : 'List Item'}
+			</button>
+			<button
+				class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl text-slate-950 py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+				disabled={isLoading}
+				on:click={() => (isEditing = false)}
+			>
+				Cancel
+			</button>
+		</div>
 	</form>
 </div>

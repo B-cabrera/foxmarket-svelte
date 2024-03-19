@@ -16,6 +16,7 @@
 	export let seller: SellerInfo;
 	export let viewingUserID: string;
 	export let submitFunction: SubmitFunction;
+	export let isEditing: boolean;
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -67,6 +68,7 @@
 			{:else}
 				<button
 					class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+					on:click={() => (isEditing = true)}
 				>
 					<span
 						tabindex="0"
