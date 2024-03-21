@@ -3,14 +3,12 @@
 	import Dorms from '$lib/utils/Dorms';
 	import Sizes from '$lib/utils/Sizes';
 	import type { Listing } from '@prisma/client';
-	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
 	}
 
-	let file: FileList;
 	let isLoading = false;
 
 	export let item: ListingWithFavoriteBool;
@@ -134,32 +132,6 @@
 				{/each}
 			</select>
 		</div>
-
-		<FileDropzone
-			name="file"
-			class="text-slate-50"
-			accept="image/jpg, image/png, image/jpeg, image/heic"
-			bind:files={file}
-			required
-		>
-			<svelte:fragment slot="lead">
-				{#if !file}
-					<span class="material-symbols-outlined text-5xl"> upload_file </span>
-				{:else}
-					<span class="material-symbols-outlined text-5xl"> image </span>
-				{/if}
-			</svelte:fragment>
-
-			<svelte:fragment slot="message">
-				{#if !file}
-					<p class="font-bold tracking-wide">
-						Upload or drag and drop a photo of your item to replace current image!
-					</p>
-				{:else}
-					<p class="font-bold tracking-wide text-xl">{file.item(0)?.name}</p>
-				{/if}
-			</svelte:fragment>
-		</FileDropzone>
 
 		<div class="flex justify-evenly w-full">
 			<button
