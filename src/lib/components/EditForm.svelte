@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Dorms from '$lib/utils/Dorms';
 	import Sizes from '$lib/utils/Sizes';
 	import type { Listing } from '@prisma/client';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
@@ -16,13 +18,42 @@
 
 	const originalItem = item;
 	const editedItem = {
-		editedTitle: item.listingTitle,
-		editedDescription: item.description,
-		editedPrice: item.price,
-		editedBrand: item.brand,
-		editedSize: item.size,
-		editedLocation: item.location,
+		listingTitle: item.listingTitle,
+		description: item.description,
+		price: item.price,
+		brand: item.brand,
+		size: item.size,
+		location: item.location,
 	};
+
+	const submitForm: SubmitFunction = ({ formData }) => {
+		isLoading = true;
+		const uneditedFields = getUneditedFieldNames();
+
+		// send only the edit fields
+		for (let uneditedFieldName of uneditedFields) {
+			formData.delete(uneditedFieldName);
+		}
+
+		return async ({ update }) => {
+			isLoading = false;
+			await update();
+		};
+	};
+
+	function getUneditedFieldNames(): string[] {
+		const uneditedFieldNames: string[] = [];
+
+		for (const [key, editedValue] of Object.entries(editedItem)) {
+			const originalValue = originalItem[key as keyof typeof originalItem];
+
+			if (editedValue === originalValue) {
+				uneditedFieldNames.push(key === 'listingTitle' ? 'title' : key);
+			}
+		}
+
+		return uneditedFieldNames;
+	}
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -30,6 +61,8 @@
 		method="POST"
 		class="flex flex-col w-2/3 gap-8 items-center"
 		enctype="multipart/form-data"
+		action="/items?/edit"
+		use:enhance={submitForm}
 		autocomplete="off"
 	>
 		<input
@@ -38,7 +71,7 @@
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Title"
 			maxlength="30"
-			bind:value={editedItem.editedTitle}
+			bind:value={editedItem.listingTitle}
 			required
 		/>
 		<textarea
@@ -47,7 +80,7 @@
 			rows="3"
 			placeholder="Description"
 			maxlength="100"
-			bind:value={editedItem.editedDescription}
+			bind:value={editedItem.description}
 			required
 		/>
 		<input
@@ -56,7 +89,7 @@
 			inputmode="numeric"
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Price"
-			bind:value={editedItem.editedPrice}
+			bind:value={editedItem.price}
 			required
 		/>
 
@@ -66,14 +99,14 @@
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Brand"
 			maxlength="30"
-			bind:value={editedItem.editedBrand}
+			bind:value={editedItem.brand}
 			required
 		/>
 		<div class="flex w-full justify-between">
 			<select
 				name="size"
 				class="bg-maristgrey w-1/3 text-center"
-				bind:value={editedItem.editedSize}
+				bind:value={editedItem.size}
 				required
 			>
 				<option selected disabled value="">Size</option>
@@ -85,7 +118,7 @@
 			<select
 				name="location"
 				class="w-1/2 text-center bg-maristgrey"
-				bind:value={editedItem.editedLocation}
+				bind:value={editedItem.location}
 				required
 			>
 				<option selected disabled value="">Location</option>
