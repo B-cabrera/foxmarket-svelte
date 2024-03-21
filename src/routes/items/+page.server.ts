@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
 };
 
 export const actions = {
-	default: async (event) => {
+	new: async (event) => {
 		const { request, fetch } = event;
 		const data = await request.formData();
 
