@@ -6,7 +6,7 @@ import type { Listing } from '@prisma/client';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { validateNewListing } from '$lib/validation/newListingSchema';
-import type Dorms from '$lib/utils/Dorms';
+import Dorms from '$lib/utils/Dorms';
 import type Sizes from '$lib/utils/Sizes';
 
 export const load: PageServerLoad = async ({ fetch, locals }) => {
@@ -29,7 +29,11 @@ export const actions = {
 		const price = parseInt(data.get('price') as string, 10);
 		const brand = data.get('brand') as string;
 		const size = data.get('size') as Sizes;
-		const location = data.get('location') as Dorms;
+		const locationString = data.get('location') as string;
+		const location = Object.values(Dorms)[
+			Object.keys(Dorms).indexOf(locationString as unknown as Dorms)
+		] as Dorms;
+
 		const image = data.get('file') as File;
 
 		const result = validateNewListing({
@@ -57,7 +61,7 @@ export const actions = {
 				price,
 				brand,
 				size,
-				location,
+				location: locationString,
 			}),
 		);
 

@@ -72,8 +72,8 @@
 
 			<select name="location" class="w-1/2 text-center bg-maristgrey" required>
 				<option selected disabled value="">Location</option>
-				{#each Object.values(Dorms) as dorm}
-					<option value={dorm}>{dorm}</option>
+				{#each Object.entries(Dorms) as [dormKey, dormValue]}
+					<option value={dormKey}>{dormValue}</option>
 				{/each}
 			</select>
 		</div>
