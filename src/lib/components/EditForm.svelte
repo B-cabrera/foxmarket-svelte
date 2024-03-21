@@ -26,9 +26,16 @@
 		location: item.location,
 	};
 
-	const submitForm: SubmitFunction = ({ formData }) => {
+	const submitForm: SubmitFunction = ({ formData, cancel }) => {
 		isLoading = true;
 		const uneditedFields = getUneditedFieldNames();
+		const noFieldsEdited = uneditedFields.length === 6;
+
+		if (noFieldsEdited) {
+			isLoading = false;
+
+			cancel();
+		}
 
 		// send only the edit fields
 		for (let uneditedFieldName of uneditedFields) {
