@@ -13,6 +13,16 @@
 
 	export let item: ListingWithFavoriteBool;
 	export let isEditing: boolean;
+
+	const originalItem = item;
+	const editedItem = {
+		editedTitle: item.listingTitle,
+		editedDescription: item.description,
+		editedPrice: item.price,
+		editedBrand: item.brand,
+		editedSize: item.size,
+		editedLocation: item.location,
+	};
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -28,7 +38,7 @@
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Title"
 			maxlength="30"
-			value={item.listingTitle}
+			bind:value={editedItem.editedTitle}
 			required
 		/>
 		<textarea
@@ -37,7 +47,7 @@
 			rows="3"
 			placeholder="Description"
 			maxlength="100"
-			value={item.description}
+			bind:value={editedItem.editedDescription}
 			required
 		/>
 		<input
@@ -46,7 +56,7 @@
 			inputmode="numeric"
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Price"
-			value={item.price}
+			bind:value={editedItem.editedPrice}
 			required
 		/>
 
@@ -56,11 +66,16 @@
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Brand"
 			maxlength="30"
-			value={item.brand}
+			bind:value={editedItem.editedBrand}
 			required
 		/>
 		<div class="flex w-full justify-between">
-			<select name="size" class="bg-maristgrey w-1/3 text-center" value={item.size} required>
+			<select
+				name="size"
+				class="bg-maristgrey w-1/3 text-center"
+				bind:value={editedItem.editedSize}
+				required
+			>
 				<option selected disabled value="">Size</option>
 				{#each Object.values(Sizes) as size}
 					<option value={size}>{size}</option>
@@ -70,7 +85,7 @@
 			<select
 				name="location"
 				class="w-1/2 text-center bg-maristgrey"
-				value={item.location}
+				bind:value={editedItem.editedLocation}
 				required
 			>
 				<option selected disabled value="">Location</option>
