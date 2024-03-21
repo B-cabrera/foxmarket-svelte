@@ -115,6 +115,7 @@
 			</button>
 			<button
 				class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl text-slate-950 py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+				type="button"
 				disabled={isLoading}
 				on:click={() => (isEditing = false)}
 			>
