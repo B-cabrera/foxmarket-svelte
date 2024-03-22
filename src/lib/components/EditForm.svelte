@@ -40,6 +40,8 @@
 			formData.delete(uneditedFieldName);
 		}
 
+		formData.append('id', item.id);
+
 		return async ({ update }) => {
 			isLoading = false;
 			await update();
