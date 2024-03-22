@@ -44,6 +44,8 @@
 
 		return async ({ update }) => {
 			isLoading = false;
+			isEditing = false;
+
 			await update();
 		};
 	};
