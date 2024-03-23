@@ -1,12 +1,29 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
+	import { applyAction } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import ListingInfoDisplay from '$lib/components/ListingInfoDisplay.svelte';
 	import EditForm from '$lib/components/EditForm.svelte';
+	import type { ActionData } from '../items/$types';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
+	export let form: ActionData;
+	let toastStore = getToastStore();
+
+	$: {
+		const errors = form?.errors;
+
+		if (errors) {
+			errors.forEach((error) => {
+				toastStore.trigger({
+					message: `Edit failed: ${error}`,
+					classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+				});
+			});
+		}
+	}
 
 	$: ({ theItem: item } = data);
 
