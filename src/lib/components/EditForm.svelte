@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import Dorms from '$lib/utils/Dorms';
 	import Sizes from '$lib/utils/Sizes';
 	import type { Listing } from '@prisma/client';
@@ -42,11 +42,11 @@
 
 		formData.append('id', item.id);
 
-		return async ({ update }) => {
+		return async ({ update, result }) => {
 			isLoading = false;
 			isEditing = false;
 
-			await update();
+			await applyAction(result);
 		};
 	};
 
