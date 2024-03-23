@@ -97,7 +97,9 @@ export const actions = {
 		// only adding non null values to body
 		title && (body = { ...body, title });
 		description && (body = { ...body, description });
-		price && (body = { ...body, price });
+		if (price !== null) {
+			body = { ...body, price };
+		}
 		brand && (body = { ...body, brand });
 		size && (body = { ...body, size });
 		location && (body = { ...body, location });
