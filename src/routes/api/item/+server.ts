@@ -8,7 +8,6 @@ import type { Dorm } from '@prisma/client';
 import type { RequestHandler } from './$types';
 import supabaseClient from '$lib/utils/supabaseClient';
 import prisma from '$lib/utils/prismaClient';
-import Dorms from '$lib/utils/Dorms';
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const listingData = await request.formData();
@@ -19,9 +18,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const imageID = crypto.randomUUID() as string;
 	const titleString = title as string;
 	const imageTitleTransformation = titleString.split(' ').join('_') + imageID;
-	const locationString = location as string;
-	const locationTransformation =
-		Object.keys(Dorms)[Object.values(Dorms).indexOf(locationString as unknown as Dorms)];
+	const locationString = location as Dorm;
 
 	// upload image first
 	const { data, error } = await supabaseClient.storage
@@ -41,7 +38,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				price,
 				brand,
 				size,
-				location: locationTransformation as Dorm,
+				location: locationString as Dorm,
 				imageUrl: fileInfo.publicUrl,
 				// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
 				sellerId: locals.data?.userID!,

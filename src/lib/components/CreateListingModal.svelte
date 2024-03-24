@@ -25,6 +25,7 @@
 	<form
 		method="POST"
 		class="flex flex-col w-2/3 gap-8 items-center"
+		action="/items?/new"
 		enctype="multipart/form-data"
 		use:enhance={submitForm}
 		autocomplete="off"
@@ -72,8 +73,8 @@
 
 			<select name="location" class="w-1/2 text-center bg-maristgrey" required>
 				<option selected disabled value="">Location</option>
-				{#each Object.values(Dorms) as dorm}
-					<option value={dorm}>{dorm}</option>
+				{#each Object.entries(Dorms) as [dormKey, dormValue]}
+					<option value={dormKey}>{dormValue}</option>
 				{/each}
 			</select>
 		</div>
