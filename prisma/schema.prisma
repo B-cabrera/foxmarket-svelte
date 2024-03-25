@@ -31,10 +31,14 @@ enum Dorm {
 
 // Represent a user in the marketplace
 model User {
-  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // references supabase auth.users
-  username  String     @unique
-  listings  Listing[] // all the listings posted by the user
-  favorites Favorite[] // all the listing that the user has favorited
+  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // references supabase auth.users
+  username         String     @unique
+  listings         Listing[] // all the listings posted by the user
+  favorites        Favorite[] // all the listing that the user has favorited
+  ChatsSelling     Chat[]     @relation("ChatSeller")
+  ChatsBuying      Chat[]     @relation("ChatBuyer")
+  SentMessages     Message[]  @relation("SentMessages")
+  RecievedMessages Message[]  @relation("ReceivedMessages")
 }
 
 // Representing a post by a seller in the marketplace
@@ -52,6 +56,7 @@ model Listing {
   size         String?    @db.VarChar(4)
   sold         Boolean    @default(false)
   favoritedBy  Favorite[] // only included to satisfy Prisma relation requirement
+  Chats        Chat[] // only included to satisfy Prisma relation requirement
 }
 
 // Representing the many:many relationship with users and favorited listings
@@ -62,4 +67,24 @@ model Favorite {
   listingId String  @db.Uuid // the ID of the post that the user favorited
 
   @@id([userId, listingId])
+}
+
+model Chat {
+  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  item     Listing @relation(fields: [itemId], references: [id])
+  itemId   String  @db.Uuid // item that "sparked" the conversation
+  seller   User    @relation("ChatSeller", fields: [sellerId], references: [id])
+  sellerId String  @db.Uuid
+  buyer    User    @relation("ChatBuyer", fields: [buyerId], references: [id])
+  buyerId  String  @db.Uuid
+}
+
+model Message {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  timeSent   DateTime @db.Timestamp(3)
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId   String   @db.Uuid
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId String   @db.Uuid
+  content    String   @db.VarChar(250)
 }
