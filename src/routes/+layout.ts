@@ -6,8 +6,8 @@ import { createBrowserClient } from '@supabase/ssr';
 import type { LayoutLoad } from './$types';
 import { PUBLIC_SUPABASE_ANON, PUBLIC_SUPABASE_URL } from '$env/static/public';
 
-export const load = (async () => {
+export const load = (async ({ data }) => {
 	const supabaseBrowserClient = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON);
 
-	return { supabaseBrowserClient };
+	return { ...data, supabaseBrowserClient };
 }) satisfies LayoutLoad;
