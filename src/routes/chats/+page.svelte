@@ -3,6 +3,7 @@
 	import MessageFeedBlock from '$lib/components/MessageFeedBlock.svelte';
 	import TwoButtonToggle from '$lib/components/TwoButtonToggle.svelte';
 	import type { PageData } from './$types';
+	import ChatListDisplay from '$lib/components/ChatListDisplay.svelte';
 	import type { ChatInformation } from './+page.server';
 
 	export let data: PageData;
@@ -28,6 +29,7 @@
 <div class="h-[calc(100vh-56px)] w-full grid grid-cols-[250px_1fr]">
 	<div class="flex flex-col items-center border pt-0">
 		<TwoButtonToggle bind:isLeftActive={isBuyingActive} />
+		<ChatListDisplay bind:activeChatIndex chatList={isBuyingActive ? buyingChats : sellingChats} />
 	</div>
 	<div class="border">
 		<div class="h-full grid grid-rows-[1fr_auto]">
