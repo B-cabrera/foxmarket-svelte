@@ -70,21 +70,24 @@ model Favorite {
 }
 
 model Chat {
-  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  item     Listing @relation(fields: [itemId], references: [id])
-  itemId   String  @db.Uuid // item that "sparked" the conversation
-  seller   User    @relation("ChatSeller", fields: [sellerId], references: [id])
-  sellerId String  @db.Uuid
-  buyer    User    @relation("ChatBuyer", fields: [buyerId], references: [id])
-  buyerId  String  @db.Uuid
+  id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  item     Listing   @relation(fields: [itemId], references: [id])
+  itemId   String    @db.Uuid // item that "sparked" the conversation
+  seller   User      @relation("ChatSeller", fields: [sellerId], references: [id])
+  sellerId String    @db.Uuid
+  buyer    User      @relation("ChatBuyer", fields: [buyerId], references: [id])
+  buyerId  String    @db.Uuid
+  Message  Message[]
 }
 
 model Message {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  timeSent   DateTime @db.Timestamp(3)
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-  senderId   String   @db.Uuid
-  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId String   @db.Uuid
-  content    String   @db.VarChar(250)
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  conversation   Chat     @relation(fields: [conversationId], references: [id])
+  conversationId String   @db.Uuid
+  timeSent       DateTime @db.Timestamp(3)
+  sender         User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId       String   @db.Uuid
+  receiver       User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId     String   @db.Uuid
+  content        String   @db.VarChar(250)
 }
