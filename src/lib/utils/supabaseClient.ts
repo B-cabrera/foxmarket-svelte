@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 
 import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_ANON, SUPABASE_URL } from '$env/static/private';
+import { PUBLIC_SUPABASE_ANON, PUBLIC_SUPABASE_URL } from '$env/static/public';
 
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON);
+const supabaseClient = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON);
 
 export default supabaseClient;
