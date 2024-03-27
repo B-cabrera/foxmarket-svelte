@@ -38,7 +38,7 @@
 				messageFeed={activeChat.Message}
 				currentUserID={userID}
 			/>
-			<MessageInput {currentMessage} />
+			<MessageInput bind:currentMessage />
 		</div>
 	</div>
 </div>
