@@ -4,10 +4,36 @@
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
 	import { Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import type { PageData } from './$types';
+	import { onDestroy, onMount } from 'svelte';
 
 	initializeStores();
 
+	export let data: PageData;
+
 	let showAuthedButtons: boolean;
+	let isListenerSetup = false;
+	const { userChannel, userID } = data;
+
+	const setUpUserListener = () => {
+		if (isListenerSetup || userID === undefined) return;
+
+		userChannel.on('broadcast', { event: 'inMessage' }, (payload) => {
+			// temp behavior, will change
+			alert('Message recieved!!!');
+			console.log(payload);
+		});
+
+		isListenerSetup = true;
+	};
+
+	onMount(() => {
+		setUpUserListener();
+	});
+
+	onDestroy(() => {
+		userChannel.unsubscribe();
+	});
 
 	$: {
 		const dep = $page.url.pathname;
