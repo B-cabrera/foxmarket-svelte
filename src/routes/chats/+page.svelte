@@ -7,13 +7,36 @@
 	import type { ChatInformation } from './+page.server';
 
 	export let data: PageData;
-	const { buyingChats, sellingChats } = data;
+	const { buyingChats, sellingChats, userChannel } = data;
 
 	let currentMessage = '';
 	let isBuyingActive = true;
 	let activeChatIndex = 0;
 	let activeChat: ChatInformation;
 	const userID = data.userID!;
+
+	const sendMessage = () => {
+		const newMessage = {
+			conversationId: activeChat.id,
+			message: {
+				conversationId: activeChat.id,
+				timeSent: new Date(Date.now()),
+				senderId: userID,
+				receiverId: activeChat.sellerId == userID ? activeChat.buyerId : activeChat.sellerId,
+				content: currentMessage,
+			},
+		};
+
+		userChannel.send({
+			type: 'broadcast',
+			event: 'outMessage',
+			payload: {
+				newMessage,
+			},
+		});
+
+		currentMessage = '';
+	};
 
 	$: {
 		if (isBuyingActive) {
@@ -38,7 +61,7 @@
 				messageFeed={activeChat.Message}
 				currentUserID={userID}
 			/>
-			<MessageInput bind:currentMessage />
+			<MessageInput bind:currentMessage {sendMessage} />
 		</div>
 	</div>
 </div>
