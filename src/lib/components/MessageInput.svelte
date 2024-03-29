@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	export let currentMessage: string;
 	export let sendMessage: () => void;
 
-	if (browser) {
-		document.getElementById('messageInput')!.addEventListener('keydown', (event) => {
+	onMount(() => {
+		document.getElementById('messageInput')?.addEventListener('keydown', (event) => {
 			if (event.code === 'Enter' && !event.shiftKey) {
 				sendMessage();
 
 				event.preventDefault();
 			}
 		});
-	}
+	});
 </script>
 
 <div class="p-2">
