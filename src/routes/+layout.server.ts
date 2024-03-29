@@ -15,7 +15,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	supabaseClient
 		.channel(userID)
 		.on('broadcast', { event: 'outMessage' }, async (payload) => {
-			const newMessage = payload.payload.newMessage.message as Message;
+			const newMessage = payload.payload as Message;
 			const receiverChannel = supabaseClient.channel(newMessage.receiverId);
 
 			// send message to the reciever
