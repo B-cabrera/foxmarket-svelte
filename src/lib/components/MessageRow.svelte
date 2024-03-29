@@ -4,8 +4,9 @@
 	export let senderName: string;
 	export let message: string;
 	export let isSentFromCurrentUser: boolean;
+	let messageType: 'sender' | 'reciever';
 
-	const messageType = isSentFromCurrentUser ? 'sender' : 'reciever';
+	$: messageType = isSentFromCurrentUser ? 'sender' : 'reciever';
 </script>
 
 <div class={`grid ${isSentFromCurrentUser ? 'grid-cols-[1fr_400px]' : 'grid-cols-[400px_1fr]'}`}>
