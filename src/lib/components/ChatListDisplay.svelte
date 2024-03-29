@@ -1,19 +1,21 @@
 <script lang="ts">
 	import type { ChatInformation } from '../../routes/chats/+page.server';
 
-	export let chatList: ChatInformation[];
-	export let activeChatIndex: number = 0;
+	export let chatMap: Map<string, ChatInformation>;
+	export let activeChatId: string;
 </script>
 
-{#each chatList as chat, i}
+{#each chatMap.entries() as [conversationId, chat]}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		role="button"
 		tabindex="0"
 		class={`flex h-[10%] bg-maristred w-full border-slate-50 text-slate-50 ${
-			activeChatIndex == i && '!bg-slate-700'
+			activeChatId == conversationId && '!bg-slate-700'
 		} border hover:opacity-80 cursor-pointer items-center justify-around`}
-		on:click={() => (activeChatIndex = i)}
+		on:click={() => {
+			activeChatId = conversationId;
+		}}
 	>
 		<img src={chat.item.imageUrl} alt="" class="aspect-square max-w-[20%]" />
 		<div>
