@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import ChatListDisplay from '$lib/components/ChatListDisplay.svelte';
 	import type { ChatInformation } from './+page.server';
+	import type { Message } from '@prisma/client';
 
 	export let data: PageData;
 	const { buyingChatMap, sellingChatMap, userChannel } = data;
@@ -21,15 +22,13 @@
 			return;
 		}
 
-		const newMessage = {
+		const newMessage: Message = {
+			id: '',
 			conversationId: activeChat.id,
-			message: {
-				conversationId: activeChat.id,
-				timeSent: new Date(Date.now()),
-				senderId: userID,
-				receiverId: activeChat.sellerId == userID ? activeChat.buyerId : activeChat.sellerId,
-				content: currentMessage,
-			},
+			timeSent: new Date(Date.now()),
+			senderId: userID,
+			receiverId: activeChat.sellerId == userID ? activeChat.buyerId : activeChat.sellerId,
+			content: currentMessage,
 		};
 
 		userChannel.send({
@@ -67,7 +66,7 @@
 		<div class="h-full grid grid-rows-[1fr_auto]">
 			<MessageFeedBlock
 				otherUserName={isBuyingActive ? activeChat.seller?.username : activeChat.buyer?.username}
-				messageFeed={activeChat.Message}
+				bind:messageFeed={activeChat.Message}
 				currentUserID={userID}
 			/>
 			<MessageInput bind:currentMessage {sendMessage} />
