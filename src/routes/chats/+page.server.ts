@@ -3,6 +3,7 @@
 
 import type { Chat } from '@prisma/client';
 import type { PageServerLoad } from './$types';
+import { addChatsToMap } from '$lib/utils/utils';
 
 export interface ChatInformation extends Chat {
 	item: {
@@ -28,9 +29,14 @@ export interface ChatInformation extends Chat {
 export const load: PageServerLoad = async ({ fetch, locals }) => {
 	const data = await fetch(`/api/chats/${locals.data?.userID}`);
 	const { buyingChats, sellingChats } = await data.json();
+	const buyingChatMap = new Map<string, ChatInformation>();
+	const sellingChatMap = new Map<string, ChatInformation>();
+
+	addChatsToMap(buyingChats, buyingChatMap);
+	addChatsToMap(sellingChats, sellingChatMap);
 
 	return {
-		buyingChats: buyingChats as ChatInformation[],
-		sellingChats: sellingChats as ChatInformation[],
+		buyingChatMap: buyingChatMap as Map<string, ChatInformation>,
+		sellingChatMap: sellingChatMap as Map<string, ChatInformation>,
 	};
 };
