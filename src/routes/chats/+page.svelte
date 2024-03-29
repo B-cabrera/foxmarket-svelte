@@ -16,6 +16,11 @@
 	const userID = data.userID!;
 
 	const sendMessage = () => {
+		if (currentMessage.trim() === '') {
+			currentMessage = '';
+			return;
+		}
+
 		const newMessage = {
 			conversationId: activeChat.id,
 			message: {
