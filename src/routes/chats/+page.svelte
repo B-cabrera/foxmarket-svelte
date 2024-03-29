@@ -7,11 +7,11 @@
 	import type { ChatInformation } from './+page.server';
 
 	export let data: PageData;
-	const { buyingChats, sellingChats, userChannel } = data;
+	const { buyingChatMap, sellingChatMap, userChannel } = data;
 
 	let currentMessage = '';
 	let isBuyingActive = true;
-	let activeChatIndex = 0;
+	let activeChatId = Array.from(buyingChatMap.entries())[0][0];
 	let activeChat: ChatInformation;
 	const userID = data.userID!;
 
@@ -40,11 +40,15 @@
 
 	$: {
 		if (isBuyingActive) {
-			activeChatIndex = activeChatIndex >= buyingChats.length ? 0 : activeChatIndex;
-			activeChat = buyingChats[activeChatIndex];
+			activeChatId = buyingChatMap.has(activeChatId)
+				? activeChatId
+				: Array.from(buyingChatMap.entries())[0][0];
+			activeChat = buyingChatMap.get(activeChatId)!;
 		} else {
-			activeChatIndex = activeChatIndex >= sellingChats.length ? 0 : activeChatIndex;
-			activeChat = sellingChats[activeChatIndex];
+			activeChatId = sellingChatMap.has(activeChatId)
+				? activeChatId
+				: Array.from(sellingChatMap.entries())[0][0];
+			activeChat = sellingChatMap.get(activeChatId)!;
 		}
 	}
 </script>
@@ -52,7 +56,7 @@
 <div class="h-[calc(100vh-56px)] w-full grid grid-cols-[250px_1fr]">
 	<div class="flex flex-col items-center border pt-0">
 		<TwoButtonToggle bind:isLeftActive={isBuyingActive} />
-		<ChatListDisplay bind:activeChatIndex chatList={isBuyingActive ? buyingChats : sellingChats} />
+		<ChatListDisplay bind:activeChatId chatMap={isBuyingActive ? buyingChatMap : sellingChatMap} />
 	</div>
 	<div class="border">
 		<div class="h-full grid grid-rows-[1fr_auto]">
