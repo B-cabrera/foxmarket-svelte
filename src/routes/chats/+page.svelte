@@ -8,7 +8,13 @@
 	import type { Message } from '@prisma/client';
 
 	export let data: PageData;
-	const { buyingChatMap, sellingChatMap, userChannel } = data;
+	const { buyingChatMap, sellingChatMap, userChannel, messageStore } = data;
+	messageStore.subscribe((batch) => {
+		if (batch) {
+			// TODO: handle adding the messages to their conversations
+			console.log(batch);
+		}
+	});
 
 	let currentMessage = '';
 	let isBuyingActive = true;
