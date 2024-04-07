@@ -16,7 +16,7 @@ export interface MessageWithoutID extends Omit<Message, 'id'> {
 	id?: string;
 }
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch }) => {
 	const userID = locals.data?.userID;
 
 	if (isListenerSetup || userID === undefined) return { userID };
@@ -48,12 +48,24 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 							},
 						});
 
+						if (result !== 'ok') {
+							// TODO: HANDLE SEND ERROR HERE
+							console.log(result);
+						} else {
+							// send to server to save
+							await fetch('/api/chats', {
+								method: 'POST',
+								body: JSON.stringify({
+									messages: Array.from(messageBatch.entries()),
+								}),
+							});
+
+							// TODO: handle save error here
+						}
+
 						// reset batch after sending
 						messageBatch.clear();
 						currentTimer = null;
-
-						// HANDLE SEND ERROR HERE
-						console.log(result);
 					}
 				});
 			}, MESSAGE_WAIT_MS);
