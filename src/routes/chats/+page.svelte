@@ -61,6 +61,11 @@
 			},
 		});
 
+		// optomistic update
+		// TODO: need a way here to know if messages were sent successfully
+		activeChat.Message.push(newMessage);
+		activeChat = activeChat;
+
 		currentMessage = '';
 	};
 
