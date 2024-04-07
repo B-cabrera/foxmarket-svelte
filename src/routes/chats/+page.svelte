@@ -9,10 +9,26 @@
 
 	export let data: PageData;
 	const { buyingChatMap, sellingChatMap, userChannel, messageStore } = data;
+
 	messageStore.subscribe((batch) => {
 		if (batch) {
-			// TODO: handle adding the messages to their conversations
-			console.log(batch);
+			batch.forEach((conversationWithMessages) => {
+				const [conversationID, messages] = conversationWithMessages;
+
+				if (buyingChatMap.has(conversationID)) {
+					const buyingConvo = buyingChatMap.get(conversationID)!;
+
+					buyingConvo.Message.push(...messages);
+
+					if (activeChatId == conversationID) activeChat = buyingConvo;
+				} else if (sellingChatMap.has(conversationID)) {
+					const sellingConvo = sellingChatMap.get(conversationID)!;
+
+					sellingConvo.Message.push(...messages);
+
+					if (activeChatId == conversationID) activeChat = sellingConvo;
+				}
+			});
 		}
 	});
 
