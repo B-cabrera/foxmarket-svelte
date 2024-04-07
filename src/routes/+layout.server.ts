@@ -12,6 +12,10 @@ let currentTimer: NodeJS.Timeout | null = null;
 const messageBatch = new Map<string, Message[]>();
 const MESSAGE_WAIT_MS = 500;
 
+export interface MessageWithoutID extends Omit<Message, 'id'> {
+	id?: string;
+}
+
 export const load: LayoutServerLoad = async ({ locals }) => {
 	const userID = locals.data?.userID;
 
