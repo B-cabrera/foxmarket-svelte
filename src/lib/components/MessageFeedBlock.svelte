@@ -1,14 +1,8 @@
 <script lang="ts">
+	import type { MessageWithoutID } from '../../routes/proxy+layout.server';
 	import MessageRow from './MessageRow.svelte';
 
-	export let messageFeed: {
-		id: string;
-		conversationId: string;
-		timeSent: Date;
-		senderId: string;
-		receiverId: string;
-		content: string;
-	}[];
+	export let messageFeed: MessageWithoutID[];
 	export let otherUserName: string | undefined;
 	export let currentUserID: string;
 

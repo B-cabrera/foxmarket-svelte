@@ -4,6 +4,7 @@
 import type { Chat } from '@prisma/client';
 import type { PageServerLoad } from './$types';
 import { addChatsToMap } from '$lib/utils/utils';
+import type { MessageWithoutID } from '../+layout.server';
 
 export interface ChatInformation extends Chat {
 	item: {
@@ -16,14 +17,7 @@ export interface ChatInformation extends Chat {
 	buyer?: {
 		username: string;
 	};
-	Message: {
-		id: string;
-		conversationId: string;
-		timeSent: Date;
-		senderId: string;
-		receiverId: string;
-		content: string;
-	}[];
+	Message: MessageWithoutID[];
 }
 
 export const load: PageServerLoad = async ({ fetch, locals }) => {

@@ -5,7 +5,7 @@
 	import type { PageData } from './$types';
 	import ChatListDisplay from '$lib/components/ChatListDisplay.svelte';
 	import type { ChatInformation } from './+page.server';
-	import type { Message } from '@prisma/client';
+	import type { MessageWithoutID } from '../proxy+layout.server';
 
 	export let data: PageData;
 	const { buyingChatMap, sellingChatMap, userChannel, messageStore } = data;
@@ -44,8 +44,7 @@
 			return;
 		}
 
-		const newMessage: Message = {
-			id: '',
+		const newMessage: MessageWithoutID = {
 			conversationId: activeChat.id,
 			timeSent: new Date(Date.now()),
 			senderId: userID,

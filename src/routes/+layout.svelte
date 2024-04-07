@@ -6,8 +6,7 @@
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
-	import type { Message } from '@prisma/client';
-
+	import type { MessageWithoutID } from './+layout.server';
 	initializeStores();
 
 	export let data: PageData;
@@ -22,7 +21,7 @@
 		if (isListenerSetup || userID === undefined) return;
 
 		userChannel.on('broadcast', { event: 'inMessage' }, (payload) => {
-			const messageBatch: [string, Message[]][] = payload.payload.messages;
+			const messageBatch: [string, MessageWithoutID[]][] = payload.payload.messages;
 
 			messageStore.set(messageBatch);
 		});
