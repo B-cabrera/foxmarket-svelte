@@ -6,7 +6,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { writable, type Writable } from 'svelte/store';
 import type { LayoutLoad } from './$types';
 import { PUBLIC_SUPABASE_ANON, PUBLIC_SUPABASE_URL } from '$env/static/public';
-import type { MessageWithoutID } from './proxy+layout.server';
+import type { MessageWithoutID } from './+layout.server';
 
 export const load = (async ({ data }) => {
 	const supabaseBrowserClient = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON);
