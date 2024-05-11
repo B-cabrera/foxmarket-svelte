@@ -5,7 +5,7 @@
 	import type { PageData } from './$types';
 	import ChatListDisplay from '$lib/components/ChatListDisplay.svelte';
 	import type { ChatInformation } from './+page.server';
-	import type { MessageWithoutID } from '../proxy+layout.server';
+	import type { MessageWithoutID } from '../+layout.server';
 
 	export let data: PageData;
 	const { buyingChatMap, sellingChatMap, userChannel, messageStore } = data;
@@ -37,6 +37,7 @@
 	let activeChatId = Array.from(buyingChatMap.entries())[0][0];
 	let activeChat: ChatInformation;
 	const userID = data.userID!;
+	const username = data.username!;
 
 	const sendMessage = () => {
 		if (currentMessage.trim() === '') {
@@ -46,6 +47,7 @@
 
 		const newMessage: MessageWithoutID = {
 			conversationId: activeChat.id,
+			username,
 			timeSent: new Date(Date.now()),
 			senderId: userID,
 			receiverId: activeChat.sellerId == userID ? activeChat.buyerId : activeChat.sellerId,

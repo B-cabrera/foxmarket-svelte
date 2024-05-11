@@ -13,7 +13,18 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 	conversationAndMessages.forEach(async ([_, messages]) => {
-		allMessages.push(...messages);
+		for (let message of messages) {
+			// basically removing the username field out of the messages
+			const newMessage: MessageWithoutID = {
+				conversationId: message.conversationId,
+				content: message.content,
+				timeSent: message.timeSent,
+				senderId: message.senderId,
+				receiverId: message.receiverId,
+			};
+
+			allMessages.push(newMessage);
+		}
 	});
 
 	try {

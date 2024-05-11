@@ -14,10 +14,12 @@ const MESSAGE_WAIT_MS = 500;
 
 export interface MessageWithoutID extends Omit<Message, 'id'> {
 	id?: string;
+	username?: string;
 }
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
 	const userID = locals.data?.userID;
+	const username = locals.data?.username;
 
 	if (isListenerSetup || userID === undefined) return { userID };
 
@@ -76,5 +78,5 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
 
 	isListenerSetup = true;
 
-	return { userID };
+	return { userID, username };
 };
