@@ -28,8 +28,11 @@
 
 			if ($page.url.pathname != '/chats') {
 				toastStore.trigger({
-					message: `New message received from ${messageBatch[0][1][0].username}`,
+					message: `You have ${messageBatch[0][1].length} new message${
+						messageBatch[0][1].length > 1 ? 's' : ''
+					} from ${messageBatch[0][1][0].username} about ${messageBatch[0][1][0].itemTitle}`,
 					classes: 'bg-maristdarkgrey text-slate-50 p-5 mt-2 rounded border-2 spacing',
+					timeout: 1500,
 				});
 			}
 		});
