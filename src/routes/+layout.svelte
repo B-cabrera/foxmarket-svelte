@@ -2,7 +2,7 @@
 	import '../app.css';
 	import logo from '$lib/images/foxmarketlogo.png';
 	import ButtonContainer from '$lib/components/ButtonContainer.svelte';
-	import { Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { Modal, Toast, getToastStore, initializeStores } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
@@ -14,6 +14,7 @@
 	let showAuthedButtons: boolean;
 	let isListenerSetup = false;
 	const { userChannel, userID } = data;
+	let toastStore = getToastStore();
 
 	$: messageStore = data.messageStore;
 
@@ -24,6 +25,13 @@
 			const messageBatch: [string, MessageWithoutID[]][] = payload.payload.messages;
 
 			messageStore.set(messageBatch);
+
+			if ($page.url.pathname != '/chats') {
+				toastStore.trigger({
+					message: `New message received from ${messageBatch[0][1][0].username}`,
+					classes: 'bg-maristdarkgrey text-slate-50 p-5 mt-2 rounded border-2 spacing',
+				});
+			}
 		});
 
 		isListenerSetup = true;
