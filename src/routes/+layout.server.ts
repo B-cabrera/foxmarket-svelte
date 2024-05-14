@@ -15,6 +15,7 @@ const MESSAGE_WAIT_MS = 500;
 export interface MessageWithoutID extends Omit<Message, 'id'> {
 	id?: string;
 	username?: string;
+	itemTitle?: string;
 }
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {

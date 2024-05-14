@@ -47,6 +47,7 @@
 
 		const newMessage: MessageWithoutID = {
 			conversationId: activeChat.id,
+			itemTitle: activeChat.item.listingTitle,
 			username,
 			timeSent: new Date(Date.now()),
 			senderId: userID,

@@ -16,7 +16,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		for (let message of messages) {
 			/*
 			 * Inefficient because we are essentially deep copying every message just to
-			 * remove the "username" field, there has to be a better way to do this
+			 * remove the "username" and "itemTitle" field, there has to be a better way to do this
 			 * TODO: find a better way to deal with including username in messages
 			 */
 			const newMessage: MessageWithoutID = {
