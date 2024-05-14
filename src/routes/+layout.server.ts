@@ -21,7 +21,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
 	const userID = locals.data?.userID;
 	const username = locals.data?.username;
 
-	if (isListenerSetup || userID === undefined) return { userID };
+	if (isListenerSetup || userID === undefined) return { userID, username };
 
 	supabaseClient
 		.channel(userID)
