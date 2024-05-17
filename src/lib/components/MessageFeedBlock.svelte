@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { MessageWithoutID } from '../../routes/proxy+layout.server';
+	import type { MessageWithoutID } from '../../routes/+layout.server';
 	import MessageRow from './MessageRow.svelte';
 
 	export let messageFeed: MessageWithoutID[];

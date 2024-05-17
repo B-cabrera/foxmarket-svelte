@@ -5,7 +5,7 @@
 import { fail, json } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import type { RequestHandler } from './$types';
-import type { MessageWithoutID } from '../../proxy+layout.server';
+import type { MessageWithoutID } from '../../+layout.server';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const conversationAndMessages = (await request.json()).messages as [string, MessageWithoutID[]][];
