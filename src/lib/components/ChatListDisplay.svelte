@@ -15,12 +15,18 @@
 		} border hover:opacity-80 cursor-pointer items-center justify-around`}
 		on:click={() => {
 			activeChatId = conversationId;
+			genuineRead = false;
 		}}
 	>
 		<img src={chat.item.imageUrl} alt="" class="aspect-square max-w-[20%]" />
 		<div>
 			<h1 class="font-bold">{chat.item.listingTitle}</h1>
 			<p>{chat.seller ? chat.seller.username : chat.buyer?.username}</p>
+		</div>
+		<div>
+			{#if chat.Message[chat.Message.length - 1].senderId != currentUserID && !chat.Message[chat.Message.length - 1].read && genuineRead}
+				<span class="material-symbols-outlined"> mark_unread_chat_alt </span>
+			{/if}
 		</div>
 	</div>
 {/each}
