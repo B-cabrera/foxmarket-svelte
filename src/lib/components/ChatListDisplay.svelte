@@ -3,9 +3,29 @@
 
 	export let chatMap: Map<string, ChatInformation>;
 	export let activeChatId: string;
+	export let currentUserID: string;
+
+	$: sortedEntries = Array.from(chatMap.entries()).sort((a, b) => {
+		const aHasUnread =
+			a[1].Message[a[1].Message.length - 1].senderId != currentUserID
+				? !a[1].Message[a[1].Message.length - 1].read
+				: false;
+		const bHasUnread =
+			b[1].Message[b[1].Message.length - 1].senderId != currentUserID
+				? !b[1].Message[b[1].Message.length - 1].read
+				: false;
+
+		const aMostRecentText = new Date(a[1].Message[a[1].Message.length - 1].timeSent).getTime();
+
+		const bMostRecentText = new Date(b[1].Message[b[1].Message.length - 1].timeSent).getTime();
+
+		return Number(bHasUnread) - Number(aHasUnread) || bMostRecentText - aMostRecentText;
+	});
+
+	$: genuineRead = true;
 </script>
 
-{#each chatMap.entries() as [conversationId, chat]}
+{#each sortedEntries as [conversationId, chat]}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		role="button"
