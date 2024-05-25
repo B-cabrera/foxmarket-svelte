@@ -90,4 +90,5 @@ model Message {
   receiver       User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
   receiverId     String   @db.Uuid
   content        String   @db.VarChar(250)
+  read           Boolean  @default(false)
 }
