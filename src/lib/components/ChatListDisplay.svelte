@@ -4,6 +4,7 @@
 	export let chatMap: Map<string, ChatInformation>;
 	export let activeChatId: string;
 	export let currentUserID: string;
+	export let firstLoad: boolean;
 
 	$: sortedEntries = Array.from(chatMap.entries()).sort((a, b) => {
 		const aHasUnread =
@@ -34,6 +35,7 @@
 			activeChatId == conversationId && '!bg-slate-700'
 		} border hover:opacity-80 cursor-pointer items-center justify-around`}
 		on:click={() => {
+			firstLoad = false;
 			activeChatId = conversationId;
 			genuineRead = false;
 		}}
