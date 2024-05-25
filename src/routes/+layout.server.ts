@@ -12,7 +12,8 @@ let currentTimer: NodeJS.Timeout | null = null;
 const messageBatch = new Map<string, Message[]>();
 const MESSAGE_WAIT_MS = 500;
 
-export interface MessageWithoutID extends Omit<Message, 'id'> {
+export interface MessageWithoutID extends Omit<Message, 'id' | 'read'> {
+	read?: boolean;
 	id?: string;
 	username?: string;
 	itemTitle?: string;
