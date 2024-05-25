@@ -12,11 +12,13 @@ export const load = (async ({ data }) => {
 	const supabaseBrowserClient = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON);
 	const userChannel = supabaseBrowserClient.channel(data.userID!).subscribe();
 	const messageStore: Writable<[string, MessageWithoutID[]][]> = writable();
+	const lastOpenedChatStore: Writable<{ chatId: string, buyingActive: boolean }> = writable();
 
 	return {
 		...data,
 		supabaseBrowserClient,
 		userChannel,
 		messageStore,
+		lastOpenedChatStore,
 	};
 }) satisfies LayoutLoad;
