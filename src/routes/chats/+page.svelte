@@ -89,7 +89,11 @@
 <div class="h-[calc(100vh-56px)] w-full grid grid-cols-[250px_1fr]">
 	<div class="flex flex-col items-center border pt-0">
 		<TwoButtonToggle bind:isLeftActive={isBuyingActive} />
-		<ChatListDisplay bind:activeChatId chatMap={isBuyingActive ? buyingChatMap : sellingChatMap} />
+		<ChatListDisplay
+			bind:activeChatId
+			chatMap={isBuyingActive ? buyingChatMap : sellingChatMap}
+			currentUserID={userID}
+		/>
 	</div>
 	<div class="border">
 		<div class="h-full grid grid-rows-[1fr_auto]">
