@@ -42,8 +42,6 @@
 	}
 
 	function handleDebounce() {
-		console.log('here');
-
 		if (debounceTimer) {
 			clearTimeout(debounceTimer);
 		}
