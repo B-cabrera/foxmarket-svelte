@@ -6,9 +6,10 @@
 	import ChatListDisplay from '$lib/components/ChatListDisplay.svelte';
 	import type { ChatInformation } from './+page.server';
 	import type { MessageWithoutID } from '../+layout.server';
+	import { get } from 'svelte/store';
 
 	export let data: PageData;
-	const { buyingChatMap, sellingChatMap, userChannel, messageStore } = data;
+	const { buyingChatMap, sellingChatMap, userChannel, messageStore, lastOpenedChatStore } = data;
 
 	messageStore.subscribe((batch) => {
 		if (batch) {
@@ -33,8 +34,11 @@
 	});
 
 	let currentMessage = '';
-	let isBuyingActive = true;
-	let activeChatId = Array.from(buyingChatMap.entries())[0][0];
+	let lastOpenedChat = get(lastOpenedChatStore);
+	let firstLoad = lastOpenedChat == undefined;
+	let isBuyingActive = lastOpenedChat == undefined ? true : lastOpenedChat.buyingActive;
+	let activeChatId = lastOpenedChat == undefined ? '' : lastOpenedChat.chatId;
+
 	let activeChat: ChatInformation;
 	const userID = data.userID!;
 	const username = data.username!;
@@ -72,16 +76,22 @@
 	};
 
 	$: {
-		if (isBuyingActive) {
-			activeChatId = buyingChatMap.has(activeChatId)
-				? activeChatId
-				: Array.from(buyingChatMap.entries())[0][0];
-			activeChat = buyingChatMap.get(activeChatId)!;
-		} else {
-			activeChatId = sellingChatMap.has(activeChatId)
-				? activeChatId
-				: Array.from(sellingChatMap.entries())[0][0];
-			activeChat = sellingChatMap.get(activeChatId)!;
+		if (!firstLoad) {
+			if (isBuyingActive) {
+				activeChatId = buyingChatMap.has(activeChatId)
+					? activeChatId
+					: Array.from(buyingChatMap.entries())[0][0];
+
+				lastOpenedChatStore.set({chatId: activeChatId, buyingActive: isBuyingActive});
+				activeChat = buyingChatMap.get(activeChatId)!;
+			} else {
+				activeChatId = sellingChatMap.has(activeChatId)
+					? activeChatId
+					: Array.from(sellingChatMap.entries())[0][0];
+
+				lastOpenedChatStore.set({chatId: activeChatId, buyingActive: isBuyingActive});
+				activeChat = sellingChatMap.get(activeChatId)!;
+			}
 		}
 	}
 </script>
@@ -91,18 +101,25 @@
 		<TwoButtonToggle bind:isLeftActive={isBuyingActive} />
 		<ChatListDisplay
 			bind:activeChatId
+			bind:firstLoad
 			chatMap={isBuyingActive ? buyingChatMap : sellingChatMap}
 			currentUserID={userID}
 		/>
 	</div>
 	<div class="border">
 		<div class="h-full grid grid-rows-[1fr_auto]">
-			<MessageFeedBlock
-				otherUserName={isBuyingActive ? activeChat.seller?.username : activeChat.buyer?.username}
-				bind:messageFeed={activeChat.Message}
-				currentUserID={userID}
-			/>
-			<MessageInput bind:currentMessage {sendMessage} />
+			{#if firstLoad}
+				<div class="grid place-items-center text-slate-50 text-xl">
+					<h1>Welcome! Please select a chat to get started!</h1>
+				</div>
+			{:else}
+				<MessageFeedBlock
+					otherUserName={isBuyingActive ? activeChat.seller?.username : activeChat.buyer?.username}
+					bind:messageFeed={activeChat.Message}
+					currentUserID={userID}
+				/>
+				<MessageInput bind:currentMessage {sendMessage} />
+			{/if}
 		</div>
 	</div>
 </div>
