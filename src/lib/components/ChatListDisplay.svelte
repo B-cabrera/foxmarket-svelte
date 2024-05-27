@@ -22,8 +22,6 @@
 
 		return Number(bHasUnread) - Number(aHasUnread) || bMostRecentText - aMostRecentText;
 	});
-
-	$: genuineRead = true;
 </script>
 
 {#each sortedEntries as [conversationId, chat]}
@@ -37,7 +35,6 @@
 		on:click={() => {
 			firstLoad = false;
 			activeChatId = conversationId;
-			genuineRead = false;
 		}}
 	>
 		<img src={chat.item.imageUrl} alt="" class="aspect-square max-w-[20%]" />
@@ -46,7 +43,7 @@
 			<p>{chat.seller ? chat.seller.username : chat.buyer?.username}</p>
 		</div>
 		<div>
-			{#if chat.Message[chat.Message.length - 1].senderId != currentUserID && !chat.Message[chat.Message.length - 1].read && genuineRead}
+			{#if chat.Message[chat.Message.length - 1].senderId != currentUserID && !chat.Message[chat.Message.length - 1].read && activeChatId != conversationId}
 				<span class="material-symbols-outlined"> mark_unread_chat_alt </span>
 			{/if}
 		</div>
