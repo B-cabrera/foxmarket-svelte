@@ -22,12 +22,20 @@
 					buyingConvo.Message.push(...messages);
 
 					if (activeChatId == conversationID) activeChat = buyingConvo;
+
+					// hacky way to trigger a rerender
+					isBuyingActive = !isBuyingActive;
+					isBuyingActive = !isBuyingActive;
 				} else if (sellingChatMap.has(conversationID)) {
 					const sellingConvo = sellingChatMap.get(conversationID)!;
 
 					sellingConvo.Message.push(...messages);
 
 					if (activeChatId == conversationID) activeChat = sellingConvo;
+					
+					// hacky way to trigger a rerender
+					isBuyingActive = !isBuyingActive;
+					isBuyingActive = !isBuyingActive;
 				}
 			});
 		}
