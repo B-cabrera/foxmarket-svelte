@@ -4,6 +4,7 @@
 	import type { MessageWithoutID } from '../../routes/+layout.server';
 	import MessageRow from './MessageRow.svelte';
 	import { MESSAGE_CHUNK_AMOUNT } from '$lib/utils/utils';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	export let messageFeed: MessageWithoutID[];
 	export let otherUserName: string | undefined;
@@ -24,6 +25,7 @@
 	let upperScroll = false;
 	let prevLocation = 0;
 	let isLoading = false;
+	let toastStore = getToastStore();
 
 	onMount(() => {
 		feedElem.addEventListener('scroll', async () => {
@@ -116,6 +118,35 @@
 		const lastMessage = messageFeed[0];
 
 		const response = await fetch(`/api/chats/${lastMessage.conversationId}/${lastMessage.id}/more`);
+
+		if (!response.ok && totalRetries < MAX_RETRIES) {
+			console.log('Retrying');
+
+			const message = await response.json();
+
+			// just a delay
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			totalRetries++;
+
+			await getMoreMessages();
+
+			return;
+		}
+
+		if (totalRetries == MAX_RETRIES) {
+			// reached here if we failed too many times 
+			totalRetries = 0;
+
+			toastStore.trigger({
+				message: 'Failed to load previous messages, please wait then try again!',
+				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+			});
+
+			return;
+		}
+
+		totalRetries = 0;
 		const earlierMessages = (await response.json()).messages as MessageWithoutID[];
 
 		upperScroll = true;
