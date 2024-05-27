@@ -6,6 +6,8 @@ import { json } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import type { RequestHandler } from './$types';
 
+const MESSAGE_CHUNK_AMOUNT = 30;
+
 export const GET: RequestHandler = async ({ params }) => {
 	const userID = params.user_id;
 
@@ -18,6 +20,7 @@ export const GET: RequestHandler = async ({ params }) => {
 				orderBy: {
 					timeSent: 'asc',
 				},
+				take: MESSAGE_CHUNK_AMOUNT,
 			},
 			seller: {
 				select: {
@@ -42,6 +45,7 @@ export const GET: RequestHandler = async ({ params }) => {
 				orderBy: {
 					timeSent: 'asc',
 				},
+				take: MESSAGE_CHUNK_AMOUNT,
 			},
 			buyer: {
 				select: {
