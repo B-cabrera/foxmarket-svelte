@@ -5,8 +5,7 @@
 import { json } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import type { RequestHandler } from './$types';
-
-const MESSAGE_CHUNK_AMOUNT = 30;
+import { MESSAGE_CHUNK_AMOUNT } from '$lib/utils/utils';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const userID = params.user_id;
