@@ -4,25 +4,31 @@
 
 import prisma from "$lib/utils/prismaClient";
 import { MESSAGE_CHUNK_AMOUNT } from "$lib/utils/utils";
-import { json, type RequestHandler } from "@sveltejs/kit";
+import { fail, json, type RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ params }) => {
 	const conversationId = params.conversation_id;
 	const lastMessageId = params.message_id;
 
-	const messages = await prisma.message.findMany({
-		where: {
-			conversationId: conversationId,
-		},
-		orderBy: {
-			timeSent: 'asc',
-		},
-		cursor: {
-			id: lastMessageId
-		},
-		skip: 1,
-		take: MESSAGE_CHUNK_AMOUNT,
-	});
+	try {
+		const messages = await prisma.message.findMany({
+			where: {
+				conversationId: conversationId,
+			},
+			orderBy: {
+				timeSent: 'asc',
+			},
+			cursor: {
+				id: lastMessageId
+			},
+			skip: 1,
+			take: MESSAGE_CHUNK_AMOUNT,
+		});
 
-	return json({ messages });
+		return json({ messages });
+	} catch (error) {
+		const cleanError = error as Error;
+
+		throw fail(500, { message: cleanError.message });
+	}
 };
