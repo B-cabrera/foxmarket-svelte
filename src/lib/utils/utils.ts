@@ -18,4 +18,6 @@ function addChatsToMap(chats: ChatInformation[], chatMap: Map<string, ChatInform
 	});
 }
 
-export { checkValidRerouteLocation, checkValidAuthedPage, addChatsToMap };
+const MESSAGE_CHUNK_AMOUNT = -9;
+
+export { checkValidRerouteLocation, checkValidAuthedPage, addChatsToMap, MESSAGE_CHUNK_AMOUNT };
