@@ -108,6 +108,12 @@
 					return;
 				}
 
+				if (totalRetries == MAX_RETRIES) {
+					totalRetries = 0;
+					return;
+				}
+
+				totalRetries = 0;
 				unreadMessages.clear();
 				debounceTimer = null;
 			}
@@ -135,7 +141,7 @@
 		}
 
 		if (totalRetries == MAX_RETRIES) {
-			// reached here if we failed too many times 
+			// reached here if we failed too many times
 			totalRetries = 0;
 
 			toastStore.trigger({
