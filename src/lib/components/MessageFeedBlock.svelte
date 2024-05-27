@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import type { MessageWithoutID } from '../../routes/+layout.server';
 	import MessageRow from './MessageRow.svelte';
+	import { MESSAGE_CHUNK_AMOUNT } from '$lib/utils/utils';
 
 	export let messageFeed: MessageWithoutID[];
 	export let otherUserName: string | undefined;
@@ -18,6 +20,22 @@
 	let debounceTimer: NodeJS.Timeout | null = null;
 	let totalRetries = 0;
 	let MAX_RETRIES = 3;
+	let reachedBeginningIds: string[] = [];
+	let upperScroll = false;
+	let prevLocation = 0;
+	let isLoading = false;
+
+	onMount(() => {
+		feedElem.addEventListener('scroll', async () => {
+			if (messageFeed.length < -MESSAGE_CHUNK_AMOUNT) return;
+
+			if (feedElem.scrollTop == 0 && !reachedBeginningIds.includes(chatId)) {
+				isLoading = true;
+				await getMoreMessages();
+				isLoading = false;
+			}
+		});
+	});
 
 	function scrollChatBottom(): void {
 		if (!feedElem) return;
@@ -25,13 +43,17 @@
 		requestAnimationFrame(() => {
 			// Scroll to the bottom
 			feedElem.scrollTo({
-				top: feedElem.scrollHeight,
+				top: upperScroll ? feedElem.scrollHeight - prevLocation - 30 : feedElem.scrollHeight,
 				behavior: 'instant',
 			});
+
+			upperScroll = false;
 		});
 	}
 
 	$: messageFeed, scrollChatBottom();
+
+	$: chatId = messageFeed[0].conversationId;
 
 	$: senderName = otherUserName!;
 
@@ -89,9 +111,28 @@
 			}
 		}
 	}
+
+	async function getMoreMessages() {
+		const lastMessage = messageFeed[0];
+
+		const response = await fetch(`/api/chats/${lastMessage.conversationId}/${lastMessage.id}/more`);
+		const earlierMessages = (await response.json()).messages as MessageWithoutID[];
+
+		upperScroll = true;
+
+		prevLocation = feedElem.scrollHeight;
+		messageFeed = [...earlierMessages, ...messageFeed];
+
+		if (earlierMessages.length < -MESSAGE_CHUNK_AMOUNT && !reachedBeginningIds.includes(chatId))
+			reachedBeginningIds.push(chatId);
+	}
 </script>
 
 <div class=" p-4 overflow-y-auto h-full">
+	{#if isLoading}
+		<p class="text-slate-50 text-center">Loading...</p>
+	{/if}
+
 	<section bind:this={feedElem} class="w-full max-h-[82vh] overflow-y-auto space-y-4">
 		{#each messageFeed as chat}
 			<MessageRow
