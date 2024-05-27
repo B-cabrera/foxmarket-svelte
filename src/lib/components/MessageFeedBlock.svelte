@@ -70,8 +70,12 @@
 			clearTimeout(debounceTimer);
 		}
 
-		messageFeed.forEach((message) => {
-			if (message.senderId != currentUserID && !message.read) {
+		for (let i = messageFeed.length - 1; i >= 0; i--) {
+			let message = messageFeed[i];
+
+			if (message.senderId != currentUserID) {
+				if (message.read) break; // we found a prev read message, we can stop now
+
 				message.read = true;
 
 				unreadMessages.add({
@@ -80,7 +84,7 @@
 					content: message.content,
 				});
 			}
-		});
+		}
 
 		if (!unreadMessages.size) return;
 
