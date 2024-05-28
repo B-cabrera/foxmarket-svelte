@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
@@ -54,6 +55,8 @@
 		}
 
 		totalRetries = 0;
+
+		await goto('/chats');
 
 		isLoading = false;
 		closeFunc();
