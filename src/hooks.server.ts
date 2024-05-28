@@ -58,7 +58,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (shouldBlockUnAuthedPages) throw redirect(302, '/feed');
 
-	event.locals.data = { userID: data.session?.user.id };
+	event.locals.data = {
+		userID: data.session?.user.id,
+		username: data.session?.user.user_metadata.username,
+	};
 
 	const response = await resolve(event);
 	return response;
