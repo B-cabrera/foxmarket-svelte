@@ -19,6 +19,7 @@
 	export let viewingUserID: string;
 	export let submitFunction: SubmitFunction;
 	export let isEditing: boolean;
+	export let hasChat: boolean;
 
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = {
@@ -58,8 +59,9 @@
 				<button
 					class="btn !border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
 					on:click={() => modalStore.trigger(modal)}
+					disabled={hasChat}
 				>
-					I'm Interested
+					{hasChat ? 'Conversation exists!' : "I'm Interested"}
 				</button>
 
 				<form
