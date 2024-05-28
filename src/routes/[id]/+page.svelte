@@ -60,6 +60,7 @@
 			{item}
 			{seller}
 			{viewingUserID}
+			hasChat={data.hasChat}
 			submitFunction={submitForm}
 			bind:isEditing
 		/>

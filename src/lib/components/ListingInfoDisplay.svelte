@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { Listing } from '@prisma/client';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import NewChatStarterModal from './NewChatStarterModal.svelte';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
@@ -17,6 +19,24 @@
 	export let viewingUserID: string;
 	export let submitFunction: SubmitFunction;
 	export let isEditing: boolean;
+	export let hasChat: boolean;
+
+	const modalStore = getModalStore();
+	const modalComponent: ModalComponent = {
+		ref: NewChatStarterModal,
+		props: {
+			sellerId: item.sellerId,
+			sellerUsername: seller.username,
+			userId: viewingUserID,
+			itemId: item.id,
+			closeFunc: () => modalStore.close()
+		},
+	};
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+	};
+
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -38,8 +58,10 @@
 				<!-- TODO: Have this button start a chat with the seller and buyer -->
 				<button
 					class="btn !border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+					on:click={() => modalStore.trigger(modal)}
+					disabled={hasChat}
 				>
-					I'm Interested
+					{hasChat ? 'Conversation exists!' : "I'm Interested"}
 				</button>
 
 				<form

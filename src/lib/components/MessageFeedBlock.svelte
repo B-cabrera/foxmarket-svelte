@@ -130,8 +130,6 @@
 		const response = await fetch(`/api/chats/${lastMessage.conversationId}/${lastMessage.id}/more`);
 
 		if (!response.ok && totalRetries < MAX_RETRIES) {
-			console.log('Retrying');
-
 			const message = await response.json();
 
 			// just a delay
