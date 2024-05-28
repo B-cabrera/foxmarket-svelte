@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
 	export let sellerUsername: string;
@@ -9,6 +10,10 @@
 
 	let message = 'Hello! I am interested in this item. Is it still available?';
 	let isLoading = false;
+	let totalRetries = 0;
+	let toastStore = getToastStore();
+
+	const MAX_RETRIES = 3;
 
 	async function startChat() {
 		isLoading = true;
@@ -22,6 +27,33 @@
 				message,
 			}),
 		});
+
+		if (!response.ok && totalRetries < MAX_RETRIES) {
+			// just a delay
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			totalRetries++;
+
+			await startChat();
+
+			return;
+		}
+
+		if (totalRetries == MAX_RETRIES) {
+			// reached here if we failed too many times
+			totalRetries = 0;
+
+			toastStore.trigger({
+				message: 'Failed to start chat, please wait then try again!',
+				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+			});
+			
+			isLoading = false;
+			closeFunc();
+			return;
+		}
+
+		totalRetries = 0;
 
 		isLoading = false;
 		closeFunc();
