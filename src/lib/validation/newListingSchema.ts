@@ -26,10 +26,21 @@ type ValidationFailure = {
 };
 type ValidationResponse = ValidationSuccess | ValidationFailure;
 
-export function validateNewListing(newListing: newListing): ValidationResponse {
+export async function validateNewListing(newListing: newListing): Promise<ValidationResponse> {
 	const result = listingSchema.safeParse(newListing);
 
 	if (result.success) {
+		const response = await fetch(`https://api.brandfetch.io/v2/search/${newListing.brand}`);
+		const data = await response.json();
+		const typedResponse = data as {name: string}[];
+		let foundExactMatch = false;
+
+		typedResponse.forEach((brand) => {
+			if (brand.name === newListing.brand) foundExactMatch = true;
+		})
+
+		if (!foundExactMatch) return {success: false, errors: ["Unrecognized Brand"]}
+
 		return { success: true };
 	}
 
