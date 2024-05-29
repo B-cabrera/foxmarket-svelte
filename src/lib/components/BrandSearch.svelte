@@ -74,4 +74,7 @@
 			{/each}
 		{/if}
 	</div>
+	<p class="text-slate-50 text-xs">
+		Logos provided by <a href="https://brandfetch.com" class="underline">Brandfetch</a>
+	</p>
 </div>
