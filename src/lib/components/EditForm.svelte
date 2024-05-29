@@ -4,6 +4,7 @@
 	import Sizes from '$lib/utils/Sizes';
 	import type { Listing } from '@prisma/client';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import BrandSearch from './BrandSearch.svelte';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
@@ -14,12 +15,14 @@
 	export let item: ListingWithFavoriteBool;
 	export let isEditing: boolean;
 
+	let selectedBrand = true;
+
 	const originalItem = item;
 	const editedItem = {
 		listingTitle: item.listingTitle,
 		description: item.description,
 		price: item.price,
-		brand: item.brand,
+		brand: item.brand!,
 		size: item.size,
 		location: item.location,
 	};
@@ -34,6 +37,8 @@
 
 			cancel();
 		}
+
+		formData.append('brand', editedItem.brand);
 
 		// send only the edit fields
 		for (let uneditedFieldName of uneditedFields) {
@@ -109,8 +114,11 @@
 			placeholder="Brand"
 			maxlength="30"
 			bind:value={editedItem.brand}
+			disabled={selectedBrand}
 			required
 		/>
+		<BrandSearch bind:value={editedItem.brand} bind:selectedBrand />
+
 		<div class="flex w-full justify-between">
 			<select
 				name="size"
@@ -140,7 +148,7 @@
 		<div class="flex justify-evenly w-full">
 			<button
 				class="w-1/3 bg-maristred border-slate-50 border-2 mt-8 text-xl text-slate-50 py-1 hover:opacity-80 disabled:opacity-50 mb-3"
-				disabled={isLoading}
+				disabled={isLoading || !selectedBrand}
 			>
 				{isLoading ? 'Saving...' : 'Save'}
 			</button>
