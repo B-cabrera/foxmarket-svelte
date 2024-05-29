@@ -89,38 +89,38 @@
 		if (!unreadMessages.size) return;
 
 		debounceTimer = setTimeout(markMessagesAsRead, DEBOUNCE_MS);
+	}
 
-		async function markMessagesAsRead() {
-			if (unreadMessages.size > 0) {
-				const messagesSetAsArray = Array.from(unreadMessages);
+	async function markMessagesAsRead() {
+		if (unreadMessages.size > 0) {
+			const messagesSetAsArray = Array.from(unreadMessages);
 
-				const result = await fetch(`/api/chats/${messagesSetAsArray[0].conversationId}/read`, {
-					method: 'PATCH',
-					body: JSON.stringify(messagesSetAsArray),
-				});
+			const result = await fetch(`/api/chats/${messagesSetAsArray[0].conversationId}/read`, {
+				method: 'PATCH',
+				body: JSON.stringify(messagesSetAsArray),
+			});
 
-				if (!result.ok && totalRetries < MAX_RETRIES) {
-					const message = await result.json();
+			if (!result.ok && totalRetries < MAX_RETRIES) {
+				const message = await result.json();
 
-					// just a delay
-					await new Promise((resolve) => setTimeout(resolve, 1000));
+				// just a delay
+				await new Promise((resolve) => setTimeout(resolve, 1000));
 
-					totalRetries++;
+				totalRetries++;
 
-					await markMessagesAsRead();
+				await markMessagesAsRead();
 
-					return;
-				}
-
-				if (totalRetries == MAX_RETRIES) {
-					totalRetries = 0;
-					return;
-				}
-
-				totalRetries = 0;
-				unreadMessages.clear();
-				debounceTimer = null;
+				return;
 			}
+
+			if (totalRetries == MAX_RETRIES) {
+				totalRetries = 0;
+				return;
+			}
+
+			totalRetries = 0;
+			unreadMessages.clear();
+			debounceTimer = null;
 		}
 	}
 
