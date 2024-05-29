@@ -38,7 +38,7 @@ export const actions = {
 
 		const image = data.get('file') as File;
 
-		const result = validateNewListing({
+		const result = await validateNewListing({
 			title,
 			description,
 			price,
