@@ -45,6 +45,7 @@
 			<h1 class="font-bold text-5xl tracking-wider">{item.listingTitle}</h1>
 			<span class="flex justify-between">
 				<p>{item.location}</p>
+				<p>{item.brand}</p>
 				<p>{item.size}</p>
 			</span>
 		</div>
