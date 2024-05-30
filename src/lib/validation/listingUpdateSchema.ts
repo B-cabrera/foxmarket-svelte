@@ -17,7 +17,6 @@ const updatelistingSchema = z
 		size: z.nativeEnum(Sizes),
 	})
 	.partial();
-
 type listingUpdate = z.infer<typeof updatelistingSchema>;
 
 type ValidationSuccess = {
@@ -30,6 +29,9 @@ type ValidationFailure = {
 type ValidationResponse = ValidationSuccess | ValidationFailure;
 
 export async function validateListingUpdate(listingUpdate: listingUpdate): Promise<ValidationResponse> {
+	if (!listingUpdate.title && !listingUpdate.description && !listingUpdate.price && !listingUpdate.location && !listingUpdate.brand && !listingUpdate.image && !listingUpdate.size)
+		return { success: false, errors: ["Need at least one valid field"] };
+
 	const result = updatelistingSchema.safeParse(listingUpdate);
 
 	if (result.success) {
