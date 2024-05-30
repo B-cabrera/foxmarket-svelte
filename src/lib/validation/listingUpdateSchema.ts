@@ -4,6 +4,7 @@
 import { z } from 'zod';
 import Dorms from '$lib/utils/Dorms';
 import Sizes from '$lib/utils/Sizes';
+import prisma from '$lib/utils/prismaClient';
 
 const updatelistingSchema = z
 	.object({
@@ -28,10 +29,20 @@ type ValidationFailure = {
 };
 type ValidationResponse = ValidationSuccess | ValidationFailure;
 
-export function validateListingUpdate(listingUpdate: listingUpdate): ValidationResponse {
+export async function validateListingUpdate(listingUpdate: listingUpdate): Promise<ValidationResponse> {
 	const result = updatelistingSchema.safeParse(listingUpdate);
 
 	if (result.success) {
+		if (listingUpdate.brand) {
+			const result = await prisma.brand.findFirst({
+				where: {
+					brandName: listingUpdate.brand
+				}
+			});
+
+			if (!result) return { success: false, errors: ["Unrecognized Brand"] }
+		}
+
 		return { success: true };
 	}
 

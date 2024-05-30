@@ -104,7 +104,7 @@ export const actions = {
 		size && (body = { ...body, size });
 		location && (body = { ...body, location });
 
-		const result = validateListingUpdate(body);
+		const result = await validateListingUpdate(body);
 
 		// on validation failure
 		if (!result.success) {
