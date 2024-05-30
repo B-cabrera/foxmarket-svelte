@@ -7,11 +7,12 @@
 
 	export let data: PageData;
 	const userID = data.userID!;
-	const { brandSet } = data;
+	const { brandSet, locationSet } = data;
 
 	let minPrice = '';
 	let maxPrice = '';
 	let chosenBrands: string[] = [];
+	let chosenLocations: string[] = [];
 </script>
 
 <div id="feed" class="h-[calc(100vh-56px)] flex">
@@ -21,6 +22,9 @@
 		</Dropdown>
 		<Dropdown label={'Brand'}>
 			<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandSet} />
+		</Dropdown>
+		<Dropdown label={'Location'}>
+			<MultiSelectFilterBlock bind:chosen={chosenLocations} selections={locationSet} />
 		</Dropdown>
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
