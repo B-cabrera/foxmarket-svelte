@@ -9,10 +9,10 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	const data = await fetch('/api/items');
-	const { listings } = await data.json();
+	const { listings }: { listings: Listing[] } = await data.json();
 
 	return {
-		listings: listings as Listing[],
+		listings
 	};
 };
 
