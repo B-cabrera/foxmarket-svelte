@@ -4,10 +4,15 @@
 
 import { error as failure, json, type RequestHandler } from '@sveltejs/kit';
 import supabaseClient from '$lib/utils/supabaseClient';
+import validateLogInInfo from '$lib/validation/logInSchema';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	// getting user info from request
 	const info = await request.json();
+	const validLogInInfo = validateLogInInfo(info);
+
+	if (!validLogInInfo) throw failure(400, {message: "Invalid Values"});
+
 	const { email, password } = info;
 
 	// user registration with supabase client
