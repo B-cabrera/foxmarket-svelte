@@ -1,7 +1,7 @@
 <script lang="ts">
-	import BrandFilterBlock from '$lib/components/BrandFilterBlock.svelte';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Listing from '$lib/components/Listing.svelte';
+	import MultiSelectFilterBlock from '$lib/components/MultiSelectFilterBlock.svelte';
 	import PriceFilterBlock from '$lib/components/PriceFilterBlock.svelte';
 	import type { PageData } from './$types';
 
@@ -20,7 +20,7 @@
 			<PriceFilterBlock bind:min={minPrice} bind:max={maxPrice} />
 		</Dropdown>
 		<Dropdown label={'Brand'}>
-			<BrandFilterBlock bind:chosenBrands brands={brandSet} />
+			<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandSet} />
 		</Dropdown>
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
