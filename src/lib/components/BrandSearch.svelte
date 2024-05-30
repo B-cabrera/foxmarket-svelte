@@ -4,7 +4,7 @@
 
 	let debounceTimer: NodeJS.Timeout | null = null;
 	let DEBOUNCE_MS = 1000;
-	let brands: { name: string; icon: string }[] = [];
+	let brands: { brandName: string }[] = [];
 	let isLoading = false;
 
 	$: value && handleSearchDebounce();
@@ -26,10 +26,10 @@
 
 			isLoading = true;
 
-			const response = await fetch(`https://api.brandfetch.io/v2/search/${value}`);
+			const response = await fetch(`/api/brands?search=${value}`);
 			const data = await response.json();
 
-			brands = data as { name: string; icon: string }[];
+			brands = data.results as { brandName: string }[];
 			isLoading = false;
 		}, DEBOUNCE_MS);
 	}
@@ -57,24 +57,18 @@
 			</div>
 		{:else}
 			{#each brands as brand}
-				{#if brand.name}
-					<button
-						class="flex w-full gap-3 bg-maristdarkgrey p-4 justify-start text-slate-50 hover:opacity-90 items-center"
-						type="button"
-						on:click={() => {
-							value = brand.name;
-							brands = [];
-							selectedBrand = true;
-						}}
-					>
-						<img src={brand.icon} alt="" />
-						<p>{brand.name}</p>
-					</button>
-				{/if}
+				<button
+					class="flex w-full gap-3 bg-maristdarkgrey p-4 justify-start text-slate-50 hover:opacity-90 items-center"
+					type="button"
+					on:click={() => {
+						value = brand.brandName;
+						brands = [];
+						selectedBrand = true;
+					}}
+				>
+					<p>{brand.brandName}</p>
+				</button>
 			{/each}
 		{/if}
 	</div>
-	<p class="text-slate-50 text-xs">
-		Logos provided by <a href="https://brandfetch.com" class="underline">Brandfetch</a>
-	</p>
 </div>
