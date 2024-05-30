@@ -13,19 +13,22 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	const { listings }: { listings: Listing[] } = await data.json();
 	const brandSet: Set<string> = new Set();
 	const locationSet: Set<string> = new Set();
+	const sizeSet: Set<string> = new Set();
 
 	if (listings.length > 0) {
 
 		for (const listing of listings) {
 			brandSet.add(listing.brand!);
 			locationSet.add(listing.location);
+			sizeSet.add(listing.size!);
 		}
 	}
 
 	return {
 		listings,
 		brandSet,
-		locationSet
+		locationSet,
+		sizeSet
 	};
 };
 
