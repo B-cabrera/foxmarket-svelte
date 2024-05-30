@@ -38,7 +38,7 @@ export const actions = {
 
 		const image = data.get('file') as File;
 
-		const result = validateNewListing({
+		const result = await validateNewListing({
 			title,
 			description,
 			price,
@@ -104,7 +104,7 @@ export const actions = {
 		size && (body = { ...body, size });
 		location && (body = { ...body, location });
 
-		const result = validateListingUpdate(body);
+		const result = await validateListingUpdate(body);
 
 		// on validation failure
 		if (!result.success) {

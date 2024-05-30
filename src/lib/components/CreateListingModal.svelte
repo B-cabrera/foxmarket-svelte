@@ -4,13 +4,17 @@
 	import Sizes from '$lib/utils/Sizes';
 	import { FileDropzone, getModalStore } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import BrandSearch from './BrandSearch.svelte';
 
 	const modalStore = getModalStore();
 	let file: FileList;
 	let isLoading = false;
+	let brandInput = '';
+	let selectedBrand = false;
 
-	const submitForm: SubmitFunction = () => {
+	const submitForm: SubmitFunction = ({ formData }) => {
 		isLoading = true;
+		formData.set('brand', brandInput);
 
 		return async ({ update }) => {
 			isLoading = false;
@@ -61,8 +65,12 @@
 			class="input focus:border-slate-950 pl-2"
 			placeholder="Brand"
 			maxlength="30"
+			bind:value={brandInput}
+			disabled={selectedBrand}
 			required
 		/>
+		<BrandSearch bind:value={brandInput} bind:selectedBrand />
+
 		<div class="flex w-full justify-between">
 			<select name="size" class="bg-maristgrey w-1/3 text-center" required>
 				<option selected disabled value="">Size</option>
@@ -105,7 +113,7 @@
 
 		<button
 			class="w-1/3 bg-maristgrey border-slate-950 border-2 mt-8 text-xl font-semibold py-1 hover:opacity-80 disabled:opacity-50 mb-3"
-			disabled={isLoading}
+			disabled={isLoading || !selectedBrand}
 		>
 			{isLoading ? 'Submitting...' : 'List Item'}
 		</button>

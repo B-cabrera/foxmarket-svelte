@@ -44,9 +44,11 @@
 			<div class="flex pt-2 justify-between">
 				<p>{listing.location}</p>
 
-				{#if listing.size}
+				<span class="flex gap-1">
+					<p>{listing.brand}</p>
+					<p>•</p>
 					<strong>{listing.size}</strong>
-				{/if}
+				</span>
 			</div>
 		</a>
 	</div>
