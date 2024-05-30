@@ -4,7 +4,7 @@
 	let showMenu = false;
 </script>
 
-<div class="text-slate-50 transition-all">
+<div class="text-slate-50">
 	<hr />
 	<button on:click={() => (showMenu = !showMenu)} class="w-full flex p-3 justify-between">
 		<p>{label}</p>
