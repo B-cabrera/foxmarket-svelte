@@ -5,6 +5,7 @@
 import { fail, json, type RequestHandler } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import Dorms from '$lib/utils/Dorms';
+import { validateListingUpdate } from '$lib/validation/listingUpdateSchema';
 
 export const GET: RequestHandler = async ({ params, locals }) => {
 	const itemID = params.item_id;
@@ -31,6 +32,9 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 export const PATCH: RequestHandler = async ({ params, request }) => {
 	const itemID = params.item_id;
 	let data = await request.json();
+	let validationResult = await validateListingUpdate(data);
+
+	if (!validationResult.success) throw fail(400, { issues: validationResult.errors });
 
 	// hacky way to rename "title" prop to "listingTitle"
 	if (data.title) {
