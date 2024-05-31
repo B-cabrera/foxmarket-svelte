@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Listing from '$lib/components/Listing.svelte';
 	import MultiSelectFilterBlock from '$lib/components/MultiSelectFilterBlock.svelte';
@@ -26,7 +27,7 @@
 
 	const generateSearchParamsAndApplyFilters = async () => {
 		// handling when min and max aren't valid
-		if ((minPrice != '' && maxPrice != '') && parseInt(minPrice) > parseInt(maxPrice)) {
+		if (minPrice != '' && maxPrice != '' && parseInt(minPrice) > parseInt(maxPrice)) {
 			toastStore.trigger({
 				message: 'Min price has to be less than max price.',
 				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
@@ -36,19 +37,28 @@
 			maxPrice = '';
 			return;
 		}
-		
-		let validParams: string[][] = [];
+
+		let searchParams = new URLSearchParams();
 
 		// adding the filter to the valid params if they aren't empty
-		minPrice != '' && validParams.push(['min', minPrice]);
-		maxPrice != '' && validParams.push(['max', maxPrice]);
-		chosenBrands.length > 0 && validParams.push(['brands', chosenBrands.toString()]);
-		chosenLocations.length > 0 && validParams.push(['locations', chosenLocations.toString()]);
-		chosenSizes.length > 0 && validParams.push(['sizes', chosenSizes.toString()]);
+		minPrice != '' && searchParams.append('price', 'gte' + minPrice);
+		maxPrice != '' && searchParams.append('price', 'lte' + maxPrice);
+		chosenBrands.length > 0 &&
+			chosenBrands.forEach((brand) => {
+				searchParams.append('brand', brand);
+			});
+		chosenLocations.length > 0 &&
+			chosenLocations.forEach((location) => {
+				searchParams.append('location', location);
+			});
+		chosenSizes.length > 0 &&
+			chosenSizes.forEach((size) => {
+				searchParams.append('size', size);
+			});
 
-		let searchParamsString = new URLSearchParams(validParams).toString();
+		let searchParamsString = searchParams.toString();
 
-		console.log(searchParamsString);
+		await goto(`/feed?${searchParamsString}`);
 	};
 </script>
 
