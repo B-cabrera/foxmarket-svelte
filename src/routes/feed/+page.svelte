@@ -3,11 +3,13 @@
 	import Listing from '$lib/components/Listing.svelte';
 	import MultiSelectFilterBlock from '$lib/components/MultiSelectFilterBlock.svelte';
 	import PriceFilterBlock from '$lib/components/PriceFilterBlock.svelte';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	const userID = data.userID!;
 	const { brandSet, locationSet, sizeSet } = data;
+	const toastStore = getToastStore();
 
 	let minPrice = '';
 	let maxPrice = '';
@@ -22,19 +24,31 @@
 		chosenLocations.length > 0 ||
 		chosenSizes.length > 0;
 
-	const generateSearchParams = () => {
+	const generateSearchParamsAndApplyFilters = async () => {
+		// handling when min and max aren't valid
+		if ((minPrice != '' && maxPrice != '') && parseInt(minPrice) > parseInt(maxPrice)) {
+			toastStore.trigger({
+				message: 'Min price has to be less than max price.',
+				classes: 'bg-maristred text-slate-50 p-5 mt-2 rounded border-2 spacing',
+			});
+
+			minPrice = '';
+			maxPrice = '';
+			return;
+		}
+		
 		let validParams: string[][] = [];
 
 		// adding the filter to the valid params if they aren't empty
-		minPrice != '' && validParams.push(['min', minPrice]); 
+		minPrice != '' && validParams.push(['min', minPrice]);
 		maxPrice != '' && validParams.push(['max', maxPrice]);
 		chosenBrands.length > 0 && validParams.push(['brands', chosenBrands.toString()]);
 		chosenLocations.length > 0 && validParams.push(['locations', chosenLocations.toString()]);
 		chosenSizes.length > 0 && validParams.push(['sizes', chosenSizes.toString()]);
 
-		let searchParams = new URLSearchParams(validParams).toString();
+		let searchParamsString = new URLSearchParams(validParams).toString();
 
-		console.log(searchParams);
+		console.log(searchParamsString);
 	};
 </script>
 
@@ -60,7 +74,7 @@
 			<button
 				class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50"
 				disabled={!isFiltering}
-				on:click={generateSearchParams}>Apply</button
+				on:click={generateSearchParamsAndApplyFilters}>Apply</button
 			>
 		</div>
 	</div>
