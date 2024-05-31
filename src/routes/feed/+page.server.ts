@@ -6,7 +6,6 @@
 import type { Listing } from '@prisma/client';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { Decimal } from '@prisma/client/runtime/library';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	const data = await fetch('/api/items');
