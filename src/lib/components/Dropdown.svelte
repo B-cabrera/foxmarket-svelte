@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
+
 	export let label: string;
 
 	let showMenu = false;
@@ -16,7 +18,9 @@
 	</button>
 
 	{#if showMenu}
-		<slot />
+		<div transition:slide={{ duration: 500 }}>
+			<slot />
+		</div>
 	{/if}
 	<hr />
 </div>
