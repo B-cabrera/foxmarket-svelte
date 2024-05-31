@@ -10,7 +10,7 @@
 
 	export let data: PageData;
 	const userID = data.userID!;
-	const { brandSet, locationSet, sizeSet } = data;
+	const { brandList, locationList, sizeList } = data;
 	const toastStore = getToastStore();
 
 	let minPrice = '';
@@ -70,13 +70,13 @@
 				<PriceFilterBlock bind:min={minPrice} bind:max={maxPrice} />
 			</Dropdown>
 			<Dropdown label={'Brand'}>
-				<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandSet} />
+				<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandList} />
 			</Dropdown>
 			<Dropdown label={'Location'}>
-				<MultiSelectFilterBlock bind:chosen={chosenLocations} selections={locationSet} />
+				<MultiSelectFilterBlock bind:chosen={chosenLocations} selections={locationList} />
 			</Dropdown>
 			<Dropdown label={'Size'}>
-				<MultiSelectFilterBlock bind:chosen={chosenSizes} selections={sizeSet} />
+				<MultiSelectFilterBlock bind:chosen={chosenSizes} selections={sizeList} />
 			</Dropdown>
 		</div>
 

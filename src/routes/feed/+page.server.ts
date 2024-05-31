@@ -6,6 +6,7 @@
 import type { Listing } from '@prisma/client';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import Sizes from '$lib/utils/Sizes';
 
 export const load: PageServerLoad = async ({ fetch, url }) => {
 	const hasFilters = Array.from(url.searchParams.entries()).length > 0;
@@ -24,11 +25,19 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 		}
 	}
 
+	const brandSortedList = Array.from(brandSet).sort();
+	const locationSortedList = Array.from(locationSet).sort();
+	const sizesSortedList = Array.from(sizeSet).sort((a, b) => {
+		const sizeOrder = Object.values(Sizes);
+
+		return sizeOrder.indexOf(a as Sizes) - sizeOrder.indexOf(b as Sizes);
+	});
+
 	return {
 		listings,
-		brandSet,
-		locationSet,
-		sizeSet
+		brandList: brandSortedList,
+		locationList: locationSortedList,
+		sizeList: sizesSortedList
 	};
 };
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let selections: Set<string>;
+	export let selections: string[];
 	export let chosen: string[];
 </script>
 
