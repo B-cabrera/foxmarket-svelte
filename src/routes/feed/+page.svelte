@@ -15,7 +15,27 @@
 	let chosenLocations: string[] = [];
 	let chosenSizes: string[] = [];
 
-	$: isFiltering = minPrice != '' || maxPrice != '' || chosenBrands.length > 0 || chosenLocations.length > 0 || chosenSizes.length > 0;
+	$: isFiltering =
+		minPrice != '' ||
+		maxPrice != '' ||
+		chosenBrands.length > 0 ||
+		chosenLocations.length > 0 ||
+		chosenSizes.length > 0;
+
+	const generateSearchParams = () => {
+		let validParams: string[][] = [];
+
+		// adding the filter to the valid params if they aren't empty
+		minPrice != '' && validParams.push(['min', minPrice]); 
+		maxPrice != '' && validParams.push(['max', maxPrice]);
+		chosenBrands.length > 0 && validParams.push(['brands', chosenBrands.toString()]);
+		chosenLocations.length > 0 && validParams.push(['locations', chosenLocations.toString()]);
+		chosenSizes.length > 0 && validParams.push(['sizes', chosenSizes.toString()]);
+
+		let searchParams = new URLSearchParams(validParams).toString();
+
+		console.log(searchParams);
+	};
 </script>
 
 <div id="feed" class="h-[calc(100vh-56px)] flex">
@@ -37,7 +57,11 @@
 
 		<div class="flex justify-around">
 			<button class="btn text-xl !font-light border-2 border-slate-950 bg-maristgrey">Clear</button>
-			<button class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50" disabled={!isFiltering} >Apply</button>
+			<button
+				class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50"
+				disabled={!isFiltering}
+				on:click={generateSearchParams}>Apply</button
+			>
 		</div>
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
