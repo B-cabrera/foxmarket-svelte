@@ -17,19 +17,28 @@
 </script>
 
 <div id="feed" class="h-[calc(100vh-56px)] flex">
-	<div id="filters" class="w-1/6">
-		<Dropdown label={'Price'}>
-			<PriceFilterBlock bind:min={minPrice} bind:max={maxPrice} />
-		</Dropdown>
-		<Dropdown label={'Brand'}>
-			<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandSet} />
-		</Dropdown>
-		<Dropdown label={'Location'}>
-			<MultiSelectFilterBlock bind:chosen={chosenLocations} selections={locationSet} />
-		</Dropdown>
-		<Dropdown label={'Size'}>
-			<MultiSelectFilterBlock bind:chosen={chosenSizes} selections={sizeSet} />
-		</Dropdown>
+	<div id="filters" class="w-1/6 flex flex-col justify-between">
+		<div>
+			<Dropdown label={'Price'}>
+				<PriceFilterBlock bind:min={minPrice} bind:max={maxPrice} />
+			</Dropdown>
+			<Dropdown label={'Brand'}>
+				<MultiSelectFilterBlock bind:chosen={chosenBrands} selections={brandSet} />
+			</Dropdown>
+			<Dropdown label={'Location'}>
+				<MultiSelectFilterBlock bind:chosen={chosenLocations} selections={locationSet} />
+			</Dropdown>
+			<Dropdown label={'Size'}>
+				<MultiSelectFilterBlock bind:chosen={chosenSizes} selections={sizeSet} />
+			</Dropdown>
+		</div>
+
+		<div class="flex justify-around">
+			<button class="btn text-xl !font-light border-2 border-slate-950 bg-maristgrey">Clear</button>
+			<button class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50">
+				Apply
+			</button>
+		</div>
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
 		{#each data.listings as listing}
