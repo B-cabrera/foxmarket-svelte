@@ -19,7 +19,7 @@
 	};
 </script>
 
-<div class="flex justify-around py-5 gap-3 text-center">
+<div class="flex justify-around py-2 gap-3 text-center">
 	<div class="relative flex">
 		<input
 			bind:value={min}
