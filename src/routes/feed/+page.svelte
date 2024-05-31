@@ -14,6 +14,8 @@
 	let chosenBrands: string[] = [];
 	let chosenLocations: string[] = [];
 	let chosenSizes: string[] = [];
+
+	$: isFiltering = minPrice != '' || maxPrice != '' || chosenBrands.length > 0 || chosenLocations.length > 0 || chosenSizes.length > 0;
 </script>
 
 <div id="feed" class="h-[calc(100vh-56px)] flex">
@@ -35,9 +37,7 @@
 
 		<div class="flex justify-around">
 			<button class="btn text-xl !font-light border-2 border-slate-950 bg-maristgrey">Clear</button>
-			<button class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50">
-				Apply
-			</button>
+			<button class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50" disabled={!isFiltering} >Apply</button>
 		</div>
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
