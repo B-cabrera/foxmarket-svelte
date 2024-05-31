@@ -7,8 +7,9 @@ import type { Listing } from '@prisma/client';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch }) => {
-	const data = await fetch('/api/items');
+export const load: PageServerLoad = async ({ fetch, url }) => {
+	const hasFilters = Array.from(url.searchParams.entries()).length > 0;
+	const data = await fetch(`/api/items${hasFilters ? '?' + url.searchParams.toString() : ''}`);
 	const { listings }: { listings: Listing[] } = await data.json();
 	const brandSet: Set<string> = new Set();
 	const locationSet: Set<string> = new Set();
