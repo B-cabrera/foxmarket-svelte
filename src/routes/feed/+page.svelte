@@ -6,6 +6,7 @@
 	import PriceFilterBlock from '$lib/components/PriceFilterBlock.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 	const userID = data.userID!;
@@ -80,7 +81,22 @@
 		</div>
 
 		<div class="flex justify-around">
-			<button class="btn text-xl !font-light border-2 border-slate-950 bg-maristgrey">Clear</button>
+			<button
+				class="btn text-xl !font-light border-2 border-slate-950 bg-maristgrey"
+				disabled={!$page.url.searchParams.has('price') &&
+					!$page.url.searchParams.has('brand') &&
+					!$page.url.searchParams.has('location') &&
+					!$page.url.searchParams.has('size')}
+				on:click={async () => {
+					minPrice = '';
+					maxPrice = '';
+					chosenBrands = [];
+					chosenLocations = [];
+					chosenSizes = [];
+
+					await goto('/feed');
+				}}>Reset</button
+			>
 			<button
 				class="btn text-xl !font-light border-2 border-slate-50 bg-maristred text-slate-50"
 				disabled={!isFiltering}
