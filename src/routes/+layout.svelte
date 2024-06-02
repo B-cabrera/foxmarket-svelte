@@ -7,12 +7,14 @@
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
 	import type { MessageWithoutID } from './+layout.server';
+	import { goto } from '$app/navigation';
 	initializeStores();
 
 	export let data: PageData;
 
 	let showAuthedButtons: boolean;
 	let isListenerSetup = false;
+	let searchTerm = '';
 	const { userChannel, userID } = data;
 	let toastStore = getToastStore();
 
@@ -40,12 +42,20 @@
 		isListenerSetup = true;
 	};
 
+	const sendSearch = async () => {
+		if (searchTerm.trim() == '') return;
+
+		$page.url.searchParams.set('search', searchTerm);
+
+		await goto(`/feed?${$page.url.searchParams.toString()}`);
+	};
+
 	onMount(() => {
 		setUpUserListener();
 
 		document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
 			if (event.code === 'Enter' && !event.shiftKey) {
-				console.log('clicked');
+				sendSearch();
 
 				event.preventDefault();
 			}
@@ -72,8 +82,10 @@
 		<input
 			id="searchInput"
 			type="search"
+			bind:value={searchTerm}
 			class="input pl-10 tracking-wider font-bold"
 			placeholder="Search"
+			autocomplete="off"
 		/>
 	</div>
 
