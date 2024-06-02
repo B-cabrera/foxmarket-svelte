@@ -5,6 +5,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import type { Prisma } from '@prisma/client';
+import { fuzzySearch } from '../brands/+server';
 
 function generatePrismaFilterObjsFromFilters(params: URLSearchParams) {
 	let filterObjs: Prisma.ListingWhereInput[] = [];
@@ -12,7 +13,7 @@ function generatePrismaFilterObjsFromFilters(params: URLSearchParams) {
 	let addedKeys: string[] = [];
 
 	keyList.forEach((key) => {
-		if (addedKeys.includes(key)) return;
+		if (addedKeys.includes(key) || key == 'search') return;
 
 		addedKeys.push(key);
 		const input: Prisma.ListingWhereInput = key == 'price' ? { AND: [] } : { OR: [] };
@@ -40,13 +41,31 @@ function generatePrismaFilterObjsFromFilters(params: URLSearchParams) {
 	return filterObjs;
 }
 
+function generateFuzzySearchQueryFromSearch(params: URLSearchParams) {
+	let filterObjs: Prisma.ListingWhereInput = { OR: [] };
+
+	if (params.has('search')) {
+		const searchTerm = params.get('search')!;
+
+		filterObjs.OR?.push(fuzzySearch('listingTitle', searchTerm)!);
+		filterObjs.OR?.push(fuzzySearch('description', searchTerm)!);
+		filterObjs.OR?.push(fuzzySearch('brand', searchTerm)!);
+	}
+
+
+	return filterObjs;
+}
+
 export const GET: RequestHandler = async ({ locals, url }) => {
 	const filterObjs = generatePrismaFilterObjsFromFilters(url.searchParams);
+	const searchObj = generateFuzzySearchQueryFromSearch(url.searchParams);
+
 	const allListings = await prisma.listing.findMany({
 		where: {
 			AND: [{ sold: false },
-			...filterObjs
-			]
+			...filterObjs,
+				searchObj
+			],
 		},
 		include: {
 			favoritedBy: true,
