@@ -69,7 +69,7 @@
 	</div>
 {/if}
 <div id="feed" class="flex">
-	<div id="filters" class="w-1/6 flex flex-col justify-between">
+	<div id="filters" class="w-1/6 flex flex-col justify-between h-[calc(100vh-115px)]">
 		<div>
 			<Dropdown label={'Price'}>
 				<PriceFilterBlock bind:min={minPrice} bind:max={maxPrice} />
@@ -111,6 +111,8 @@
 	</div>
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
 		{#each data.listings as listing}
+			<Listing {listing} {userID} />
+			<Listing {listing} {userID} />
 			<Listing {listing} {userID} />
 		{/each}
 	</div>
