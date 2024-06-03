@@ -63,6 +63,11 @@
 	};
 </script>
 
+{#if $page.url.searchParams.has('search')}
+	<div class="text-slate-50 text-3xl py-2 px-6 tracking-wider font-bold">
+		<h1>"{$page.url.searchParams.get('search')}"</h1>
+	</div>
+{/if}
 <div id="feed" class="flex">
 	<div id="filters" class="w-1/6 flex flex-col justify-between">
 		<div>
