@@ -63,7 +63,7 @@
 	};
 </script>
 
-<div id="feed" class="h-[calc(100vh-56px)] flex">
+<div id="feed" class="flex">
 	<div id="filters" class="w-1/6 flex flex-col justify-between">
 		<div>
 			<Dropdown label={'Price'}>
