@@ -113,8 +113,6 @@
 	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
 		{#each data.listings as listing}
 			<Listing {listing} {userID} />
-			<Listing {listing} {userID} />
-			<Listing {listing} {userID} />
 		{/each}
 	</div>
 </div>
