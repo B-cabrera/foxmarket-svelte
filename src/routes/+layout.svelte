@@ -7,7 +7,7 @@
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
 	import type { MessageWithoutID } from './+layout.server';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	initializeStores();
 
 	export let data: PageData;
@@ -19,6 +19,10 @@
 	let toastStore = getToastStore();
 
 	$: messageStore = data.messageStore;
+
+	afterNavigate(({ type }) => {
+		if (type == 'link') searchTerm = '';
+	});
 
 	const setUpUserListener = () => {
 		if (isListenerSetup || userID === undefined) return;
