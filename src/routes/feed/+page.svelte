@@ -61,7 +61,9 @@
 
 		let searchParamsString = $page.url.searchParams.toString();
 
-		await goto(`/feed?${searchParamsString}`);
+		await goto(`/feed?${searchParamsString}`, {
+			invalidateAll: true
+		});
 	};
 </script>
 
