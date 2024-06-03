@@ -39,25 +39,27 @@
 			return;
 		}
 
-		let searchParams = new URLSearchParams();
-
 		// adding the filter to the valid params if they aren't empty
-		minPrice != '' && searchParams.append('price', 'gte' + minPrice);
-		maxPrice != '' && searchParams.append('price', 'lte' + maxPrice);
+		minPrice != '' && $page.url.searchParams.set('price', 'gte' + minPrice);
+		maxPrice != '' && $page.url.searchParams.set('price', 'lte' + maxPrice);
+
 		chosenBrands.length > 0 &&
 			chosenBrands.forEach((brand) => {
-				searchParams.append('brand', brand);
+				if (!$page.url.searchParams.getAll('brand').includes(brand))
+					$page.url.searchParams.append('brand', brand);
 			});
 		chosenLocations.length > 0 &&
 			chosenLocations.forEach((location) => {
-				searchParams.append('location', location);
+				if (!$page.url.searchParams.getAll('location').includes(location))
+					$page.url.searchParams.append('location', location);
 			});
 		chosenSizes.length > 0 &&
 			chosenSizes.forEach((size) => {
-				searchParams.append('size', size);
+				if (!$page.url.searchParams.getAll('size').includes(size))
+					$page.url.searchParams.append('size', size);
 			});
 
-		let searchParamsString = searchParams.toString();
+		let searchParamsString = $page.url.searchParams.toString();
 
 		await goto(`/feed?${searchParamsString}`);
 	};
