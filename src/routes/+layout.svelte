@@ -79,17 +79,23 @@
 	<a href={showAuthedButtons ? '/feed' : '/'}>
 		<img src={logo} alt="The FoxMarket Logo" class="w-[250px] px-4 py-2" />
 	</a>
-	<div class="flex w-[55%] items-center">
-		<i class="material-symbols-outlined reg_symbol text-maristgrey absolute px-2"> search </i>
-		<input
-			id="searchInput"
-			type="search"
-			bind:value={searchTerm}
-			class="input pl-10 tracking-wider font-bold"
-			placeholder="Search"
-			autocomplete="off"
-		/>
-	</div>
+	{#if showAuthedButtons}
+		<div class="flex w-[55%] items-center">
+			<i class="material-symbols-outlined reg_symbol text-maristgrey absolute px-2"> search </i>
+			<input
+				id="searchInput"
+				type="search"
+				bind:value={searchTerm}
+				class="input pl-10 tracking-wider font-bold"
+				placeholder="Search"
+				autocomplete="off"
+			/>
+		</div>
+		{:else}
+		<div class="w-[55%] text-center">
+			<p class="text-2xl text-slate-50">FoxMarket: The Marist Student Marketplace</p>
+		</div>
+	{/if}
 
 	<ButtonContainer {showAuthedButtons} />
 </nav>
