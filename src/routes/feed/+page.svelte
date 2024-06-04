@@ -54,27 +54,26 @@
 		lastParams.chosenLocations = [...chosenLocations];
 		lastParams.chosenSizes = [...chosenSizes];
 
+		const params = new URLSearchParams();
+
 		// adding the filter to the valid params if they aren't empty
-		minPrice != '' && $page.url.searchParams.append('price', 'gte' + minPrice);
-		maxPrice != '' && $page.url.searchParams.append('price', 'lte' + maxPrice);
+		minPrice != '' && params.append('price', 'gte' + minPrice);
+		maxPrice != '' && params.append('price', 'lte' + maxPrice);
 
 		chosenBrands.length > 0 &&
 			chosenBrands.forEach((brand) => {
-				if (!$page.url.searchParams.getAll('brand').includes(brand))
-					$page.url.searchParams.append('brand', brand);
+				params.append('brand', brand);
 			});
 		chosenLocations.length > 0 &&
 			chosenLocations.forEach((location) => {
-				if (!$page.url.searchParams.getAll('location').includes(location))
-					$page.url.searchParams.append('location', location);
+				params.append('location', location);
 			});
 		chosenSizes.length > 0 &&
 			chosenSizes.forEach((size) => {
-				if (!$page.url.searchParams.getAll('size').includes(size))
-					$page.url.searchParams.append('size', size);
+				params.append('size', size);
 			});
 
-		let searchParamsString = $page.url.searchParams.toString();
+		let searchParamsString = params.toString();
 
 		await goto(`/feed?${searchParamsString}`, {
 			invalidateAll: true,
@@ -94,6 +93,12 @@
 		chosenBrands = [];
 		chosenLocations = [];
 		chosenSizes = [];
+
+		lastParams.minPrice = ''
+		lastParams.maxPrice = '';
+		lastParams.chosenBrands = [];
+		lastParams.chosenLocations = [];
+		lastParams.chosenSizes = [];
 	};
 
 	const isDifferent = () => {
@@ -103,7 +108,6 @@
 
 		const sortedPrevBrands = lastParams.chosenBrands.sort();
 		const sortedAfterBrands = chosenBrands.sort();
-
 
 		if (
 			!sortedPrevBrands.every((val, index) => {
