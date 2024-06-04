@@ -173,7 +173,7 @@
 		<div>
 			{#if $page.url.searchParams.has('search')}
 				<div class="text-slate-50 text-3xl py-2 px-6 tracking-wider font-bold">
-					<h1>"{$page.url.searchParams.get('search')}"</h1>
+					<h1>"{$page.url.searchParams.get('search')}" ({data.listings.length})</h1>
 				</div>
 			{/if}
 
