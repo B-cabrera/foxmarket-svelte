@@ -158,6 +158,8 @@
 		const _ = $page.url.searchParams;
 
 		if ($page.url.searchParams.size == 0) {
+			isFiltering = false;
+
 			brandList = data.brandList;
 			locationList = data.locationList;
 			sizeList = data.sizeList;
