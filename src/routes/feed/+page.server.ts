@@ -42,7 +42,9 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 };
 
 export const actions = {
-	favorite: async ({ request, locals, fetch }) => {
+	favorite: async ({ request, locals, fetch, url }) => {
+		url.searchParams.delete('/favorite'); // removing for the redirect link
+
 		const data = await request.formData();
 		const listingToFavorite = data.get('listing_id') as string;
 		const favoritingUser = locals.data?.userID!;
@@ -56,13 +58,15 @@ export const actions = {
 		});
 
 		if (response.ok) {
-			throw redirect(302, '/feed');
+			throw redirect(302, `/feed?${url.searchParams.toString()}`);
 		}
 
 		return fail(response.status, { errors: [(await response.json()).message] });
 	},
 
-	unfavorite: async ({ request, locals, fetch }) => {
+	unfavorite: async ({ request, locals, fetch, url }) => {
+		url.searchParams.delete('/unfavorite'); // removing for the redirect link
+
 		const data = await request.formData();
 		const listingToFavorite = data.get('listing_id') as string;
 		const favoritingUser = locals.data?.userID!;
@@ -76,7 +80,7 @@ export const actions = {
 		});
 
 		if (response.ok) {
-			throw redirect(302, '/feed');
+			throw redirect(302, `/feed?${url.searchParams.toString()}`);
 		}
 
 		return fail(response.status, { errors: [(await response.json()).message] });

@@ -9,6 +9,7 @@
 	export let listing: ListingWithFavoriteBool;
 	export let display: 'row' | 'card' = 'card';
 	export let userID: string;
+	export let params: string = '';
 </script>
 
 {#if display == 'card'}
@@ -16,7 +17,7 @@
 		{#if listing.sellerId != userID}
 			<form
 				method="POST"
-				action={`/feed?${listing.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}`}
+				action={`/feed?${listing.isFavoritedByCurrentUser ? '/unfavorite' : '/favorite'}&${params}`}
 				use:enhance
 			>
 				<input type="hidden" name="listing_id" value={listing.id} />

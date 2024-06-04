@@ -7,16 +7,22 @@
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
 	import type { MessageWithoutID } from './+layout.server';
+	import { afterNavigate, goto } from '$app/navigation';
 	initializeStores();
 
 	export let data: PageData;
 
 	let showAuthedButtons: boolean;
 	let isListenerSetup = false;
+	let searchTerm = '';
 	const { userChannel, userID } = data;
 	let toastStore = getToastStore();
 
 	$: messageStore = data.messageStore;
+
+	afterNavigate(({ type }) => {
+		if (type == 'link') searchTerm = '';
+	});
 
 	const setUpUserListener = () => {
 		if (isListenerSetup || userID === undefined) return;
@@ -40,8 +46,22 @@
 		isListenerSetup = true;
 	};
 
+	const sendSearch = async () => {
+		if (searchTerm.trim() == '') return;
+
+		await goto(`/feed?search=${searchTerm}`);
+	};
+
 	onMount(() => {
 		setUpUserListener();
+
+		document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
+			if (event.code === 'Enter' && !event.shiftKey) {
+				sendSearch();
+
+				event.preventDefault();
+			}
+		});
 	});
 
 	onDestroy(() => {
@@ -55,13 +75,20 @@
 	}
 </script>
 
-<nav class="sticky flex h-14 items-center top-0 bg-maristdarkgrey z-10 w-screen">
+<nav class="sticky flex h-14 items-center top-0 bg-maristdarkgrey z-10 w-full">
 	<a href={showAuthedButtons ? '/feed' : '/'}>
 		<img src={logo} alt="The FoxMarket Logo" class="w-[250px] px-4 py-2" />
 	</a>
 	<div class="flex w-[55%] items-center">
 		<i class="material-symbols-outlined reg_symbol text-maristgrey absolute px-2"> search </i>
-		<input type="search" class="input pl-10 tracking-wider font-bold" placeholder="Search" />
+		<input
+			id="searchInput"
+			type="search"
+			bind:value={searchTerm}
+			class="input pl-10 tracking-wider font-bold"
+			placeholder="Search"
+			autocomplete="off"
+		/>
 	</div>
 
 	<ButtonContainer {showAuthedButtons} />
