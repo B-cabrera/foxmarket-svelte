@@ -95,7 +95,6 @@
 		brandList = data.brandList;
 		locationList = data.locationList;
 		sizeList = data.sizeList;
-
 		resetChosenFilters();
 	}
 
@@ -157,7 +156,7 @@
 	$: {
 		const _ = $page.url.searchParams;
 
-		if ($page.url.searchParams.size == 0) {
+		if ($page.url.searchParams.size == 0 && !isApplyingFilters) {
 			isFiltering = false;
 
 			brandList = data.brandList;
@@ -212,9 +211,15 @@
 			>
 		</div>
 	</div>
-	<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
-		{#each data.listings as listing}
-			<Listing {listing} {userID} params={$page.url.searchParams.toString()} />
-		{/each}
-	</div>
+	{#if data.listings.length == 0}
+		<div class="grid place-items-center w-full">
+			<p class="text-3xl text-slate-50">No listings found....</p>
+		</div>
+	{:else}
+		<div id="items" class="w-full grid grid-cols-4 gap-8 px-5">
+			{#each data.listings as listing}
+				<Listing {listing} {userID} params={$page.url.searchParams.toString()} />
+			{/each}
+		</div>
+	{/if}
 </div>
