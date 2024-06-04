@@ -18,6 +18,7 @@
 	let chosenBrands: string[] = [];
 	let chosenLocations: string[] = [];
 	let chosenSizes: string[] = [];
+	let isApplyingFilters = false;
 	const lastParams = {
 		minPrice,
 		maxPrice,
@@ -73,14 +74,23 @@
 				params.append('size', size);
 			});
 
+		$page.url.searchParams.has('search') &&
+			params.set('search', $page.url.searchParams.get('search')!);
+
 		let searchParamsString = params.toString();
 
+		isApplyingFilters = true;
 		await goto(`/feed?${searchParamsString}`, {
 			invalidateAll: true,
 		});
+		isApplyingFilters = false;
 	};
 
-	$: if ($page.url.searchParams.has('search') && $page.url.searchParams.size == 1) {
+	$: if (
+		$page.url.searchParams.has('search') &&
+		$page.url.searchParams.size == 1 &&
+		!isApplyingFilters
+	) {
 		// update left side filters if search is the only param
 		brandList = data.brandList;
 		locationList = data.locationList;
