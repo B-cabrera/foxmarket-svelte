@@ -80,6 +80,12 @@
 		chosenLocations = [];
 		chosenSizes = [];
 	};
+
+	$: {
+		const _ = $page.url.searchParams;
+
+		if ($page.url.searchParams.size == 0) resetChosenFilters();
+	}
 </script>
 
 <div id="feed" class="flex">
