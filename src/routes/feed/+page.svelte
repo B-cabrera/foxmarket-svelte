@@ -85,6 +85,8 @@
 		brandList = data.brandList;
 		locationList = data.locationList;
 		sizeList = data.sizeList;
+
+		resetChosenFilters();
 	}
 
 	const resetChosenFilters = () => {
@@ -94,7 +96,7 @@
 		chosenLocations = [];
 		chosenSizes = [];
 
-		lastParams.minPrice = ''
+		lastParams.minPrice = '';
 		lastParams.maxPrice = '';
 		lastParams.chosenBrands = [];
 		lastParams.chosenLocations = [];
