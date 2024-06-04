@@ -49,9 +49,7 @@
 	const sendSearch = async () => {
 		if (searchTerm.trim() == '') return;
 
-		$page.url.searchParams.set('search', searchTerm);
-
-		await goto(`/feed?${$page.url.searchParams.toString()}`);
+		await goto(`/feed?search=${searchTerm}`);
 	};
 
 	onMount(() => {
