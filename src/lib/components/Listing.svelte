@@ -9,7 +9,7 @@
 	export let listing: ListingWithFavoriteBool;
 	export let display: 'row' | 'card' = 'card';
 	export let userID: string;
-	export let params: string;
+	export let params: string = '';
 </script>
 
 {#if display == 'card'}
