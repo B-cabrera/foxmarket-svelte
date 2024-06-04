@@ -157,7 +157,13 @@
 	$: {
 		const _ = $page.url.searchParams;
 
-		if ($page.url.searchParams.size == 0) resetChosenFilters();
+		if ($page.url.searchParams.size == 0) {
+			brandList = data.brandList;
+			locationList = data.locationList;
+			sizeList = data.sizeList;
+
+			resetChosenFilters();
+		}
 	}
 </script>
 
