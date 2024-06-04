@@ -10,7 +10,7 @@
 
 	export let data: PageData;
 	const userID = data.userID!;
-	const { brandList, locationList, sizeList } = data;
+	let { brandList, locationList, sizeList } = data;
 	const toastStore = getToastStore();
 
 	let minPrice = '';
@@ -62,9 +62,16 @@
 		let searchParamsString = $page.url.searchParams.toString();
 
 		await goto(`/feed?${searchParamsString}`, {
-			invalidateAll: true
+			invalidateAll: true,
 		});
 	};
+
+	$: if ($page.url.searchParams.has('search') && $page.url.searchParams.size == 1) {
+		// update left side filters if search is the only param
+		brandList = data.brandList;
+		locationList = data.locationList;
+		sizeList = data.sizeList;
+	}
 </script>
 
 <div id="feed" class="flex">
