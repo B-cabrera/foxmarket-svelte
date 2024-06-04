@@ -89,19 +89,21 @@
 					</button>
 				</form>
 			{:else}
-				<button
-					class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
-					on:click={() => (isEditing = true)}
-				>
-					<span
-						tabindex="0"
-						role="button"
-						class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
-					>
-						edit_note
-					</span>
-					Edit
-				</button>
+				{#if !item.sold}
+					<button
+						class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+						on:click={() => (isEditing = true)}
+						>
+						<span
+							tabindex="0"
+							role="button"
+							class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
+							>
+							edit_note
+						</span>
+						Edit
+					</button>
+				{/if}
 			{/if}
 		</div>
 
