@@ -18,6 +18,13 @@
 	let chosenBrands: string[] = [];
 	let chosenLocations: string[] = [];
 	let chosenSizes: string[] = [];
+	const lastParams = {
+		minPrice,
+		maxPrice,
+		chosenBrands,
+		chosenLocations,
+		chosenSizes,
+	};
 
 	$: isFiltering =
 		minPrice != '' ||
@@ -39,9 +46,17 @@
 			return;
 		}
 
+		if (!isDifferent()) return;
+
+		lastParams.minPrice = minPrice;
+		lastParams.maxPrice = maxPrice;
+		lastParams.chosenBrands = [...chosenBrands];
+		lastParams.chosenLocations = [...chosenLocations];
+		lastParams.chosenSizes = [...chosenSizes];
+
 		// adding the filter to the valid params if they aren't empty
-		minPrice != '' && $page.url.searchParams.set('price', 'gte' + minPrice);
-		maxPrice != '' && $page.url.searchParams.set('price', 'lte' + maxPrice);
+		minPrice != '' && $page.url.searchParams.append('price', 'gte' + minPrice);
+		maxPrice != '' && $page.url.searchParams.append('price', 'lte' + maxPrice);
 
 		chosenBrands.length > 0 &&
 			chosenBrands.forEach((brand) => {
@@ -79,6 +94,48 @@
 		chosenBrands = [];
 		chosenLocations = [];
 		chosenSizes = [];
+	};
+
+	const isDifferent = () => {
+		if (minPrice != lastParams.minPrice) return true;
+		if (maxPrice != lastParams.maxPrice) return true;
+		if (chosenBrands.length != lastParams.chosenBrands.length) return true;
+
+		const sortedPrevBrands = lastParams.chosenBrands.sort();
+		const sortedAfterBrands = chosenBrands.sort();
+
+
+		if (
+			!sortedPrevBrands.every((val, index) => {
+				return val == sortedAfterBrands[index];
+			})
+		)
+			return true;
+
+		if (chosenLocations.length != lastParams.chosenLocations.length) return true;
+
+		const sortedPrevLocations = lastParams.chosenLocations.sort();
+		const sortedAfterLocations = chosenLocations.sort();
+		if (
+			!sortedPrevLocations.every((val, index) => {
+				return val == sortedAfterLocations[index];
+			})
+		)
+			return true;
+
+		if (chosenSizes.length != lastParams.chosenSizes.length) return true;
+
+		const sortedPrevSizes = lastParams.chosenSizes.sort();
+		const sortedAfterSizes = chosenSizes.sort();
+
+		if (
+			!sortedPrevSizes.every((val, index) => {
+				return val == sortedAfterSizes[index];
+			})
+		)
+			return true;
+
+		return false;
 	};
 
 	$: {
