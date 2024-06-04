@@ -72,6 +72,14 @@
 		locationList = data.locationList;
 		sizeList = data.sizeList;
 	}
+
+	const resetChosenFilters = () => {
+		minPrice = '';
+		maxPrice = '';
+		chosenBrands = [];
+		chosenLocations = [];
+		chosenSizes = [];
+	};
 </script>
 
 <div id="feed" class="flex">
@@ -105,11 +113,7 @@
 					!$page.url.searchParams.has('location') &&
 					!$page.url.searchParams.has('size')}
 				on:click={async () => {
-					minPrice = '';
-					maxPrice = '';
-					chosenBrands = [];
-					chosenLocations = [];
-					chosenSizes = [];
+					resetChosenFilters();
 
 					await goto('/feed');
 				}}>Reset</button
