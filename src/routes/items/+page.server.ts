@@ -122,4 +122,10 @@ export const actions = {
 
 		return fail(400, { errors: [(await response.json()).message] });
 	},
+	sell: async ({ request }) => {
+		const data = await request.formData();
+		const buyer = JSON.parse(data.get('buyer') as string) as { username: string, id: string };
+
+		console.log({ buyer });
+	}
 } satisfies Actions;
