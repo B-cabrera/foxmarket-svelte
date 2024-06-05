@@ -6,7 +6,7 @@ import type { Listing } from '@prisma/client';
 import type { PageServerLoad } from './$types';
 import prisma from '$lib/utils/prismaClient';
 
-export const load: PageServerLoad = async ({ fetch, params }) => {
+export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
 	}
@@ -20,11 +20,14 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	const sellerInfo = await fetch(`/api/users/${item.sellerId}`);
 	const { username, itemsSold } = await sellerInfo.json();
 
+	const buyerInfo = await fetch(`/api/item/${itemID}/buyers`);
+	const { buyers } = await buyerInfo.json();
+
 	// check if conversation exists already
 	const chatResult = await prisma.chat.findFirst({
 		where: {
 			itemId: item.id,
-			buyerId: item.buyerId,
+			buyerId: locals.data?.userID,
 			sellerId: item.sellerId
 		}
 	});
@@ -33,6 +36,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		theItem: item as ListingWithFavoriteBool,
 		sellerUsername: username as string,
 		sellerItemsSold: itemsSold as number,
-		hasChat: chatResult != null
+		hasChat: chatResult != null,
+		buyers: buyers as { username: string, id: string }[]
 	};
 };
