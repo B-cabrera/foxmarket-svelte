@@ -5,6 +5,8 @@
 	import type { Listing } from '@prisma/client';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import BrandSearch from './BrandSearch.svelte';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import MarkAsSoldModal from './MarkAsSoldModal.svelte';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
@@ -14,6 +16,7 @@
 
 	export let item: ListingWithFavoriteBool;
 	export let isEditing: boolean;
+	export let buyerList: { username: string; id: string }[];
 
 	let selectedBrand = true;
 
@@ -68,9 +71,29 @@
 
 		return uneditedFieldNames;
 	}
+
+	const modalStore = getModalStore();
+	const modalComponent: ModalComponent = {
+		ref: MarkAsSoldModal,
+		props: {
+			buyerList
+		}
+	};
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+	};
 </script>
 
-<div class="flex items-center justify-center w-2/5">
+<div class="flex flex-col items-center justify-center w-2/5">
+	<button
+		class="w-1/3 bg-maristred border-slate-50 border mt-8 text-xl text-slate-50 py-1 hover:opacity-80 disabled:opacity-50 mb-3"
+		type="button"
+		on:click={() => modalStore.trigger(modal)}
+	>
+		Mark as Sold
+	</button>
+
 	<form
 		method="POST"
 		class="flex flex-col w-2/3 gap-8 items-center"
