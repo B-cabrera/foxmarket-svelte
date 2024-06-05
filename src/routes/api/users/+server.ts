@@ -5,6 +5,7 @@
 import { json, error as failure } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import supabaseClient from '$lib/utils/supabaseClient';
+import prisma from '$lib/utils/prismaClient';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	// getting user info from request
@@ -35,6 +36,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			secure: true,
 			httpOnly: true,
 			path: '/',
+		});
+
+		await prisma.user.create({
+			data: {
+				id: data.user.id,
+				username
+			}
 		});
 	}
 
