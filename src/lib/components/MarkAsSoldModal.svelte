@@ -20,7 +20,7 @@
 		class="flex justify-center w-full gap-4"
 		use:enhance={submitFunction}
 	>
-		<select name="buyer" class="w-1/3 text-center bg-maristgrey" required>
+		<select name="buyer" class="w-1/3 text-slate-950  text-center bg-maristgrey" required>
 			<option selected disabled value="">Buyer</option>
 			{#each buyerList as buyer}
 				<option value={JSON.stringify(buyer)}>{buyer.username}</option>
