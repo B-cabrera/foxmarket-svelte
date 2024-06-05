@@ -4,6 +4,7 @@
 
 	export let buyerList: { username: string; id: string }[];
 	export let submitFunction: SubmitFunction;
+	export let itemID: string;
 </script>
 
 <div class="flex flex-col items-center gap-10 bg-maristred w-1/2 text-slate-50 h-max border p-5">
@@ -23,7 +24,10 @@
 		<select name="buyer" class="w-1/3 text-slate-950  text-center bg-maristgrey" required>
 			<option selected disabled value="">Buyer</option>
 			{#each buyerList as buyer}
-				<option value={JSON.stringify(buyer)}>{buyer.username}</option>
+				<option value={JSON.stringify({
+					buyer,
+					item: itemID
+				})}>{buyer.username}</option>
 			{/each}
 		</select>
 

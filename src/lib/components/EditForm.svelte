@@ -86,6 +86,7 @@
 		props: {
 			buyerList,
 			submitFunction: markAsSoldSubmit,
+			itemID: item.id
 		},
 	};
 	const modal: ModalSettings = {
