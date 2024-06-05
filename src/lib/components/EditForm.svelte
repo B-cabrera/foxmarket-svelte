@@ -72,12 +72,21 @@
 		return uneditedFieldNames;
 	}
 
+	const markAsSoldSubmit: SubmitFunction = () => {
+		return async ({ result }) => {
+			modalStore.close();
+
+			await applyAction(result);
+		};
+	};
+
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = {
 		ref: MarkAsSoldModal,
 		props: {
-			buyerList
-		}
+			buyerList,
+			submitFunction: markAsSoldSubmit,
+		},
 	};
 	const modal: ModalSettings = {
 		type: 'component',
