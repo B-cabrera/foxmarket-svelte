@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+
 	export let buyerList: { username: string; id: string }[];
+	export let submitFunction: SubmitFunction;
 </script>
 
 <div class="flex flex-col items-center gap-10 bg-maristred w-1/2 text-slate-50 h-max border p-5">
@@ -10,11 +14,16 @@
 		<h1 class="text-center">(Buyers are chosen from your current conversations)</h1>
 	</div>
 
-	<form action="" class="flex justify-center w-full gap-4">
-		<select name="buyer" class="w-1/3  text-center bg-maristgrey" required>
+	<form
+		method="POST"
+		action="/items?/sell"
+		class="flex justify-center w-full gap-4"
+		use:enhance={submitFunction}
+	>
+		<select name="buyer" class="w-1/3 text-center bg-maristgrey" required>
 			<option selected disabled value="">Buyer</option>
 			{#each buyerList as buyer}
-				<option value={buyer}>{buyer.username}</option>
+				<option value={JSON.stringify(buyer)}>{buyer.username}</option>
 			{/each}
 		</select>
 
