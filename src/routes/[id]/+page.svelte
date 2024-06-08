@@ -54,7 +54,7 @@
 		<img class="w-4/6 aspect-square" src={item.imageUrl} alt="" />
 	</div>
 	{#if isEditing}
-		<EditForm bind:isEditing {item} />
+		<EditForm bind:isEditing {item} buyerList={data.buyers} />
 	{:else}
 		<ListingInfoDisplay
 			{item}

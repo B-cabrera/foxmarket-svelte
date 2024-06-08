@@ -53,6 +53,14 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 	}
 
 	try {
+		const currentItemInfo = await prisma.listing.findFirst({
+			where: {
+				id: itemID
+			}
+		});
+
+		if (currentItemInfo?.sold) return new Response(JSON.stringify({ message: 'Item is sold.' }), { status: 409 });
+
 		await prisma.listing.update({
 			where: {
 				id: itemID,
