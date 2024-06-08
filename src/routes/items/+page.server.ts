@@ -131,5 +131,12 @@ export const actions = {
 			method: "PATCH",
 			body: JSON.stringify(body)
 		});
+
+		if (response.ok) {
+			return { success: true }
+		}
+
+
+		return fail(response.status, { message: (await response.json()).message })
 	}
 } satisfies Actions;
