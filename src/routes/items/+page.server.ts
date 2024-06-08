@@ -122,10 +122,14 @@ export const actions = {
 
 		return fail(400, { errors: [(await response.json()).message] });
 	},
-	sell: async ({ request }) => {
+	sell: async ({ request, fetch }) => {
 		const data = await request.formData();
-		const buyer = JSON.parse(data.get('buyer') as string) as { username: string, id: string };
+		const buyer = JSON.parse(data.get('buyer') as string) as { username: string, id: string, itemID: string };
+		const body = { buyerID: buyer.id, buyerUsername: buyer.username };
 
-		console.log({ buyer });
+		const response = await fetch(`/api/item/${buyer.itemID}/sell`, {
+			method: "PATCH",
+			body: JSON.stringify(body)
+		});
 	}
 } satisfies Actions;
