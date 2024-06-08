@@ -124,10 +124,10 @@ export const actions = {
 	},
 	sell: async ({ request, fetch }) => {
 		const data = await request.formData();
-		const buyer = JSON.parse(data.get('buyer') as string) as { username: string, id: string, itemID: string };
+		const buyer = JSON.parse(data.get('buyer') as string) as { username: string, id: string, item: string };
 		const body = { buyerID: buyer.id, buyerUsername: buyer.username };
 
-		const response = await fetch(`/api/item/${buyer.itemID}/sell`, {
+		const response = await fetch(`/api/item/${buyer.item}/sell`, {
 			method: "PATCH",
 			body: JSON.stringify(body)
 		});
