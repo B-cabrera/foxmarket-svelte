@@ -25,7 +25,7 @@
 			<option selected disabled value="">Buyer</option>
 			{#each buyerList as buyer}
 				<option value={JSON.stringify({
-					buyer,
+					...buyer,
 					item: itemID
 				})}>{buyer.username}</option>
 			{/each}
