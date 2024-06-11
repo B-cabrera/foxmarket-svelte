@@ -72,5 +72,7 @@
 				<span class="material-symbols-outlined text-7xl font-light fill_symbol"> star </span>
 			</svelte:fragment>
 		</Ratings>
+
+		<button class="btn">Rate!</button>
 	{/if}
 </div>
