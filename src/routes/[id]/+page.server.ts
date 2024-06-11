@@ -3,7 +3,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import type { Listing } from '@prisma/client';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import prisma from '$lib/utils/prismaClient';
 
 export const load: PageServerLoad = async ({ fetch, params, locals }) => {
@@ -40,3 +40,14 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 		buyers: buyers as { username: string, id: string }[]
 	};
 };
+
+
+export const actions = {
+	rate: async (event) => {
+		const { request } = event;
+		const data = await request.formData();
+		const rating = parseInt(data.get('rating') as string);
+
+		console.log({ rating });
+	}
+} satisfies Actions;
