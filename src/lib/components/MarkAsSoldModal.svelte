@@ -73,6 +73,15 @@
 			</svelte:fragment>
 		</Ratings>
 
-		<button class="btn">Rate!</button>
+		<div>
+			<button class="btn">Rate!</button>
+			<button
+				class="hover:underline"
+				on:click={async () => {
+					closeFunction();
+					await goto('/items');
+				}}>...or skip and do it later</button
+			>
+		</div>
 	{/if}
 </div>
