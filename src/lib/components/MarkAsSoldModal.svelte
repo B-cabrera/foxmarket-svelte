@@ -10,10 +10,12 @@
 
 	let phase = 0;
 	let rating = 1;
+	let transactionID = '';
 
 	const submitFunction: SubmitFunction = () => {
 		return async ({ result }) => {
 			if (result.type == 'success') {
+				transactionID = result.data!.transactionID;
 				phase = 1;
 			}
 
@@ -75,6 +77,7 @@
 			</Ratings>
 
 			<input type="number" name="rating" bind:value={rating} hidden />
+			<input name="transaction" bind:value={transactionID} hidden />
 			<div>
 				<button class="btn">Rate!</button>
 				<button
