@@ -47,7 +47,10 @@ export const actions = {
 		const { request } = event;
 		const data = await request.formData();
 		const rating = parseInt(data.get('rating') as string);
+		const transactionID = data.get('transaction') as string;
+		const buyerID = data.get('buyer') as string;
 
-		console.log({ rating });
+
+		console.log({ rating, transactionID, buyerID });
 	}
 } satisfies Actions;

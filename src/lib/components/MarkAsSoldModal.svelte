@@ -11,10 +11,12 @@
 	let phase = 0;
 	let rating = 1;
 	let transactionID = '';
+	let buyerID = '';
 
-	const submitFunction: SubmitFunction = () => {
+	const submitFunction: SubmitFunction = ({ formData }) => {
 		return async ({ result }) => {
 			if (result.type == 'success') {
+				buyerID = JSON.parse(formData.get('buyer') as string).id;
 				transactionID = result.data!.transactionID;
 				phase = 1;
 			}
@@ -78,6 +80,7 @@
 
 			<input type="number" name="rating" bind:value={rating} hidden />
 			<input name="transaction" bind:value={transactionID} hidden />
+			<input name="buyer" bind:value={buyerID} hidden />
 			<div>
 				<button class="btn">Rate!</button>
 				<button
