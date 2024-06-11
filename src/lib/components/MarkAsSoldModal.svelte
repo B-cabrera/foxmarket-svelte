@@ -1,10 +1,22 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let buyerList: { username: string; id: string }[];
-	export let submitFunction: SubmitFunction;
 	export let itemID: string;
+	export let closeFunction: () => void;
+
+	const submitFunction: SubmitFunction = () => {
+		return async ({ result }) => {
+			if (result.type == 'success') {
+				closeFunction();
+				await goto('/items');
+			}
+
+			await applyAction(result);
+		};
+	};
 </script>
 
 <div class="flex flex-col items-center gap-10 bg-maristred w-1/2 text-slate-50 h-max border p-5">
@@ -21,13 +33,15 @@
 		class="flex justify-center w-full gap-4"
 		use:enhance={submitFunction}
 	>
-		<select name="buyer" class="w-1/3 text-slate-950  text-center bg-maristgrey" required>
+		<select name="buyer" class="w-1/3 text-slate-950 text-center bg-maristgrey" required>
 			<option selected disabled value="">Buyer</option>
 			{#each buyerList as buyer}
-				<option value={JSON.stringify({
-					...buyer,
-					item: itemID
-				})}>{buyer.username}</option>
+				<option
+					value={JSON.stringify({
+						...buyer,
+						item: itemID,
+					})}>{buyer.username}</option
+				>
 			{/each}
 		</select>
 
