@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import { Ratings } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let buyerList: { username: string; id: string }[];
@@ -8,6 +9,7 @@
 	export let closeFunction: () => void;
 
 	let phase = 0;
+	let rating = 0;
 
 	const submitFunction: SubmitFunction = () => {
 		return async ({ result }) => {
@@ -54,5 +56,17 @@
 			<h1 class="text-2xl text-center font-bold">One more step...</h1>
 			<h1 class="text-xl italic text-center font-bold">Rate your buyer!!</h1>
 		</div>
+
+		<Ratings bind:value={rating} max={5}>
+			<svelte:fragment slot="empty">
+				<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star </span>
+			</svelte:fragment>
+			<svelte:fragment slot="half">
+				<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star_half </span>
+			</svelte:fragment>
+			<svelte:fragment slot="full">
+				<span class="material-symbols-outlined text-7xl font-light fill_symbol"> star </span>
+			</svelte:fragment>
+		</Ratings>
 	{/if}
 </div>
