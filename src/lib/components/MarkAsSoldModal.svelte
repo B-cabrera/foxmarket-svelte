@@ -61,27 +61,31 @@
 			<h1 class="text-xl italic text-center font-bold">Rate your buyer!!</h1>
 		</div>
 
-		<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
-			<svelte:fragment slot="empty">
-				<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star </span>
-			</svelte:fragment>
-			<svelte:fragment slot="half">
-				<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star_half </span>
-			</svelte:fragment>
-			<svelte:fragment slot="full">
-				<span class="material-symbols-outlined text-7xl font-light fill_symbol"> star </span>
-			</svelte:fragment>
-		</Ratings>
+		<form method="POST" action={`/${itemID}?/rate`} class="flex flex-col items-center">
+			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
+				<svelte:fragment slot="empty">
+					<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star </span>
+				</svelte:fragment>
+				<svelte:fragment slot="half">
+					<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star_half </span>
+				</svelte:fragment>
+				<svelte:fragment slot="full">
+					<span class="material-symbols-outlined text-7xl font-light fill_symbol"> star </span>
+				</svelte:fragment>
+			</Ratings>
 
-		<div>
-			<button class="btn">Rate!</button>
-			<button
-				class="hover:underline"
-				on:click={async () => {
-					closeFunction();
-					await goto('/items');
-				}}>...or skip and do it later</button
-			>
-		</div>
+			<input type="number" name="rating" bind:value={rating} hidden />
+			<div>
+				<button class="btn">Rate!</button>
+				<button
+					type="button"
+					class="hover:underline"
+					on:click={async () => {
+						closeFunction();
+						await goto('/items');
+					}}>...or skip and do it later</button
+				>
+			</div>
+		</form>
 	{/if}
 </div>
