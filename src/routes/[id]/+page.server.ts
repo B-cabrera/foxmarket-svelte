@@ -44,13 +44,18 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 
 export const actions = {
 	rate: async (event) => {
-		const { request } = event;
+		const { request, fetch } = event;
 		const data = await request.formData();
 		const rating = parseInt(data.get('rating') as string);
 		const transactionID = data.get('transaction') as string;
 		const buyerID = data.get('buyer') as string;
 
-
-		console.log({ rating, transactionID, buyerID });
+		const response = await fetch(`/api/users/${buyerID}/rate`, {
+			method: 'POST',
+			body: JSON.stringify({
+				rating,
+				transactionID
+			})
+		});
 	}
 } satisfies Actions;
