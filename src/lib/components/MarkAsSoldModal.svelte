@@ -9,7 +9,7 @@
 	export let closeFunction: () => void;
 
 	let phase = 0;
-	let rating = 0;
+	let rating = 1;
 
 	const submitFunction: SubmitFunction = () => {
 		return async ({ result }) => {
@@ -20,6 +20,10 @@
 			await applyAction(result);
 		};
 	};
+
+	function iconClick(event: CustomEvent<{ index: number }>): void {
+		rating = event.detail.index;
+	}
 </script>
 
 <div class="flex flex-col items-center gap-10 bg-maristred w-1/2 text-slate-50 h-max border p-5">
@@ -57,7 +61,7 @@
 			<h1 class="text-xl italic text-center font-bold">Rate your buyer!!</h1>
 		</div>
 
-		<Ratings bind:value={rating} max={5}>
+		<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
 			<svelte:fragment slot="empty">
 				<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star </span>
 			</svelte:fragment>
