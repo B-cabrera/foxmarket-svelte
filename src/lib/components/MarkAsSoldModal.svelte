@@ -51,7 +51,8 @@
 		</form>
 	{:else}
 		<div>
-			<p>RATE THE SELLERRRR</p>
+			<h1 class="text-2xl text-center font-bold">One more step...</h1>
+			<h1 class="text-xl italic text-center font-bold">Rate your buyer!!</h1>
 		</div>
 	{/if}
 </div>
