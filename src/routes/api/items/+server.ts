@@ -5,7 +5,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import prisma from '$lib/utils/prismaClient';
 import type { Prisma } from '@prisma/client';
-import { fuzzySearch } from '../brands/+server';
+import { _fuzzySearch } from '../brands/+server';
 
 function generatePrismaFilterObjsFromFilters(params: URLSearchParams) {
 	let filterObjs: Prisma.ListingWhereInput[] = [];
@@ -47,9 +47,9 @@ function generateFuzzySearchQueryFromSearch(params: URLSearchParams) {
 	if (params.has('search')) {
 		const searchTerm = params.get('search')!;
 
-		filterObjs.OR?.push(fuzzySearch('listingTitle', searchTerm)!);
-		filterObjs.OR?.push(fuzzySearch('description', searchTerm)!);
-		filterObjs.OR?.push(fuzzySearch('brand', searchTerm)!);
+		filterObjs.OR?.push(_fuzzySearch('listingTitle', searchTerm)!);
+		filterObjs.OR?.push(_fuzzySearch('description', searchTerm)!);
+		filterObjs.OR?.push(_fuzzySearch('brand', searchTerm)!);
 	}
 
 
