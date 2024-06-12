@@ -5,6 +5,7 @@
 import type { Listing } from '@prisma/client';
 import type { Actions, PageServerLoad } from './$types';
 import prisma from '$lib/utils/prismaClient';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	interface ListingWithFavoriteBool extends Listing {
@@ -57,5 +58,11 @@ export const actions = {
 				transactionID
 			})
 		});
+
+		if (response.ok) {
+			return { success: true }
+		}
+
+		return fail(400, { errors: [(await response.json()).message] });
 	}
 } satisfies Actions;
