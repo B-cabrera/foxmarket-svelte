@@ -123,7 +123,7 @@
 				<h1>{seller.username}</h1>
 				<div class="border border-maristdarkgrey  w-full flex justify-center">
 					{#if sellerRating}
-						<Ratings value={sellerRating} max={5} class="w-min">
+						<Ratings value={sellerRating / 1} max={5} class="w-min">
 							<svelte:fragment slot="empty">
 								<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star </span>
 							</svelte:fragment>
