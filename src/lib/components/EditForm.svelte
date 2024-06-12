@@ -7,7 +7,6 @@
 	import BrandSearch from './BrandSearch.svelte';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import MarkAsSoldModal from './MarkAsSoldModal.svelte';
-	import { goto } from '$app/navigation';
 
 	interface ListingWithFavoriteBool extends Listing {
 		isFavoritedByCurrentUser?: string;
@@ -73,24 +72,13 @@
 		return uneditedFieldNames;
 	}
 
-	const markAsSoldSubmit: SubmitFunction = () => {
-		return async ({ result }) => {
-			if (result.type == 'success') {
-				modalStore.close();
-				await goto('/items');
-			}
-
-			await applyAction(result);
-		};
-	};
-
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = {
 		ref: MarkAsSoldModal,
 		props: {
 			buyerList,
-			submitFunction: markAsSoldSubmit,
 			itemID: item.id,
+			closeFunction: () => modalStore.close(),
 		},
 	};
 	const modal: ModalSettings = {

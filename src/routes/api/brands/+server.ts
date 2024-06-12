@@ -9,7 +9,7 @@ import { fail, json, type RequestHandler } from "@sveltejs/kit";
  * Transforms a plain search string into fuzzy search where filters using matching operators
  * credits to https://github.com/prisma/prisma/issues/7986#issuecomment-2052000609, this is where I got the function from
  */
-export const fuzzySearch = (field: string, search?: string) => {
+export const _fuzzySearch = (field: string, search?: string) => {
 	if (!search || !search.length) return undefined;
 
 	// Trim spaces and split into an array of words
@@ -67,7 +67,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	try {
 		const results = await prisma.brand.findMany({
 			where: {
-				...fuzzySearch('brandName', search)
+				..._fuzzySearch('brandName', search)
 			},
 			take: 7
 		});

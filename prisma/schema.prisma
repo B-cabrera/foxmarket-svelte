@@ -32,14 +32,18 @@ enum Dorm {
 
 // Represent a user in the marketplace
 model User {
-  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // references supabase auth.users
-  username         String     @unique
-  listings         Listing[] // all the listings posted by the user
-  favorites        Favorite[] // all the listing that the user has favorited
-  ChatsSelling     Chat[]     @relation("ChatSeller")
-  ChatsBuying      Chat[]     @relation("ChatBuyer")
-  SentMessages     Message[]  @relation("SentMessages")
-  RecievedMessages Message[]  @relation("ReceivedMessages")
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // references supabase auth.users
+  username           String        @unique
+  listings           Listing[] // all the listings posted by the user
+  favorites          Favorite[] // all the listing that the user has favorited
+  ChatsSelling       Chat[]        @relation("ChatSeller")
+  ChatsBuying        Chat[]        @relation("ChatBuyer")
+  SentMessages       Message[]     @relation("SentMessages")
+  RecievedMessages   Message[]     @relation("ReceivedMessages")
+  SellingTransaction Transaction[] @relation("SellingTransaction")
+  BuyingTransaction  Transaction[] @relation("BuyingTransaction")
+  RaterRating        Rating[]      @relation("Rater")
+  RatedRating        Rating[]      @relation("Rated")
 }
 
 // Representing a post by a seller in the marketplace
@@ -48,16 +52,17 @@ model Listing {
   seller   User   @relation(fields: [sellerId], references: [id])
   sellerId String @db.Uuid // the ID of the seller, references the user model
 
-  listingTitle String     @db.VarChar(30)
+  listingTitle String        @db.VarChar(30)
   imageUrl     String
-  description  String     @db.VarChar(500)
-  price        Decimal    @db.Decimal(10, 2)
+  description  String        @db.VarChar(500)
+  price        Decimal       @db.Decimal(10, 2)
   location     Dorm
-  brand        String?    @db.VarChar(30)
-  size         String?    @db.VarChar(4)
-  sold         Boolean    @default(false)
+  brand        String?       @db.VarChar(30)
+  size         String?       @db.VarChar(4)
+  sold         Boolean       @default(false)
   favoritedBy  Favorite[] // only included to satisfy Prisma relation requirement
   Chats        Chat[] // only included to satisfy Prisma relation requirement
+  Transaction  Transaction[]
 }
 
 // Representing the many:many relationship with users and favorited listings
@@ -97,4 +102,26 @@ model Message {
 model Brand {
   id        Int    @id @default(autoincrement())
   brandName String
+}
+
+model Transaction {
+  id             Int      @id @default(autoincrement())
+  seller         User     @relation("SellingTransaction", fields: [sellerId], references: [id])
+  sellerId       String   @db.Uuid
+  buyer          User     @relation("BuyingTransaction", fields: [buyerId], references: [id])
+  buyerId        String   @db.Uuid
+  item           Listing  @relation(fields: [itemId], references: [id])
+  itemId         String   @db.Uuid
+  time           DateTime @db.Timestamp(3)
+  hasBuyerRated  Boolean  @default(false)
+  hasSellerRated Boolean  @default(false)
+}
+
+model Rating {
+  id      Int     @id @default(autoincrement())
+  rater   User    @relation("Rater", fields: [raterId], references: [id])
+  raterId String  @db.Uuid
+  rated   User    @relation("Rated", fields: [ratedId], references: [id])
+  ratedId String  @db.Uuid
+  rating  Decimal @db.Decimal(10, 2)
 }

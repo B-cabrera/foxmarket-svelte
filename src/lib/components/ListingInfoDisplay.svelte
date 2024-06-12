@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { Listing } from '@prisma/client';
-	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import {
+		Ratings,
+		getModalStore,
+		type ModalComponent,
+		type ModalSettings,
+	} from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import NewChatStarterModal from './NewChatStarterModal.svelte';
 
@@ -20,6 +25,7 @@
 	export let submitFunction: SubmitFunction;
 	export let isEditing: boolean;
 	export let hasChat: boolean;
+	export let sellerRating: number | null;
 
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = {
@@ -29,14 +35,13 @@
 			sellerUsername: seller.username,
 			userId: viewingUserID,
 			itemId: item.id,
-			closeFunc: () => modalStore.close()
+			closeFunc: () => modalStore.close(),
 		},
 	};
 	const modal: ModalSettings = {
 		type: 'component',
 		component: modalComponent,
 	};
-
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -88,22 +93,20 @@
 						{item.isFavoritedByCurrentUser ? 'Unfavorite' : 'Favorite'}
 					</button>
 				</form>
-			{:else}
-				{#if !item.sold}
-					<button
-						class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
-						on:click={() => (isEditing = true)}
-						>
-						<span
-							tabindex="0"
-							role="button"
-							class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
-							>
-							edit_note
-						</span>
-						Edit
-					</button>
-				{/if}
+			{:else if !item.sold}
+				<button
+					class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+					on:click={() => (isEditing = true)}
+				>
+					<span
+						tabindex="0"
+						role="button"
+						class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
+					>
+						edit_note
+					</span>
+					Edit
+				</button>
 			{/if}
 		</div>
 
@@ -115,10 +118,31 @@
 			<h1 class="text-xl font-bold">Sold By</h1>
 
 			<div
-				class="flex items-center p-4 bg-maristgrey h-32 text-slate-950 font-bold justify-around text-xl"
+				class="flex flex-col items-center p-4 bg-maristgrey h-32 text-slate-950 font-bold justify-around text-xl"
 			>
 				<h1>{seller.username}</h1>
-				<p>|</p>
+				<div class="border border-maristdarkgrey  w-full flex justify-center">
+					{#if sellerRating}
+						<Ratings value={sellerRating / 1} max={5} class="w-min">
+							<svelte:fragment slot="empty">
+								<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star </span>
+							</svelte:fragment>
+							<svelte:fragment slot="half">
+								<span class="material-symbols-outlined text-3xl font-light reg_symbol">
+									star_half
+								</span>
+							</svelte:fragment>
+							<svelte:fragment slot="full">
+								<span class="material-symbols-outlined text-3xl font-light fill_symbol">
+									star
+								</span>
+							</svelte:fragment>
+						</Ratings>
+					{:else}
+						<p>No rating yet...</p>
+					{/if}
+				</div>
+
 				<h1>{`${seller.itemsSold} ${seller.itemsSold == 1 ? 'item' : 'items'} sold`}</h1>
 			</div>
 		</div>

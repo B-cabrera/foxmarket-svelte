@@ -3,8 +3,9 @@
 /* eslint-disable import/prefer-default-export */
 
 import type { Listing } from '@prisma/client';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import prisma from '$lib/utils/prismaClient';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	interface ListingWithFavoriteBool extends Listing {
@@ -23,6 +24,9 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	const buyerInfo = await fetch(`/api/item/${itemID}/buyers`);
 	const { buyers } = await buyerInfo.json();
 
+	const ratingInfo = await fetch(`/api/users/${item.sellerId}/rating`);
+	const { rating } = await ratingInfo.json();
+
 	// check if conversation exists already
 	const chatResult = await prisma.chat.findFirst({
 		where: {
@@ -37,6 +41,32 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 		sellerUsername: username as string,
 		sellerItemsSold: itemsSold as number,
 		hasChat: chatResult != null,
-		buyers: buyers as { username: string, id: string }[]
+		buyers: buyers as { username: string, id: string }[],
+		sellerRating: rating
 	};
 };
+
+
+export const actions = {
+	rate: async (event) => {
+		const { request, fetch } = event;
+		const data = await request.formData();
+		const rating = parseInt(data.get('rating') as string);
+		const transactionID = data.get('transaction') as string;
+		const buyerID = data.get('buyer') as string;
+
+		const response = await fetch(`/api/users/${buyerID}/rate`, {
+			method: 'POST',
+			body: JSON.stringify({
+				rating,
+				transactionID
+			})
+		});
+
+		if (response.ok) {
+			return { success: true }
+		}
+
+		return fail(400, { errors: [(await response.json()).message] });
+	}
+} satisfies Actions;

@@ -133,7 +133,8 @@ export const actions = {
 		});
 
 		if (response.ok) {
-			return { success: true }
+			const { transactionID } = await response.json();
+			return { success: true, transactionID }
 		}
 
 
