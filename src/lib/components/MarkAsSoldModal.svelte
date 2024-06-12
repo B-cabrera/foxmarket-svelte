@@ -13,12 +13,23 @@
 	let transactionID = '';
 	let buyerID = '';
 
-	const submitFunction: SubmitFunction = ({ formData }) => {
+	const sellSubmitFunction: SubmitFunction = ({ formData }) => {
 		return async ({ result }) => {
 			if (result.type == 'success') {
 				buyerID = JSON.parse(formData.get('buyer') as string).id;
 				transactionID = result.data!.transactionID;
 				phase = 1;
+			}
+
+			await applyAction(result);
+		};
+	};
+
+	const rateSubmitFunction: SubmitFunction = () => {
+		return async ({ result }) => {
+			if (result.type == 'success') {
+				closeFunction();
+				await goto('/items');
 			}
 
 			await applyAction(result);
@@ -43,7 +54,7 @@
 			method="POST"
 			action="/items?/sell"
 			class="flex justify-center w-full gap-4"
-			use:enhance={submitFunction}
+			use:enhance={sellSubmitFunction}
 		>
 			<select name="buyer" class="w-1/3 text-slate-950 text-center bg-maristgrey" required>
 				<option selected disabled value="">Buyer</option>
@@ -65,7 +76,12 @@
 			<h1 class="text-xl italic text-center font-bold">Rate your buyer!!</h1>
 		</div>
 
-		<form method="POST" action={`/${itemID}?/rate`} class="flex flex-col items-center">
+		<form
+			method="POST"
+			action={`/${itemID}?/rate`}
+			class="flex flex-col items-center"
+			use:enhance={rateSubmitFunction}
+		>
 			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
 				<svelte:fragment slot="empty">
 					<span class="material-symbols-outlined text-7xl font-light reg_symbol"> star </span>
