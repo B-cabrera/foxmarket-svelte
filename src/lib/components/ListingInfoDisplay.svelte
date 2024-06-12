@@ -20,6 +20,7 @@
 	export let submitFunction: SubmitFunction;
 	export let isEditing: boolean;
 	export let hasChat: boolean;
+	export let sellerRating: number | null;
 
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = {
@@ -29,14 +30,13 @@
 			sellerUsername: seller.username,
 			userId: viewingUserID,
 			itemId: item.id,
-			closeFunc: () => modalStore.close()
+			closeFunc: () => modalStore.close(),
 		},
 	};
 	const modal: ModalSettings = {
 		type: 'component',
 		component: modalComponent,
 	};
-
 </script>
 
 <div class="flex items-center justify-center w-2/5">
@@ -88,22 +88,20 @@
 						{item.isFavoritedByCurrentUser ? 'Unfavorite' : 'Favorite'}
 					</button>
 				</form>
-			{:else}
-				{#if !item.sold}
-					<button
-						class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
-						on:click={() => (isEditing = true)}
-						>
-						<span
-							tabindex="0"
-							role="button"
-							class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
-							>
-							edit_note
-						</span>
-						Edit
-					</button>
-				{/if}
+			{:else if !item.sold}
+				<button
+					class="btn border-0 py-2 bg-maristred text-xl font-bold text-slate-50 hover:opacity-70"
+					on:click={() => (isEditing = true)}
+				>
+					<span
+						tabindex="0"
+						role="button"
+						class="text-slate-50 text-2xl material-symbols-outlined hover:cursor-pointer pr-2"
+					>
+						edit_note
+					</span>
+					Edit
+				</button>
 			{/if}
 		</div>
 

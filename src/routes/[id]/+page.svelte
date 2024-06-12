@@ -63,6 +63,7 @@
 			hasChat={data.hasChat}
 			submitFunction={submitForm}
 			bind:isEditing
+			sellerRating={data.sellerRating}
 		/>
 	{/if}
 </div>
