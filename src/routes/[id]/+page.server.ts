@@ -24,6 +24,9 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	const buyerInfo = await fetch(`/api/item/${itemID}/buyers`);
 	const { buyers } = await buyerInfo.json();
 
+	const ratingInfo = await fetch(`/api/users/${item.sellerId}/rating`);
+	const { rating } = await ratingInfo.json();
+
 	// check if conversation exists already
 	const chatResult = await prisma.chat.findFirst({
 		where: {
@@ -38,7 +41,8 @@ export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 		sellerUsername: username as string,
 		sellerItemsSold: itemsSold as number,
 		hasChat: chatResult != null,
-		buyers: buyers as { username: string, id: string }[]
+		buyers: buyers as { username: string, id: string }[],
+		sellerRating: rating
 	};
 };
 
