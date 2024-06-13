@@ -8,9 +8,9 @@
 	const { username, rating, listings, userID } = data;
 </script>
 
-<div class="w-full flex justify-center h-[calc(100vh-56px)]">
+<div class="w-full flex h-[calc(100vh-56px)]">
 	<div class="flex flex-col w-2/3">
-		<div class="flex mt-10 w-full gap-5 justify-center">
+		<div class="flex mt-5  w-full gap-5 justify-center">
 			<h1 class="text-2xl text-slate-50 tracking-wider rounded border w-min p-4">{username}</h1>
 
 			{#if rating}
@@ -39,5 +39,9 @@
 				<Listing {listing} {userID} />
 			{/each}
 		</div>
+	</div>
+
+	<div class="w-1/3">
+		<h1 class="text-3xl text-slate-50 text-center mt-10">Unrated Transactions</h1>
 	</div>
 </div>
