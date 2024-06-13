@@ -4,10 +4,15 @@
 
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const username = locals.data!.username!;
+	const userID = locals.data!.userID!;
+
+	const ratingInfo = await fetch(`/api/users/${userID}/rating`);
+	const { rating } = await ratingInfo.json();
 
 	return {
-		username
+		username,
+		rating
 	}
 };
