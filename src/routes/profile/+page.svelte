@@ -2,15 +2,16 @@
 	import { Ratings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import Listing from '$lib/components/Listing.svelte';
+	import TransactionDisplay from '$lib/components/TransactionDisplay.svelte';
 
 	export let data: PageData;
 
-	const { username, rating, listings, userID } = data;
+	const { username, rating, listings, userID, unratedTransactions } = data;
 </script>
 
 <div class="w-full flex h-[calc(100vh-56px)]">
 	<div class="flex flex-col w-2/3">
-		<div class="flex mt-5  w-full gap-5 justify-center">
+		<div class="flex mt-5 w-full gap-5 justify-center">
 			<h1 class="text-2xl text-slate-50 tracking-wider rounded border w-min p-4">{username}</h1>
 
 			{#if rating}
@@ -41,7 +42,11 @@
 		</div>
 	</div>
 
-	<div class="w-1/3">
-		<h1 class="text-3xl text-slate-50 text-center mt-10">Unrated Transactions</h1>
+	<div class="w-1/3 flex flex-col items-center">
+		<h1 class="text-3xl text-slate-50 text-center my-10">Unrated Transactions</h1>
+
+		{#each unratedTransactions as transaction}
+			<TransactionDisplay {transaction} currentUserID={userID} />
+		{/each}
 	</div>
 </div>
