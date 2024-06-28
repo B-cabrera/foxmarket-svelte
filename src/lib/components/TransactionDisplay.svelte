@@ -18,5 +18,5 @@
 		on {transaction.time.toDateString()}
 	</p>
 
-	<button class="btn">Rate</button>
+	<button class="btn bg-maristred">Rate</button>
 </div>
