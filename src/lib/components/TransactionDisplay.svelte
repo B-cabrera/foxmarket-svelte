@@ -5,12 +5,19 @@
 		include: {
 			buyer: true;
 			seller: true;
+			item: {
+				select: {
+					imageUrl: true;
+				};
+			};
 		};
 	}>;
 	export let currentUserID: string;
 </script>
 
 <div class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
+	<img src={transaction.item.imageUrl} alt="" class="w-1/6" />
+
 	<p class="text-sm">
 		You {currentUserID == transaction.buyerId
 			? `bought from "${transaction.seller.username}"`

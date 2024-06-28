@@ -37,7 +37,12 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		},
 		include: {
 			buyer: true,
-			seller: true
+			seller: true,
+			item: {
+				select: {
+					imageUrl: true
+				}
+			}
 		}
 	});
 
