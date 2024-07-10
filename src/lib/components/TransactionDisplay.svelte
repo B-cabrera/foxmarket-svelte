@@ -25,22 +25,33 @@
 
 <div class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
 	{#if allowRating}
-		<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
-			<svelte:fragment slot="empty">
-				<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star </span>
-			</svelte:fragment>
-			<svelte:fragment slot="half">
-				<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star_half </span>
-			</svelte:fragment>
-			<svelte:fragment slot="full">
-				<span class="material-symbols-outlined text-3xl font-light fill_symbol"> star </span>
-			</svelte:fragment>
-		</Ratings>
+		<form action={`/${transaction.itemId}?/rate`} method="POST">
+			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
+				<svelte:fragment slot="empty">
+					<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star </span>
+				</svelte:fragment>
+				<svelte:fragment slot="half">
+					<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star_half </span>
+				</svelte:fragment>
+				<svelte:fragment slot="full">
+					<span class="material-symbols-outlined text-3xl font-light fill_symbol"> star </span>
+				</svelte:fragment>
+			</Ratings>
+			<input type="number" name="rating" bind:value={rating} hidden />
+			<input name="transaction" bind:value={transaction.id} hidden />
+			<input
+				name="buyer"
+				value={currentUserID == transaction.buyerId ? transaction.sellerId : transaction.buyerId}
+				hidden
+			/>
 
-		<button class="btn bg-maristred">Submit</button>
-		<button class="btn bg-maristgrey text-slate-950" on:click={() => (allowRating = false)}
-			>Cancel</button
-		>
+			<button class="btn bg-maristred">Submit</button>
+			<button
+				class="btn bg-maristgrey text-slate-950"
+				on:click={() => (allowRating = false)}
+				type="button">Cancel</button
+			>
+		</form>
 	{:else}
 		<img src={transaction.item.imageUrl} alt="" class="w-1/6" />
 
