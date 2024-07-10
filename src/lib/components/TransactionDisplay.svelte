@@ -66,7 +66,7 @@
 			<input type="number" name="rating" bind:value={rating} hidden />
 			<input name="transaction" bind:value={transaction.id} hidden />
 			<input
-				name="buyer"
+				name="rated"
 				value={currentUserID == transaction.buyerId ? transaction.sellerId : transaction.buyerId}
 				hidden
 			/>

@@ -96,7 +96,7 @@
 
 			<input type="number" name="rating" bind:value={rating} hidden />
 			<input name="transaction" bind:value={transactionID} hidden />
-			<input name="buyer" bind:value={buyerID} hidden />
+			<input name="rated" bind:value={buyerID} hidden />
 			<div>
 				<button class="btn">Rate!</button>
 				<button
