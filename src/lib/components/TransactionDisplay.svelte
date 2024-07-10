@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { Prisma } from '@prisma/client';
 	import { Ratings } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let transaction: Prisma.TransactionGetPayload<{
 		include: {
@@ -17,15 +19,30 @@
 
 	let allowRating = false;
 	let rating = 1;
+	let isSubmittingRating = false;
 
 	function iconClick(event: CustomEvent<{ index: number }>): void {
 		rating = event.detail.index;
 	}
+
+	const submitForm: SubmitFunction = () => {
+		isSubmittingRating = true;
+
+		return async ({ result }) => {
+			if (result.type == 'success') {
+				isSubmittingRating = false;
+				allowRating = false;
+				rating = 1;
+			} else {
+				// do something here
+			}
+		};
+	};
 </script>
 
 <div class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
 	{#if allowRating}
-		<form action={`/${transaction.itemId}?/rate`} method="POST">
+		<form action={`/${transaction.itemId}?/rate`} method="POST" use:enhance={submitForm}>
 			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
 				<svelte:fragment slot="empty">
 					<span class="material-symbols-outlined text-3xl font-light reg_symbol"> star </span>
@@ -45,11 +62,12 @@
 				hidden
 			/>
 
-			<button class="btn bg-maristred">Submit</button>
+			<button class="btn bg-maristred" disabled={isSubmittingRating}>Submit</button>
 			<button
 				class="btn bg-maristgrey text-slate-950"
 				on:click={() => (allowRating = false)}
-				type="button">Cancel</button
+				type="button"
+				disabled={isSubmittingRating}>Cancel</button
 			>
 		</form>
 	{:else}
