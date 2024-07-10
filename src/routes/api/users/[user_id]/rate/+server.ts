@@ -21,8 +21,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 			}
 		});
 		const isBuyer = transaction!.buyerId == user_id;
-		const updateField = isBuyer ? { hasBuyerRated: true } : { hasSellerRated: true };
-
+		const updateField = isBuyer ? { hasSellerRated: true } : { hasBuyerRated: true };
 
 		await prisma.transaction.update({
 			where: {

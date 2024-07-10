@@ -53,9 +53,9 @@ export const actions = {
 		const data = await request.formData();
 		const rating = parseInt(data.get('rating') as string);
 		const transactionID = data.get('transaction') as string;
-		const buyerID = data.get('buyer') as string;
+		const ratedID = data.get('rated') as string;
 
-		const response = await fetch(`/api/users/${buyerID}/rate`, {
+		const response = await fetch(`/api/users/${ratedID}/rate`, {
 			method: 'POST',
 			body: JSON.stringify({
 				rating,
