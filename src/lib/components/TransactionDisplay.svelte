@@ -20,6 +20,7 @@
 	let allowRating = false;
 	let rating = 1;
 	let isSubmittingRating = false;
+	let component: HTMLDivElement;
 
 	function iconClick(event: CustomEvent<{ index: number }>): void {
 		rating = event.detail.index;
@@ -33,6 +34,7 @@
 				isSubmittingRating = false;
 				allowRating = false;
 				rating = 1;
+				component.style.display = 'none';
 			} else {
 				// do something here
 			}
@@ -40,7 +42,7 @@
 	};
 </script>
 
-<div class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
+<div bind:this={component} class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
 	{#if allowRating}
 		<form action={`/${transaction.itemId}?/rate`} method="POST" use:enhance={submitForm}>
 			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
