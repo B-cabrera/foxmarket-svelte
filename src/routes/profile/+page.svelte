@@ -35,7 +35,7 @@
 			{/if}
 		</div>
 
-		<div id="items" class="w-full grid grid-cols-4 gap-8 pt-5">
+		<div id="items" class="w-full grid grid-cols-3 gap-6 pt-5">
 			{#each listings as listing}
 				<Listing {listing} {userID} />
 			{/each}
