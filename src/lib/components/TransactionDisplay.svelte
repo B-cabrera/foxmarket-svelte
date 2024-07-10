@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { Prisma } from '@prisma/client';
-	import { Ratings } from '@skeletonlabs/skeleton';
+	import { Ratings, getToastStore } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let transaction: Prisma.TransactionGetPayload<{
@@ -17,6 +17,8 @@
 	}>;
 	export let currentUserID: string;
 
+	const toastStore = getToastStore();
+
 	let allowRating = false;
 	let rating = 1;
 	let isSubmittingRating = false;
@@ -31,13 +33,18 @@
 
 		return async ({ result }) => {
 			if (result.type == 'success') {
-				isSubmittingRating = false;
-				allowRating = false;
 				rating = 1;
 				component.style.display = 'none';
 			} else {
-				// do something here
+				toastStore.trigger({
+					message:
+						'Something went wrong trying to submit to your rating. Please wait and try again.',
+					classes: 'bg-maristred text-slate-50  mt-2 rounded border-2 spacing',
+				});
 			}
+
+			allowRating = false;
+			isSubmittingRating = false;
 		};
 	};
 </script>
