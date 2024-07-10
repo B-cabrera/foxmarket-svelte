@@ -45,8 +45,12 @@
 	<div class="w-1/3 flex flex-col items-center">
 		<h1 class="text-3xl text-slate-50 text-center my-10">Unrated Transactions</h1>
 
-		{#each unratedTransactions as transaction}
-			<TransactionDisplay {transaction} currentUserID={userID} />
-		{/each}
+		{#if unratedTransactions.length > 0}
+			{#each unratedTransactions as transaction}
+				<TransactionDisplay {transaction} currentUserID={userID} />
+			{/each}
+		{:else}
+			<p class="text-slate-50">Nothing here!</p>
+		{/if}
 	</div>
 </div>
