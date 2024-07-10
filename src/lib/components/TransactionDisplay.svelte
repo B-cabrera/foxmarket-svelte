@@ -49,7 +49,10 @@
 	};
 </script>
 
-<div bind:this={component} class="w-5/6 text-slate-50 border p-4 flex justify-around items-center">
+<div
+	bind:this={component}
+	class="w-5/6 text-slate-50 border p-4 flex gap-4 justify-around items-center"
+>
 	{#if allowRating}
 		<form action={`/${transaction.itemId}?/rate`} method="POST" use:enhance={submitForm}>
 			<Ratings bind:value={rating} max={5} interactive on:icon={iconClick}>
